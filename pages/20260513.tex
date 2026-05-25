@@ -16,7 +16,7 @@ There are also many other applications:
 \begin{enumerate}
     \item Modelling churn, \ie, ``time until cancellation''\negthinspace.
     \item Modelling failure time of a product (reliability studies).
-    \item The variable con also not be time.
+    \item The variable can also not be time.
     \item Time is naturally right-censored, but we can also have left-censoring, \eg, a pregnancy study where measurements start $250$ days after conception and $T$ is the time until the end of pregnancy.
     \item Another option is interval-censored data whether an event occurred during a specific period of time, like a week.
 \end{enumerate}
@@ -79,7 +79,7 @@ In addition, we observe:
         0 & \text{if } T > C.
     \end{cases}
 \end{equation}
-that is a binary variable that indicates whether the event of interest occurred or not. For instance if a person died or left the study before its end.
+that is a binary variable that indicates whether the event of interest occurred or not. For instance, if a person died or left the study before its end.
 
 So, a dataset is given by $\set{\tuple{Y_i, \delta_i}}_{i=1}^n$.
 
@@ -162,7 +162,7 @@ Obviously, we can also compute $\hat{S}(y_5)$:
 \begin{equation}
     \hat{S}(y_5) = \hat{\P}(T > y_5) = 0,
 \end{equation}
-since there is no data point greater than $y_5$. The survival curve is therefore given by the step function showed in~\Cref{fig:survival-curve}.
+since there is no data point greater than $y_5$. The survival curve is, therefore, given by the step function showed in~\Cref{fig:survival-curve}.
 \begin{figure}
     \centering
     \begin{tikzpicture}
@@ -184,7 +184,7 @@ since there is no data point greater than $y_5$. The survival curve is therefore
     \caption{Kaplan-Meier estimator of the survival curve.}\label{fig:survival-curve}
 \end{figure}
 
-Usually the time points are way more and the survival curve is smoother. Also, some observations reach the end of the study, so the survival curve does not go to zero on the right.
+Usually, the time points are way more and the survival curve is smoother. Also, some observations reach the end of the study, so the survival curve does not go to zero on the right.
 
 \paragraph{Non-parametric approach}
 
@@ -274,7 +274,7 @@ and we have a survival curve for each realization $\xvec$ of the covariates:
 \begin{equation}
     \hat{S}(t \given \xvec) = \exp(-\hat{\lambda}(\xvec) t).
 \end{equation}
-The curve is therefore typically plotted by fixing all covariates to a level (for example, mean, mode, etc.) and change one variable only ($x_j$) to see how the curve changes with respect to it.
+The curve is, therefore, typically plotted by fixing all covariates to a level (for example, mean, mode, etc.) and changing one variable only ($x_j$) to see how the curve changes with respect to it.
 
 \begin{note}
     The exponential may be too restrictive in many applications. Weibull distribution (two parameters) is quite common in engineering (reliability modelling).

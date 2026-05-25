@@ -129,7 +129,7 @@ which is indeed linear. So the $\xvec$s such that $\delta_1(\xvec) = \delta_2(\x
 
 \subsection{Quadratic discriminant analysis}
 
-\acl{qda} relaxes the second assumption. Therefore the assumption is now only:
+\acl{qda} relaxes the second assumption. Therefore, the assumption is now only:
 \begin{equation}
     \Xvec \given Y = j \sim \normal_p(\muvec_j, \Sigma_j),\quad j = 1, \ldots, K.
 \end{equation}
@@ -174,7 +174,7 @@ and estimated probabilities:
 \end{itemize}
 
 \begin{example}
-    For example, with $K = 2, p = 50$, \acs{lda} has $1375$ parameters, while \acs{qda} has $2650$ parameters. Any choice between the two models need to involve that data.
+    For example, with $K = 2, p = 50$, \acs{lda} has $1375$ parameters, while \acs{qda} has $2650$ parameters. Any choice between the two models needs to involve that data.
 \end{example}
 
 \paragraph{\acs{lda} vs \acs{lr}}
@@ -183,6 +183,6 @@ Let's compare \acl{lda} and \acl{lr}.
 \begin{itemize}
     \item Both lead to a linear decision surface.
     \item \acs{lda} can be naturally applied for any number of classes.
-    \item \acs{lda} is more restrictive as it makes the assumption that $\Xvec$ is a multivariate Gaussian conditional on the class, so this needs to be checked.
+    \item \acs{lda} is more restrictive as it assumes that $\Xvec$ is a multivariate Gaussian conditional on the class, so this needs to be checked.
     \item \acs{lda} is computationally more stable when probabilities are closer to $0$ or $1$.
 \end{itemize}

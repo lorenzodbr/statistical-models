@@ -20,7 +20,7 @@ The \acs{svc} problem on the augmented space becomes:
     \end{aligned}
 \end{equation}
 
-In the augmented feature space $\rr^{2p}$ we obtain therefore a linear decision surface:
+In the augmented feature space $\rr^{2p}$ we obtain, therefore, a linear decision surface:
 \begin{equation}
     \zvec \in \rr^{2p}\colon \beta_0 + \betavec^\t\zvec = 0.
 \end{equation}
@@ -30,7 +30,7 @@ In the original feature space $\rr^p$ we obtain a quadratic decision surface:
 \end{equation}
 The space can be extended considering interaction terms $x_i x_j$ or even higher degrees, but it becomes computationally expensive.
 
-Recall that in a \acs{svc} the decision surface is linear and defined by:
+Recall that in an \acs{svc} the decision surface is linear and defined by:
 \begin{equation}
     \begin{aligned}
         f(\xvec) & = \beta_0 + \betavec^\t\xvec                           \\
@@ -44,11 +44,11 @@ In the optimization (estimation of $\gammavec$), we solve:
     \max_\gammavec \sum_{i = 1}^n \gamma_i - \frac{1}{2}\sum_{i,j = 1}^{n} \gamma_i\gamma_j y_i y_j \xvec_i \cdot \xvec_j.
 \end{equation}
 
-We notice that the optimization depends on the data only through the inner products $\xvec_i \cdot \xvec_j$. Therefore it would make sense to replace the inner product with a more general function $K(\xvec_i, \xvec_j)$, called \emph{kernel}.
+We notice that the optimization depends on the data only through the inner products $\xvec_i \cdot \xvec_j$. Therefore, it would make sense to replace the inner product with a more general function $K(\xvec_i, \xvec_j)$, called \emph{kernel}.
 
 \paragraph{Going higher dimensions}
 
-Suppose we have a function $\Phi\colon \rr^p \to \rr^N$ with $N > p$, that maps the original feature space to a higher-dimensional space. Therefore we can rewrite $f(\xvec)$ in this space as:
+Suppose we have a function $\Phi\colon \rr^p \to \rr^N$ with $N > p$, that maps the original feature space to a higher-dimensional space. Therefore, we can rewrite $f(\xvec)$ in this space as:
 \begin{equation}
     f(\xvec) = \beta_0 + {\underbracket{\betavec}_{\mathclap{\betavec \in \rr^N}}}^\t \underbracket{\Phi(\xvec)}_z = \beta_0 + \sum_{i = 1}^n \underbracket{\gamma_i}_{\gamma \in \rr^n} \negthickspace y_i \Phi(\xvec_i) \cdot \Phi(\xvec).
 \end{equation}
@@ -70,7 +70,7 @@ and the optimization becomes:
 \begin{equation}
     \max_\gammavec \sum_{i = 1}^n \gamma_i - \frac{1}{2}\sum_{i,j = 1}^{n} \gamma_i\gamma_j y_i y_j K(\xvec_i, \xvec_j).
 \end{equation}
-The decision surface is therefore defined by:
+The decision surface is, therefore, defined by:
 \begin{equation}
     \xvec\colon f(\xvec) = 0
 \end{equation}
@@ -86,7 +86,7 @@ The most common choices for the kernel are:
 \end{description}
 The choice of $\gammavec, n, \muvec$ is important as it relates to the bias-variance trade-off. Again, \acs{cv} is needed for the selection of these parameters.
 
-In conclusion, for a \acs{svm} we need:
+In conclusion, for an \acs{svm} we need:
 \begin{enumerate}
     \item A kernel function $K$ with optimized tuning parameters.
     \item The calculation of $\binom{n}{2}$ values of $K(\xvec_i, \xvec_j)$ to estimate $\beta_0$ and $\gammavec$.
@@ -193,7 +193,7 @@ Let's now compare the two optimization problems:
     \item[\acs{lr} with Ridge penalty] $\min_{\beta_0, \betavec} \sum_{i=1}^n \log(1 + e^{-y_i(\beta_0 + \betavec^\t\xvec_i)}) + \frac{\lambda}{2}\norm{\betavec}^2$.
 \end{description}
 
-Support Vectors techniques can be extended also to regression problems through the use of the so called \emph{$\epsilon$-insensitive loss function}:
+Support Vectors techniques can be extended also to regression problems using the so called \emph{$\epsilon$-insensitive loss function}:
 \begin{equation}
     \L(y, f(\xvec)) = \begin{cases}
         0                             & \text{if } \abs{y - f(\xvec)} < \epsilon,    \\

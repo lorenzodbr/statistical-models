@@ -163,7 +163,7 @@ There are simple cases where the shape of $g(\thetavec \given \text{data})$ is k
 
 \paragraph{Choice of prior}
 
-The choice of the prior distribution is a crucial step in Bayesian inference. Since the expected value of a Beta distribution is $\alpha/(\alpha + \beta)$, we can use this information to set those parameters. It is quite common to set $\alpha = \beta = 1$, which corresponds to a uniform distribution on $[0, 1]$ and therefore to a non-informative prior. In this case:
+The choice of the prior distribution is a crucial step in Bayesian inference. Since the expected value of a Beta distribution is $\alpha/(\alpha + \beta)$, we can use this information to set those parameters. It is quite common to set $\alpha = \beta = 1$, which corresponds to a uniform distribution on $[0, 1]$ and, therefore, to a non-informative prior. In this case:
 \begin{equation}
     g(\theta \given \text{data}) = \betadist\left(\sum_{i = 1}^n z_i + 1, n - \sum_{i = 1}^n z_i + 1\right).
 \end{equation}

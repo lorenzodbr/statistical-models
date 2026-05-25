@@ -4,12 +4,12 @@
 
 In this course we will talk about \emph{statistical learning}, which includes both old and modern approaches:
 \begin{enumerate}
-    \item \emph{Linear regression} (Gauss, 1800s), which provides a quantitative response
+    \item \emph{Linear regression} (Gauss, 1800s), which provides a quantitative response.
     \item \emph{\acf{lda}} (Fisher, 1936), which provides a qualitative response. It can be extended to \emph{\acf{qda}} and applied to Naive Bayes classifiers.
     \item \emph{Logistic Regression} (1940s)
     \item \emph{\acfp{glm}} (1970s)
     \item \emph{\acfp{crt}} (1980s), which are computer-intensive methods and can be extended to \emph{Random Forests} and \emph{Boosting}.
-    \item \emph{Machine Learning} (1990s), which includes Support Vector Machines, Neural Networks, Deep Learning, Unsupervised Learning (Clustering and PCA), etc.
+    \item \emph{Machine Learning} (1990s), which includes Support Vector Machines, Neural Networks, Deep Learning, Unsupervised Learning (Clustering and \acs{pca}), etc.
 \end{enumerate}
 
 \section{What is Statistical Learning?}
@@ -108,7 +108,7 @@ We can check that all the terms except the first three are zero:
     \item $2\E[(f(\Xvec) - \E[\hat{f}(\Xvec)])(\E[\hat{f}(\Xvec)] - \hat{f}(\Xvec))\given \Xvec = \xvec] = 0$ since $\E[\E[Z] - Z] = 0$ for any random variable $Z$,
     \item $2\E[\varepsilon(E[\hat{f}(\Xvec)] - \hat{f}(\Xvec))\given \Xvec = \xvec] = 0$ since $\E[\varepsilon] = 0$ and $\E[E[\hat{f}(\Xvec)] - \hat{f}(\Xvec)] = 0$.
 \end{itemize}
-Therefore we have:
+Therefore, we have:
 \begin{equation}
     {\underbracket{(f(\xvec) - \E[\hat{f}(\xvec)])}_{\text{Bias}}}^2 + \Var(\epsilon) + \Var(\hat{f}(\xvec)).
 \end{equation}

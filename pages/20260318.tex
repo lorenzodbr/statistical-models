@@ -8,7 +8,7 @@ We will consider two models:
 
 \paragraph{Poisson regression}
 
-First let's describe what parameters we have and what we expect. For a variable $Y$ that follows a Poisson distribution, we have:
+First, let's describe what parameters we have and what we expect. For a variable $Y$ that follows a Poisson distribution, we have:
 \begin{itemize}
     \item $X_1, \dots, X_p$: the predictors.
     \item $Y_i \coloneq Y \given \Xvec = \xvec_i,\; i = 1, \dots, n$: the response variable conditioned on the predictors.
@@ -31,7 +31,7 @@ Here, $y_1, \ldots y_n$ are $n$ observations of our response and are independent
 \end{equation}
 We can rewrite the definition of $Y_i$ as $\poisson(e^{\xvec_i^\t\betavec})$.
 
-Now we want to simulate data from this model. First we set $p = 1$ and $n = 100$. Then:
+Now we want to simulate data from this model. First, we set $p = 1$ and $n = 100$. Then:
 \begin{enumerate}[beginpenalty=10000]
     \item Generate $x_1, \ldots, x_{100}$ from any distribution.
     \item We set $\eta_i = \beta_0 + \beta_1 x_i$, $i = 1, \ldots, 100$. For example, we can fix $\beta_0 = 1$ and $\beta_1 = 2$.

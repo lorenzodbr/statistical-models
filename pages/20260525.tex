@@ -1,6 +1,6 @@
 \chapter{Unsupervised Learning}
 
-Up to now we only discussed \emph{supervised learning} methods, for which we have data related both to $\Xvec$ and $Y$. Our goal was to learn a rule to predict $Y$ from $\Xvec$. In \emph{unsupervised learning} methods, instead, we only have data on $\Xvec$. The objective, here, is to find latent structures and patterns in the data through a form of exploratory data analysis. These methods are also more subjective than supervised learning methods and can in fact lead to a supervised learning procedure.
+Up to now we only discussed \emph{supervised learning} methods, for which we have data related both to $\Xvec$ and $Y$. Our goal was to learn a rule to predict $Y$ from $\Xvec$. In \emph{unsupervised learning} methods, instead, we only have data on $\Xvec$. Here, the objective is to find latent structures and patterns in the data through a form of exploratory data analysis. These methods are also more subjective than supervised learning methods and can in fact lead to a supervised learning procedure.
 
 Some examples of unsupervised learning methods are:
 \begin{itemize}
@@ -22,7 +22,7 @@ Formally, we split data $D$ into $K$ clusters, $C_1, C_2, \dots, C_K$ that form 
 \begin{equation}
     \bigcup_{k=1}^K C_k = D, \qquad C_i \cap C_j = \emptyset, \quad i \neq j,
 \end{equation}
-into meaningful (homogeneous) clusters. We can characterize the homogeneity in different ways, such as:
+into meaningful (homogeneous) clusters. We can characterize homogeneity in different ways, such as:
 \begin{itemize}
     \item Similarity within groups,
     \item Dissimilarity between groups.
@@ -66,7 +66,7 @@ The $\bar{\xvec}_\mathit{il}$ is the sample mean of predictor $l$ in cluster $\G
     \end{equation}
 \end{proof}
 
-Another formulation for the optimality criterion is the so called \emph{between cluster variation}, that comes from the idea that minimizing the within-cluster variation is equivalent to maximizing the between-cluster variation, \ie, dissimilarity between clusters. Indeed, the overall distance between any pair of observations is a constant that can be split into the sum of the within-cluster variation and the between-cluster variation. Therefore, minimizing one is equivalent to maximizing the other.
+Another formulation for the optimality criterion is the so called \emph{between-cluster variation}, that comes from the idea that minimizing the within-cluster variation is equivalent to maximizing the between-cluster variation, \ie, dissimilarity between clusters. Indeed, the overall distance between any pair of observations is a constant that can be split into the sum of the within-cluster variation and the between-cluster variation. Therefore, minimizing one is equivalent to maximizing the other.
 
 \paragraph{Optimization Algorithm}
 
@@ -82,10 +82,10 @@ The optimal problem is actually NP-hard, since there are approximately $K^n$ way
                     \end{itemize}
           \end{enumerate}
 
-          There is no guarantee of a global maximum so a good practice is to perform the random initialization a certain number of times and keep the best result.
+          There is no guarantee of a global maximum, so a good practice is to perform the random initialization a certain number of times and keep the best result.
     \item[Hierarchical clustering] It is a family of clustering techniques with various distance measures that can be used. Differently to $K$-means, $K$ is not fixed a priori. The output is a hierarchy of nested clusters, with the hierarchy represented as a \emph{dendogram} (\Cref{fig:dendogram}). In the figure, similarity is pictured vertically and not horizontally, in the sense that the observation $b$ and $c$ are ``closer'' to each other than $a$ and $b$, because the split happened at a higher level of the hierarchy ($d_1 > d_2$ in the figure).
 
-          In addition to a distance between the observations, the method needs a distance between clusters. This is called \emph{linkage criterion} and a common choice for it is the \emph{average linkage}:
+          In addition to the distance between the observations, the method needs a distance between clusters. This is called \emph{linkage criterion} and a common choice for it is the \emph{average linkage}:
           \begin{equation}
               d_{\textsc{al}(C_i, C_j)} = \frac{1}{\abs{C_i}\abs{C_j}} \sum_{\xvec, \yvec \in C_i} d(\xvec, \yvec),
           \end{equation}
