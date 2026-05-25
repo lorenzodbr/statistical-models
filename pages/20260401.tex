@@ -1,8 +1,8 @@
-\chapter{Model assessment}
+\chapter{Optimizing models}
 
 \section{Resampling methods}
 
-We have seen a number of classifiers, such as \acs{lr}, \acs{lda}, \acs{qda}, Naive Bayes, $k$-NN. In this section, we will see methods to perform model selection, \ie, comparing different models and tuning of hyperparameters.
+We have seen a number of classifiers, such as \acs{lr}, \acs{lda}, \acs{qda}, Naive Bayes, $k$-NN. In this chapter, we will see how to choose the optimal model among a set of candidate models. We will also see how to estimate the test error rate of a model.
 
 Different models are associated to a different level of complexity (\eg, number of parameters, $k$, etc.) and, therefore, a different trade-off between bias and variance. We recall that we can have different degrees of complexity of decision surfaces in the classification setting:
 \begin{itemize}
@@ -19,7 +19,7 @@ The best solution is to use a large, designated test set, left aside to select t
     \item \emph{Resampling methods}: estimate directly the test error rate by devising some resampling strategy.
 \end{enumerate}
 
-\paragraph{Actual resampling methods} The general idea is to hold out a subset of the data from the fitting process, so that we can use these observations to test the fitted model. There are various (simpler and more complex) versions of this idea, that try to reach a compromise between:
+\paragraph{Resampling methods} The general idea is to hold out a subset of the data from the fitting process, so that we can use these observations to test the fitted model. There are various (simpler and more complex) versions of this idea, that try to reach a compromise between:
 \begin{enumerate}
     \item Computational complexity.
     \item Using enough data for fitting and testing.
@@ -52,7 +52,7 @@ The best solution is to use a large, designated test set, left aside to select t
           Some problems with this approach are:
           \begin{itemize}
               \item Variability for different data splits (but we can repeat the procedure multiple times and average the results).
-              \item Not using all the data to fit and test the model.
+              \item Not using all the data to fit and all the data to test the model.
           \end{itemize}
 
     \item \emph{$k$-fold cross-validation.} With this approach we randomly divide data into $k$ equally sized parts (typical values are $k = 5$ or $k = 10$). Then:

@@ -40,7 +40,7 @@ Having built a model by bagging, we want to test its prediction accuracy on unse
 
 For each observation $\xvec$, make a prediction based on the trees that have been fitted on samples that did not include $\xvec$. An average (or \emph{consensus class}) is taken among these predictions only. Errors, \acs{roc} curves, etc.\@ are built using these probabilities.
 
-\paragraph{Cost of bagging}
+\paragraph{Cost of Bagging}
 
 \begin{enumerate}
     \item Loss of interpretability: an average of a tree is not a tree. However, one can calculate various measures of variable importance. For each predictor, add up the total amount that the \acs{rss}/Gini/Entropy is decreased by splits on that predictor across the $B$ trees.
@@ -59,7 +59,7 @@ If there is a strong predictor, it will now appear at first split only on $m/p$ 
     \item Strong predictors always included will lead to higher variance.
 \end{itemize}
 
-\paragraph{Choice of $m$}
+\paragraph{Choice of $\bm{m}$}
 
 \begin{enumerate}
     \item $m = p$ is bagging, so random forests is a generalization of bagging.
@@ -78,7 +78,7 @@ It is based on the idea of aggregating trees that are sequentially grown from th
 An algorithm for boosting is called \emph{Gradient Boosting}:
 \begin{enumerate}
     \item Let $\L(y_i, \hat{y}_i) = (y_i - \hat{y}_i)^2$ be the loss function.
-    \item Initialize the model with $f_0(\xvec) = \argmin_\gamma \sum_{i=1}^n \L(y_i, \gamma)$. For the squared error loss, this is just the mean of the $y$, $\overbar{y}$.
+    \item Initialize the model with $f_0(\xvec) = \argmin_\gamma \sum_{i=1}^n \L(y_i, \gamma)$. For the squared error loss, this is just the mean of the $y_i$, $\overbar{y}$.
     \item For $m = 1, \dots, M$:
     \begin{enumerate}[a.]
         \item Calculate $r_{im} = y_i - f_{m-1}(\xvec_i)$ for $i = 1, \dots, n$.

@@ -98,10 +98,10 @@ Under the assumption that the linear model generated the data:
 \begin{itemize}
     \item $\E[\betavech] = \E[(X^\t X)^{-1} X^\t\yvec] = (X^\t X)^{-1} X^\t\E[\yvec] = \underbracket{(X^\t X)^{-1} X^\t X}_{\oone}\betavec = \betavec.\inlineeqno$
     \item $\begin{aligned}[t]
-                  \Var(\betavech) & = \Var((X^\t X)^{-1} X^\t\yvec)                                                                              \\
-                                  & = ((X^\t X)^{-1})^\t X^\t \sigma^2 \oone_n X(X^\t X)^{-1}      \qquad \expl{[$\Var(A\xvec) = A\Var(\xvec)A^\t$]}                                              \\
-                                  & = (X^\t X)^{-1} X^\t \sigma^2 \oone_n X(X^\t X)^{-1}    \qquad \expl{$[((X^\t X)^{-1})^\t = (X^\t X)^{-1}]$} \\
-                                  & = \sigma^2 (X^\t X)^{-1}{\underbracket{(X^\t X)(X^\t X)}_{\oone_p}}^{-1}                                     \\
+                  \Var(\betavech) & = \Var((X^\t X)^{-1} X^\t\yvec)                                                                                  \\
+                                  & = (X^\t X)^{-1} X^\t \sigma^2 \oone_n X((X^\t X)^{-1})^\t      \qquad \expl{[$\Var(A\xvec) = A\Var(\xvec)A^\t$]} \\
+                                  & = (X^\t X)^{-1} X^\t \sigma^2 \oone_n X(X^\t X)^{-1}    \qquad \expl{$[((X^\t X)^{-1})^\t = (X^\t X)^{-1}]$}     \\
+                                  & = \sigma^2 (X^\t X)^{-1}{\underbracket{(X^\t X)(X^\t X)}_{\oone_p}}^{-1}                                         \\
                                   & = \sigma^2 {\underbracket{(X^\t X)}_{p \times p}}^{-1}\negmedspace.
               \end{aligned}$
 \end{itemize}
@@ -122,10 +122,10 @@ In the case of linear models, we can write:
     \item[Variance]
           \begin{equation}
               \begin{aligned}[t]
-                  \Var(\xvec_0^\t\betavech) & = \xvec_0^\t\Var(\betavech)\xvec_0                                                               \\
-                                            & = \sigma^2\operatorname{Trace}(\xvec_0^\t(X^\t X)^{-1}\xvec_0)                                   \\
-                                            & = \sigma^2\operatorname{Trace}((X^\t X)^{-1}\xvec_0\xvec_0^\t)                                   \\
-                                            & = \sigma^2\operatorname{Trace}\left(\left(\frac{X^\t X}{n}n\right)^{-1}\xvec_0\xvec_0^\t\right). \\
+                  \Var(\xvec_0^\t\betavech) & = \xvec_0^\t\Var(\betavech)\xvec_0                                                                                                    \\
+                                            & = \sigma^2\operatorname{Trace}(\xvec_0^\t(X^\t X)^{-1}\xvec_0)                                                                        \\
+                                            & = \sigma^2\operatorname{Trace}((X^\t X)^{-1}\xvec_0\xvec_0^\t)  \qquad \expl{[$\operatorname{Trace}(ABc) = \operatorname{Trace}(BCA)$]} \\
+                                            & = \sigma^2\operatorname{Trace}\left(\left(\frac{X^\t X}{n}n\right)^{-1}\xvec_0\xvec_0^\t\right).                                      \\
               \end{aligned}
           \end{equation}
 

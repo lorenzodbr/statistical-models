@@ -19,13 +19,13 @@ First, let's describe what parameters we have and what we expect. For a variable
             \multicolumn{1}{c}{}                         & 1      & \cdots & \multicolumn{1}{c}{p} &                      & \multicolumn{1}{c}{} & \multicolumn{1}{c}{}  & \\
             \cline{2-4} \cline{7-7}
             1                                            & x_{11} & \cdots & x_{1p}                &                      &                      & y_1                   & \\
-            \vdots                                       & \vdots & \ddots & \vdots                &                      &                      & \vdots                & \\
+            \vdots                                       & \vdots & \ddots & \vdots                &                      &                      & \vdots                & \\[-3pt]
             n                                            & x_{n1} & \cdots & x_{np}                &                      &                      & y_n                   & \\
             \cline{2-4} \cline{7-7} \multicolumn{1}{c}{} &        & X      & \multicolumn{1}{c}{}  & \multicolumn{1}{c}{} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{Y}
         \end{array}
     }
 \end{equation}
-Here, $y_1, \ldots y_n$ are $n$ observations of our response and are independent but not identically distributed, since the mean of $Y_i$ depends on the index $i$. We assume $Y_i \sim \poisson(\mu_i)$. Then:
+Here, $y_1, \ldots y_n$ are $n$ observations of our response and are independent but not identically distributed, since the mean of $Y_i$ depends on the index $i$. We assume $Y_i \sim \poisson(\mu_i)$. Then we set:
 \begin{equation}
     g(\mu_i) = \log(\mu_i) = \eta_i = \xvec_i^\t\betavec.
 \end{equation}

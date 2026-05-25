@@ -1,4 +1,4 @@
-\chapter{Shrinkage methods}
+\section{Shrinkage methods}
 
 Some facts:
 \begin{itemize}
@@ -12,8 +12,7 @@ Two popular approaches are:
     \item Ridge regression,
     \item Lasso regression.
 \end{enumerate}
-
-\section{Ridge regression}
+\subsection{Ridge regression}
 
 Recall that for the least squares estimator we have:
 \begin{equation}
@@ -97,7 +96,7 @@ and the bias is:
 
 We conclude that increasing $\lambda$ increases the bias of $\betavech_{\textsc{Ridge}}$, but it can reduce the variance.
 
-\section{Lasso regression}
+\subsection{Lasso regression}
 
 The acronym means \emph{Least Absolute Shrinkage and Selection Operator}. The optimization problem is:
 \begin{equation}
@@ -155,9 +154,9 @@ The two additional terms in Ridge and Lasso regression are different when interp
 
 \paragraph{$\bm{\betavech_{\textsc{Lasso}}}$ vs $\bm{\betavech_\textrm{LS}}$}
 
-Consider the least squares estimator $\betavech_\textrm{LS}$ for one predictor, which is the solution of the optimization problem:
+Consider the least squares estimator $\hat{\beta}_\textrm{LS}$ for one predictor, which is the solution of the optimization problem:
 \begin{equation}
-    \Xvec^\t(\Yvec - \Xvec\beta) - \frac{\lambda}{2}\sgn(\beta) = 0.
+    \Xvec^\t(\Yvec - \Xvec\beta) = 0.
 \end{equation}
 
 We distinguish three cases:

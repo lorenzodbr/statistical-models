@@ -118,13 +118,13 @@ Then $\mu_i = \pi_i \in (0,1)$ and $\eta_i = \xvec_i^\t\betavec \in (-\infty, \i
           \begin{equation}
               f(z; 0, 1) = \frac{\exp(z)}{1 + \exp(z)}.
           \end{equation}
-          We conclude that choosing $f = \bernoulli$ and $g = f^{-1}\negthinspace$, we obtain the logistic regression. To write explicitly the link function, we have:
+          We conclude that choosing $f = \bernoulli$ and $g = f^{-1}(z; 0, 1)$, we obtain the logistic regression. To write explicitly the link function, we have:
           \begin{equation}
-              \mu_i = \frac{e^{\eta_i}}{1 + e^{\eta_i}}
+              \mu_i = f(\eta_i; 1, 0) = \frac{e^{\eta_i}}{1 + e^{\eta_i}}
           \end{equation}
           and this can be inverted to get:
           \begin{equation}
-              \eta_i = g(\mu_i) = \log\left(\frac{\mu_i}{1 - \mu_i}\right),
+              \eta_i = g(\mu_i) = f^-1(\mu_i) = \log\left(\frac{\mu_i}{1 - \mu_i}\right),
           \end{equation}
           which is called \emph{logit link}.
 \end{enumerate}
@@ -141,7 +141,7 @@ Since $\mu_i = b'(\theta_i)$, we can also write:
 \begin{equation}
     g = (b')^{-1}\negthinspace.
 \end{equation}
-There are other options for the Bernoulli distribution, such as the complementary log-log link, etc.
+There are other options for the Bernoulli distribution, such as the \emph{complementary log-log link}, etc.
 
 \paragraph{Likelihood of \acsp{glm}}
 

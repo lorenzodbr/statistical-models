@@ -12,6 +12,7 @@
 \RequirePackage[english]{babel}
 \RequirePackage{colorprofiles}
 \RequirePackage[a-2a,mathxmp]{pdfx}
+\RequirePackage[italian]{isodate}
 
 % Math
 \RequirePackage[leqno]{amsmath}
@@ -602,11 +603,12 @@
             \vspace{.3cm}
 
             \edef\repourl{https://github.com/lorenzodbr/\repo}
-            {\semiLARGE \href{\repourl}{Notes} by Lorenzo Di Berardino}
+            {\semiLARGE \href{\repourl}{Notes} by Lorenzo Di Berardino}\\[-.15cm]
+            {\normalsize \emph{Last update: \liningnums{\the\day}/\liningnums{\the\month}/\liningnums{\the\year}}}
             \vspace{8.25cm}
             \vfill
             
-            \LARGE\initialmonth~\initialyear~--~\finalmonth~\finalyear
+            \LARGE\initialmonth~\initialyear---\finalmonth~\finalyear
         \end{center}
     \end{titlepage}
     
