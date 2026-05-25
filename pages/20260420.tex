@@ -1,0 +1,138 @@
+\chapter{Tree based methods}
+
+The main idea behind these methods is to divide the space into simple regions. The predicted outcome, $\hat{y}$ or class, depends on the region of the space an observation falls into. The partitioning is the result of some sequential splitting rules, and this is the reason why this method is called \emph{decision tree}.
+
+\section{Regression trees}
+
+Given a tree with $J$ regions $R_1, R_2, \dots, R_J$, then:
+\begin{description}
+    \item[Regression] Given a new observation $\xvec$, consider the region of the space it falls into and predict $y$ with the average response of all the training observations in that region.
+    \item[Classification] Given a new observation $\xvec$, consider the region $R_j$ it falls into and make a prediction based on:
+          \begin{equation}
+              \hat{\P}(c\given\xvec) = \hat{\P}(c\given R_j),
+          \end{equation}
+          \ie, the proportion of training observations in the region $R_j$ that belong to class $c$, $\;c=1,2,\dots,K$. Then, we set a threshold on these probabilities as before.
+\end{description}
+
+\paragraph{How to build a tree}
+
+The goal here is to divide the space into ``boxes''\negthinspace. Two key aspects to keep in mind are:
+\begin{itemize}
+    \item The choice of optimality criterion to decide the best split at each step.
+    \item Devising a computationally efficient procedure, since it is infeasible to look at all possible partitions.
+\end{itemize}
+
+\paragraph{Choice of optimality criterion}
+
+\begin{description}
+    \item[Regression] In the case of regression, the natural choice under a squared error loss is to find regions $R_1, \ldots, R_j$ that minimize:
+          \begin{equation}
+              \acs{rss} = \sum_{j=1}^J \sum_{i\in R_j} (y_i - \hat{y}_{R_j})^2
+          \end{equation}
+          (\acl{rss}), where $\hat{y}_{R_j}$ is the average of the response values for the training observations in $R_j$.
+
+    \item[Classification] The most natural one in this setting is the following:
+          \begin{equation}
+              E = \sum_{j=1}^J E_j, \qquad E_j = 1 - \max_c \hat{\P}(c\given R_j), \;\; j = 1,2,\dots,J.
+          \end{equation}
+
+          However, this function is not ``smooth''\negthinspace, so it is not ideal for optimization. In fact, with two classes, we have the following probabilities:
+          \begin{equation}
+              \hat{\P}(1\given R_j) \qquad 1 - \hat{\P}(1\given R_j)
+          \end{equation}
+          and the error function is:
+          \begin{equation}
+              \begin{aligned}
+                  E_j & = 1 - \max\{\hat{\P}(1\given R_j), 1 - \hat{\P}(1\given R_j)\} \\
+                      & = 1 - \max\{\hat{\P}, 1 - \hat{\P}\},
+              \end{aligned}
+          \end{equation}
+          which is plotted in~\Cref{fig:misclassification}. Two smooth alternatives are:
+          \begin{enumerate}
+              \item \emph{Gini index}:
+                    \begin{equation}
+                        G = \sum_{j=1}^J G_j, \quad G_j = \sum_{c = 1}^K \hat{\P}(c\given R_j)(1 - \hat{\P}(c\given R_j)),
+                    \end{equation}
+              \item \emph{Entropy} or \emph{deviance}:
+                    \begin{equation}
+                        D = \sum_{j=1}^J D_j, \quad D_j = -\sum_{c = 1}^K \hat{\P}(c\given R_j) \log \hat{\P}(c\given R_j).
+                    \end{equation}
+          \end{enumerate}
+\end{description}
+
+\begin{figure}[ptb]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+                axis lines=middle,
+                xlabel={$\hat{\P}(1\given R_j)$},
+                xlabel style={right},
+                ylabel={$E_j$},
+                xtick={0,0.5,1},
+                ytick={0,0.5,1},
+                ymin=0, ymax=1,
+                xmin=0, xmax=1,
+            ]
+            \addplot[domain=0:1, thick] {(1 - abs(2*x - 1))/2};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Misclassification error as a function of $\,\hat{\P}$.}
+    \label{fig:misclassification}
+\end{figure}
+
+The next step is to find the partitioning that minimizes the chosen optimality criterion. However, this search would be computationally expensive if we look at all possible partitions. We need some more efficient procedures.
+
+\subsection{Recursive binary splitting}
+
+This method has the following properties:
+\begin{itemize}
+    \item \emph{Top-down approach}: we start with one region and we split it.
+    \item \emph{Binary}: at each step, we split one region into two.
+    \item \emph{Greedy}: at each step, we look for the best split at that step, without checking ahead.
+\end{itemize}
+
+The algorithm consists of the following steps:
+\begin{enumerate}[beginpenalty=10000]
+    \item For each predictor $X_k$ and all its cutpoints $s$, define two regions:
+          \begin{equation}
+              R_-(k, s) = \set{\xvec\given X_k < s}, \qquad R_+(k, s) = \set{\xvec\given X_k \geq s}.
+          \end{equation}
+          In practice, the cutpoints are chosen:
+          \begin{itemize}
+              \item For continuous predictors, as a discrete sequence
+              \item For categorical variables, as all the possible splits of the categories into two groups.
+          \end{itemize}
+    \item Calculate the optimality criterion for each $\tuple{k, s}$ partitioning and choose optimal partition. This gives us two initial regions $R_1$ and $R_2$.
+    \item Repeat the procedure in each region and choose the best partitioning according to the optimality criterion.
+    \item Continue until a stopping criterion is satisfied, \eg, a maximal number of observations per region is reached, or the optimality criterion is not sufficiently reduced.
+\end{enumerate}
+
+\paragraph{Big issue with this method} The models fitted in this way have a too high variance (overfitting). Some solution to this problem are:
+\begin{enumerate}
+    \item Fit a smaller size of the tree. This reduces the variance, but it increases the bias.
+    \item Stop dividing when reduction in \acs{rss}/Gini/entropy is below some threshold.
+          \begin{note}
+              Actually this solution introduces another potential problem, which is that a ``unimportant'' split early on could result in a good split later on.
+          \end{note}
+    \item Build a big tree and prune it back, \ie, remove branches to get a smaller subtree. This is the most common solution, and it is implemented in the \emph{cost-complexity algorithm}:
+          \begin{enumerate}
+              \item Fix an hyperparameter $\alpha \geq 0$.
+              \item Use recursive binary splitting to build a large tree $T_0$, with a small number of observations in each region.
+              \item Choose the subtree $T_\alpha \subset T_0$ such that:
+                    \begin{equation}
+                        T_\alpha = \argmin_{T \subset T_0} \sum_{j = 1}^{\abs{T}} \operatorname{OC}(R_j) + \alpha \abs{T},
+                    \end{equation}
+                    where the cardinality of the tree $\abs{T}$ is the number of terminal nodes, and $\operatorname{OC}(R_j)$ is the chosen optimality criterion for region $R_j$.
+          \end{enumerate}
+          If $\alpha = 0$, then $T_\alpha = T_0$, while as $\alpha$ increases, $T_\alpha$ gets smaller and smaller, in a nested fashion (pruning).
+\end{enumerate}
+
+\subsection{Cross-validation}
+
+We cannot select $\alpha$ by looking at the training error, but rather on some unseen data (test-set or cross-validation). In practice, doing cross-validation:
+\begin{enumerate}[beginpenalty=10000]
+    \item We choose a sequence of values of $\alpha$.
+    \item For each $\alpha$, we fit the tree on $k-1$ folds and we prune it.
+    \item We then use $T_\alpha$ to make predictions on the left-out fold.
+    \item We compute the \acs{cv} error.
+\end{enumerate}

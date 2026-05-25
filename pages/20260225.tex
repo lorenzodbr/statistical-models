@@ -1,0 +1,240 @@
+\chapter{Supervised learning}
+
+In this part we will focus on supervised learning: we are given both $\xvec$ and $y$ and we use this information to learn the relationship between the two. Supervised methods can be broadly divided into two types:
+\begin{enumerate}
+    \item \emph{Regression methods} if $y$ is quantitative (numerical).
+    \item \emph{Classification methods} if $y$ is qualitative (categorical).
+\end{enumerate}
+
+No assumptions are made on $\xvec$, the vector of predictors. The objective is, given observations $\tuple{\xvec_i, y_i}$, $i = 1\ldots n$, to find a rule $\hat{f}$ (regression function/classifier) that allows to predict $y$ from $\xvec$, \ie:
+\begin{equation}
+    \hat{y} = \hat{f}(\xvec).
+\end{equation}
+Here, $\hat{f}$ is an approximation of some true $f$. Statistical Decision Theory formalizes the type of relationship that we would like to learn.
+
+\section{Regression methods}
+
+\acf{sel} is a method for estimating the relationship between a response variable $y$ and one or more predictor variables $\xvec$. It is mathematically defined as:
+\begin{equation}
+    \L(Y\negthinspace, f(\Xvec)) = (Y - f(\Xvec))^2\negthinspace.
+\end{equation}
+This loss function is used in the \acf{epe}:
+\begin{equation}
+    \EPE(f) = \E_{\Xvec, Y}[\L(Y\negthinspace, f(\Xvec))] = \int(y - f(\xvec))^2 g(\xvec, y) \odif{\xvec} \odif{y}.
+\end{equation}
+
+Then, we choose the $f$ that minimizes the \acf{epe}.
+
+\begin{theorem}
+    The quantity $\E[(Y - f(\Xvec))^2]$ is minimized by $f(\xvec) = \E[Y \given \Xvec = \xvec]$.
+\end{theorem}
+
+\begin{proof}
+    We can write:
+    \begin{equation}
+        \begin{aligned}
+            \E_{\Xvec, Y}[(Y - f(\Xvec))^2] & = \int (y - f(\xvec))^2 g(\xvec, y) \odif{\xvec} \odif{y}                                                                                                   \\
+                                            & = \int \underbrace{(y - f(\xvec))^2 g_{Y\negthinspace,\,\Xvec}(y \given \xvec) \odif{y}}_{\E_{Y\given \Xvec}[(Y - f(\Xvec))^2]} g_{\Xvec}(\xvec) \odif{\xvec} \\
+                                            & = \E_{\Xvec}[\E_{Y\given \Xvec}[(Y - f(\Xvec))^2]].
+        \end{aligned}
+    \end{equation}
+    The last equality follows from the \emph{tower rule}.
+
+    Now, let's consider a fixed $\xvec$ and the inner expectation as $\E_Y[(Y - a)^2]$ where $a$ is a constant. We ask ourselves: what's the value of $a$ that minimizes this quantity? We can write:
+    \begin{equation}
+        \begin{aligned}
+            \E[(Y - a)^2] & = \E[Y^2 - 2aY + a^2]                   \\
+                          & = \E[Y^2] - 2a\E[Y] + a^2\negthinspace.
+        \end{aligned}
+    \end{equation}
+    To optimize this quantity, we can take the derivative with respect to $a$ and set it to zero:
+    \begin{equation}
+        \begin{aligned}
+            \odv{}{a}\E[(Y - a)^2] & = -2\E[Y] + 2a = 0 \\
+            a^*                    & = \E[Y].
+        \end{aligned}
+    \end{equation}
+    Therefore, $f(\xvec) = \E[Y \given \Xvec = \xvec]$ is the function that minimizes $\E_{Y\given \Xvec}[(Y - f(\Xvec))^2]$.
+\end{proof}
+
+\begin{note}
+    It holds that:
+    \begin{equation}
+        Y = f(\Xvec) + \epsilon \iff \E[Y \given \Xvec = \xvec] = f(\xvec).\qedhere
+    \end{equation}
+\end{note}
+
+It is worth noting that other choices of the loss function $L$ lead to different optimal regression functions. For example, if we choose $\L(Y\negthinspace, f(\Xvec)) = \abs{Y - f(\Xvec)}$, then the optimal regression function is the conditional median of $Y$ given $\Xvec$:
+\begin{equation}
+    f(\xvec) = \text{Median}(Y \given \Xvec = \xvec).
+\end{equation}
+The use of this loss leads to the so called \emph{Least Absolute Deviation Regression}.
+
+\begin{observation}
+    If you put $a^* = \E[Y]$ in the expression $\E_Y[(Y - a)^2]$, you get the variance of $Y$:
+    \begin{equation}
+        \E[(Y - a^*)^2] = \E[(Y - \E[Y])^2] = \Var(Y).\qedhere
+    \end{equation}
+\end{observation}
+
+Under the squared error loss, different regression methods make different assumptions about the function ${f(\xvec) = \E[Y \given \Xvec = \xvec]}$. For example:
+\begin{enumerate}
+    \item \emph{Linear regression} (parametric), makes three assumptions on $Y$:
+          \begin{equation}
+              Y \given \Xvec = \xvec \sim \normal(\xvec^\t\betavec, \sigma^2),
+          \end{equation}
+          \ie, the normality of $Y$ given $\Xvec$, the linearity of the mean over parameters $\betavec$ and the homoscedasticity of the variance $\sigma^2\negthinspace$.
+
+          The function $f(\xvec)$ can be written as:
+          \begin{equation}
+              f(\xvec) = \E[Y \given \Xvec = \xvec] = \beta_0 + \beta_1 x_1 + \ldots + \beta_p x_p.
+          \end{equation}
+    \item \emph{$k$-nearest neighbours} (non-parametric), makes no assumptions on $Y$ and $f(\xvec)$ is estimated as the average of the $k$ nearest neighbours of $\xvec$:
+          \begin{equation}
+              \hat{f}(\xvec) = \Avg(y_i \given \xvec_i \in N_k(\xvec)),
+          \end{equation}
+          where $N_k(\xvec)$ is the set of the $k$ closest observations to $\xvec$. This simple approach can be extended to kernel-based methods.
+\end{enumerate}
+
+\section{Classification methods}
+
+Let $Y$ be a categorical variable that can take $K$ different values (categories). A \emph{classifier} assigns a class to an object $\xvec$, to produce $\operatorname{Y}(\xvec)$. A loss function is now defined as a $K\times K$ table. In the binary case we obtain a $0$-$1$ loss function:
+\begin{equation}
+    \L(Y\negthinspace, f(\Xvec)) = \begin{cases}
+        0 & \text{if } Y = f(\Xvec)    \\
+        1 & \text{if } Y \neq f(\Xvec)
+    \end{cases}\qquad\qquad \begin{array}{|c|c|c|}
+        \cline{2-3}
+        \multicolumn{1}{c|}{} & \hat{Y} = 0 & \hat{Y} = 1 \\
+        \hline
+        Y = 0                 & 0           & 1           \\
+        \hline
+        Y = 1                 & 1           & 0           \\
+        \hline
+    \end{array}
+\end{equation}
+The expected $0$-$1$ loss is computed as:
+\begin{equation}
+    \E[\L(Y\negthinspace, \operatorname{Y}(\Xvec))] = \E_{\Xvec}[\E_{Y\given \Xvec}[\L(Y\negthinspace, \operatorname{Y}(\Xvec))]].
+\end{equation}
+
+Let's consider a fixed $\xvec$. Given $\xvec$, if it is predicted to class $0$, \ie, $\operatorname{Y}(\xvec) = 0$, then the expected loss is:
+\begin{equation}
+    \begin{aligned}
+        \E_Y[\L(Y\negthinspace, 0) \given \xvec] & = \underbracket{\L(0,0)}_0\P(0 \given \xvec) + \underbracket{\L(1,0)}_1\P(1 \given \xvec) \\
+                                                & = \P(1 \given \xvec).
+    \end{aligned}
+\end{equation}
+On the other hand, if it is predicted to class $1$:
+\begin{equation}
+    \begin{aligned}
+        \E_Y[\L(Y\negthinspace, 1) \given \xvec] & = \underbracket{\L(0,1)}_1\P(0 \given \xvec) + \underbracket{\L(1,1)}_0\P(1 \given \xvec) \\
+                                                & = \P(0 \given \xvec).
+    \end{aligned}
+\end{equation}
+Therefore, the optimal classifier under a $0$-$1$ loss assigns $\xvec$ to the class $1$ if $\P(0 \given \xvec) \leq \P(1 \given \xvec)$ (it has lower loss). This translates into:
+\begin{equation}
+    \begin{aligned}
+        \P(0 \given \xvec) & \leq \P(1 \given \xvec) \iff 1 - \P(1 \given \xvec) \leq \P(1 \given \xvec) \iff \P(1 \given \xvec) \geq 0.5.
+    \end{aligned}
+\end{equation}
+In general, with more than two classes, the Bayes Classifier assigns $\xvec$ to the class:
+\begin{equation}
+    j = \argmax_{i \in \text{Classes}}\P(i\given \xvec).
+\end{equation}
+
+\subsection{Bayes Decision Boundary}
+
+A \emph{Bayes Decision Boundary} is the set of points $\xvec$ in the space of predictors where $\P(1 \given \xvec) = 0.5$ and is represented by a $(p-1)$-d manifold in a $p$-dimensional space. Our goal is to approximate the surface with a classifier $\hat{\operatorname{Y}}(\xvec)$ that is as close as possible to the Bayes Classifier $\operatorname{Y}(\xvec)$.
+
+There is a similar concept with the irreducible error in regression but with Bayes Classifier which is called \emph{Bayes Error Rate} and is defined as:
+\begin{equation}
+    \BER = 1 - \E_{\Xvec}[\max_{j}\P(j \given \Xvec)].
+\end{equation}
+The inner maximization gives the predicted class for a given $\Xvec$ and the expectation gives the average error across all possible $\Xvec$ (in fact, we are removing from the certainty, $1$, the confidence of the prediction). In an ideal case, in which in every $\xvec$ corresponds to observations of a single class, the Bayes Error Rate is $0$. In a more realistic case, in which there are some values of $\xvec$ for which there are observations of both classes, the Bayes Error Rate is greater than $0$. Bayes Error Rate relates to irreducible error because no matter how good our classifier is, there might be points in which two classifications collide and observations cannot be separated.
+
+\section{Assessing model accuracy}
+
+A criterion to choose the loss function is to determine how the model performs on new data. We distinguish between two settings:
+\begin{enumerate}
+    \item \emph{Regression setting}:
+          \begin{equation}
+              \MSE = \frac{1}{m}\sum_{i=1}^m \left(y_i^{(t)} - \hat{f}(\xvec_i^{(t)})\right)^2\negthinspace,
+          \end{equation}
+          where $\tuple{x_i^{(t)}, y_i^{(t)}}$, $i=1,\dots,m$ are testing data points.
+
+    \item \emph{Classification setting:} given a $\hat{\P}(1\given \xvec)$ classifier, we can calculate the \emph{confusion matrix}:
+          \begin{equation}
+              \begin{array}{|c|c|c|}
+                  \cline{2-3}
+                  \multicolumn{1}{c|}{} & \hat{Y} = 0 & \hat{Y} = 1 \\
+                  \hline
+                  Y = 0                 & \textrm{TN} & \textrm{FP} \\
+                  \hline
+                  Y = 1                 & \textrm{FN} & \textrm{TP} \\
+                  \hline
+              \end{array}
+          \end{equation}
+          From this, we can compute different statistics:
+          \begin{itemize}
+              \item \emph{True Positive Rate}: \begin{equation}
+                        \TPR = \frac{\textrm{TP}}{\textrm{TP} + \textrm{FN}},
+                    \end{equation}
+              \item \emph{False Positive Rate}: \begin{equation}
+                        \FPR = \frac{\textrm{FP}}{\textrm{FP} + \textrm{TN}},
+                    \end{equation}
+          \end{itemize}
+          and many other, such as \emph{False Discovery Rate}, \emph{Precision}, \emph{Recall}, etc. Another important statistic is the \emph{Error Rate}:
+          \begin{equation}
+              \ER = \frac{\textrm{FP} + \textrm{FN}}{\textrm{TP} + \textrm{TN} + \textrm{FP} + \textrm{FN}}.
+          \end{equation}
+\end{enumerate}
+
+The $0$-$1$ loss is the simplest loss as it treats every misclassification the same, but there can be differences in loss costs based on the type of error (e.g., false positives vs. false negatives). The $0$-$1$ loss can be generalized to a cost-sensitive loss function:
+\begin{equation}
+    \begin{array}{|c|c|c|}
+        \cline{2-3}
+        \multicolumn{1}{c|}{} & \hat{Y} = 0 & \hat{Y} = 1 \\
+        \hline
+        Y = 0                 & 0           & c_{0}       \\
+        \hline
+        Y = 1                 & c_{1}       & 0           \\
+        \hline
+    \end{array}
+\end{equation}
+with $c_0 \neq c_1$. If $c_0 = c_1$, then we are back to the $0$-$1$ loss. Using the same derivations as before, we get:
+\begin{equation}
+    \begin{aligned}
+        \E[\L(Y\negthinspace, 0) \given \xvec] & = c_1 \P(1 \given \xvec), \\
+        \E[\L(Y\negthinspace, 1) \given \xvec] & = c_0 \P(0 \given \xvec).
+    \end{aligned}
+\end{equation}
+Therefore, the Bayes Classifier assigns $\xvec$ to class $1$ if $c_0 \P(0 \given \xvec) \leq c_1 \P(1 \given \xvec)$, which leads to:
+\begin{equation}
+    \P(1\given \xvec) \geq \frac{c_0}{c_0 + c_1}.
+\end{equation}
+
+\begin{observation}
+    If $c_0 = c_1$, then $\frac{c_0}{c_0 + c_1} = \frac{1}{2}$, which is the threshold we had before with the $0$-$1$ loss.
+\end{observation}
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=3.5]
+        \draw[->] (0,0) -- (1.2,0) node[right] {$\FPR$};
+        \draw[->] (0,0) -- (0,1.2) node[above] {$\TPR$};
+        \draw[thick] (0,1) node[left=4pt] {Optimal};
+        \draw[thick] (0,0) .. controls (0.2,0.8) and (0.8,0.95) .. (1,1);
+        \draw (0,0) node[below left] {$t = 1$};
+        \draw (1,1) node[above right] {$t = 0$};
+        \fill (0,0) circle (0.5pt);
+        \fill (1,1) circle (0.5pt);
+        \fill (0,1) circle (0.5pt);
+        \draw[->] (0.3,0.7) -- (0.05,0.95);
+        \draw[thin,dashed] (1,0) -- (1,1);
+        \draw[thin,dashed] (0,1) -- (1,1);
+    \end{tikzpicture}
+    \caption{\acs{roc} curve for two classifiers}\label{fig:roc}
+\end{figure}
+
+If we don't know where to put the threshold to distinguish between classes, we can plot the \acf{roc} curve (\Cref{fig:roc}), which, for varying threshold values, shows the relation between $\TPR$ and $\FPR$. Each point on the curve is associated with a specific pair of $\TPR$ and $\FPR$ values and is derived from a different threshold $t \in [0,1]$. Having the curve, the closer we get to the optimal point ($\TPR = 1$ and $\FPR = 0$), the better the classifier is. In general, one choses the classifier with the largest \acf{auc} or with a curve that is the closes to the optimal point for the range of values of the threshold $(c_0)$ that one is interested in.

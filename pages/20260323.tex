@@ -1,0 +1,188 @@
+\section{Discriminant analysis methods}
+
+Let's analyze the following situation, in which there are $Y$ categorical variable and $K$ classes. We want to find an alternative to logistic regression and $k$-NN. Similar to the former, \emph{discriminant analysis methods} are parametric methods and are among parametric classification models. The aim is to estimate the probability:
+\begin{equation}
+    \P(Y = j \given \Xvec = \xvec),\quad j = 1, \dots, K.
+\end{equation}
+For discriminant analysis methods, these probabilities are estimated ``indirectly'' via:
+\begin{equation}
+    f_j(\xvec) = \begin{cases}
+        \P(\Xvec = \xvec \given Y = j) & \text{if } \Xvec \text{ is discrete},   \\
+        f(\xvec\given Y = j)           & \text{if } \Xvec \text{ is continuous}.
+    \end{cases}
+\end{equation}
+We call $f_j(\xvec)$ the \emph{joint distribution} of $\Xvec$ given $Y = j$, $j = 1, \dots, K$. Via Bayes' theorem:
+\begin{equation}
+    \P(Y = j \given \Xvec = \xvec) = \frac{\P(\Xvec = \xvec \given Y = j) \P(Y = j)}{\sum_{k=1}^K \P(\Xvec = \xvec \given Y = k) \P(Y = k)} = \frac{f_j(\xvec) \pi_j}{\sum_{k=1}^K f_k(\xvec) \pi_k}
+\end{equation}
+where $\pi_j = \P(Y = j)$ is the \emph{prior probability} of class $j$. We assign $\xvec$ to the class $j$ that maximizes:
+\begin{equation}
+    \P(Y = j \given \Xvec = \xvec),\quad j = 1, \ldots, K,
+\end{equation}
+that is ``assign $\xvec$ to class $j$ that maximizes'':
+\begin{equation}
+    f_j(\xvec) \pi_j,\quad j = 1, \ldots, K.
+\end{equation}
+
+\paragraph{Estimation of $\pi_j$}
+
+There are two ways of estimating $\pi_j$ from data:
+\begin{enumerate}
+    \item $\hat{\pi}_j = \frac{1}{K},\; j = 1, \ldots, K$. \expl{(Classes equally likely)}
+    \item $\hat{\pi}_j = \frac{n_j}{n},\; j = 1, \ldots, K$. \expl{(Fractional counts)}
+\end{enumerate}
+The various discriminant analysis methods distinguish themselves in the assumptions that they make on $f_j(\xvec)$. We can deal with:
+\begin{enumerate}
+    \item \acf{lda}.
+    \item \acf{qda}.
+    \item Naive Bayes.
+\end{enumerate}
+
+\subsection{\texorpdfstring{\acs{lda} with $p = 1$}{LDA with p = 1}}
+
+\acl{lda} assumes:
+\begin{enumerate}
+    \item $f_j(x)$ is Gaussian (conditional on $Y = j$):
+          \begin{equation}
+              f_j(x) = \frac{1}{\sqrt{2\pi}\sigma_j}e^{-\frac{1}{2}\left(\frac{x-\mu_j}{\sigma_j}\right)^2}\negthinspace,\quad j = 1, \ldots, K.
+          \end{equation}
+    \item $\sigma_1^2 = \sigma_2^2 = \cdots = \sigma_K^2 = \sigma^2\negthinspace$. \expl{(Homoscedasticity)}
+\end{enumerate}
+To summarize those assumptions, we can say:
+\begin{equation}
+    X \given Y = j \sim \normal(\mu_j, \sigma^2),\quad j = 1, \ldots, K.
+\end{equation}
+
+\paragraph{What about linearity?}
+
+Plugging $f_j(x)$ in the Bayes formula, we obtain:
+\begin{equation}
+    P(Y = j \given X = x) = \frac{\frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{1}{2}\left(\frac{x-\mu_j}{\sigma}\right)^2} \pi_j}{\sum_{k=1}^K \frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{1}{2}\left(\frac{x-\mu_k}{\sigma}\right)^2} \pi_k},\quad j = 1, \ldots, K.
+\end{equation}
+Assigning $x$ to class $j$ that maximizes $\P(Y = j \given X = x)$ is equivalent to assigning $x$ to class $j$ that maximizes:
+\begin{equation}
+    e^{-\frac{1}{2}\left(\frac{x-\mu_j}{\sigma}\right)^2} \pi_j,\quad j = 1, \ldots, K,
+\end{equation}
+which, in turn, is equivalent to maximizing:
+\begin{equation}
+    \begin{aligned}
+        \hat{\delta}_j(x) & = \log\left(e^{-\frac{1}{2}\left(\frac{x-\mu_j}{\sigma}\right)^2} \pi_j\right)         \\
+                          & = -\frac{1}{2}\left(\frac{x-\mu_j}{\sigma}\right)^2\negmedspace + \log(\pi_j)          \\
+                          & \propto -\frac{1}{2}\frac{\mu_j^2}{\sigma^2} + \log(\pi_j) + x \frac{\mu_j}{\sigma^2}.
+    \end{aligned}
+\end{equation}
+We see that this expression is linear in $x$.
+
+\paragraph{Estimation of parameters}
+
+Parameters are estimated via maximum likelihood:
+\begin{equation}
+    \begin{aligned}
+        \hat{\mu}_j    & = \frac{\sum_{i \text{ s.t. } y_i = j} x_i}{n_j},\quad j = 1, \ldots, K, \expl{(Sample mean of $X$ in class $j$)}                                                           \\
+        \hat{\sigma}^2 & = \frac{\sum_{i=1}^K (n_i - 1) s_i^2}{\sum_{i=1}^K (n_i - 1)} = \frac{\sum_{i = 1}^K \sum_{j\text{ s.t. } y_j = i} (x_j - \hat{\mu}_i)^2}{n - K}. \expl{(Pooled variance)}
+    \end{aligned}
+\end{equation}
+Then assign $x$ to class $j$ that maximizes:
+\begin{equation}
+    \hat{\delta}_j(x) = \log(\hat{\pi}_j) - \frac{1}{2}\frac{\hat{\mu}_j^2}{\hat{\sigma}^2} + x\frac{\hat{\mu}_j}{\hat{\sigma}^2},\quad j = 1, \ldots, K.
+\end{equation}
+
+\subsection{\texorpdfstring{\acs{lda} with $p \geq 1$}{LDA with p >= 1}}
+
+Here we consider a multivariate extension of \acs{lda}. Therefore, the variables are now $\Xvec = \tuple{x_1, \ldots, x_p}$. In this case, \acs{lda} assumes:
+\begin{enumerate}
+    \item $\Xvec$ has a multivariate Gaussian distribution conditional on $Y = j$:
+          \begin{equation}
+              f_j(\xvec) = \frac{1}{(2\pi)^{p/2} \abs{\Sigma_j}^{1/2}}\exp\left(-\frac{1}{2}(\xvec - \muvec_j)^\t \Sigma_j^{-1} (\xvec - \muvec_j)\right), \quad j = 1, \ldots, K,
+          \end{equation}
+          with $\muvec_j = \tuple{\mu_{j1}, \ldots, \mu_\mathit{jp}}^\t$ vector of means and $\Sigma_j$ $p\times p$ covariance matrix.
+    \item $\Sigma_1 = \Sigma_2 = \ldots = \Sigma_K = \Sigma = \begin{pmatrix}
+                  \sigma^2_{1} & \sigma_{12}  & \cdots & \sigma_{1p}  \\
+                  \sigma_{21}  & \sigma^2_{2} & \cdots & \sigma_{2p}  \\
+                  \vdots       & \vdots       & \ddots & \vdots       \\
+                \sigma_{p1}  & \sigma_{p2}  & \cdots & \sigma^2_{p}
+              \end{pmatrix},$ where $\sigma_{jl} = \Cov(X_j, X_l\given Y = k)$ and $\sigma^2_j = \Var(X_j\given Y = k)$.
+\end{enumerate}
+
+\paragraph{Linear decision surface}
+
+Let's analyze the decision surface as in the univariate case.
+
+\begin{equation}
+    \begin{aligned}
+        P(Y = j \given \Xvec = \xvec) & = \frac{
+            \frac{1}{(2\pi)^{p/2} \abs{\Sigma}^{1/2}}\exp\left(-\frac{1}{2}(\xvec - \muvec_j)^\t \Sigma^{-1} (\xvec - \muvec_j)\right) \pi_j
+        }{
+            \sum_{k=1}^K \frac{1}{(2\pi)^{p/2} \abs{\Sigma}^{1/2}}\exp\left(-\frac{1}{2}(\xvec - \muvec_k)^\t \Sigma^{-1} (\xvec - \muvec_k)\right) \pi_k
+        }
+    \end{aligned}
+\end{equation}
+So assigning $\xvec$ to class $j$ that maximizes the numerator is equivalent to assigning $\xvec$ to class $j$ that maximizes:
+\begin{equation}
+    \begin{aligned}
+        \delta_j(\xvec) & = -\frac{1}{2}(\xvec - \muvec_j)^\t \Sigma^{-1} (\xvec - \muvec_j) + \log(\pi_j)                                                                                 \\
+                        & = \underbracket{-\frac{1}{2}\xvec^\t \Sigma^{-1} \xvec}_{\mathclap{\text{Constant w.r.t. } j}} - \frac{1}{2}\muvec_j^\t \Sigma^{-1} \muvec_j + \xvec^\t \Sigma^{-1} \muvec_j + \log(\pi_j)                             \\
+                        & \propto -\underbracket{\frac{1}{2}\muvec_j^\t \Sigma^{-1} \muvec_j + \log(\pi_j)}_{(\beta_0)_j} + \xvec^\t \underbracket{\Sigma^{-1} \muvec_j}_{(\betavec)_j},
+    \end{aligned}
+\end{equation}
+which is indeed linear. So the $\xvec$s such that $\delta_1(\xvec) = \delta_2(\xvec)$ correspond to a \emph{linear decision surface}.
+
+\subsection{Quadratic discriminant analysis}
+
+\acl{qda} relaxes the second assumption. Therefore the assumption is now only:
+\begin{equation}
+    \Xvec \given Y = j \sim \normal_p(\muvec_j, \Sigma_j),\quad j = 1, \ldots, K.
+\end{equation}
+The model is more complex, so it is more flexible, but at the expense of many more parameters (relates to the bias-variance tradeoff).
+
+\paragraph{Quadratic decision surface}
+
+Assign $\xvec$ to class $j$ that maximizes:
+\begin{equation}
+    \begin{aligned}
+        \delta_j(\xvec) & = -\frac{1}{2}(\xvec - \muvec_j)^\t \Sigma_j^{-1} (\xvec - \muvec_j) - \frac{1}{2}\log\abs{\Sigma_j} + \log(\pi_j)                                                                                                                                                                                              \\
+                        & = -\frac{1}{2} \xvec^\t \Sigma_j^{-1} \xvec - \frac{1}{2}\muvec_j^\t \Sigma_j^{-1} \muvec_j + \xvec^\t \Sigma_j^{-1} \muvec_j - \frac{1}{2}\log\abs{\Sigma_j} + \log(\pi_j)                                                                                                                                     \\
+                        & = \underbracket{\log(\hat{\pi}_j) - \frac{1}{2}\log\Abs{\hat{\Sigma}_j} - \frac{1}{2}\muvech_j^\t \hat{\Sigma}_j^{-1} \muvech_j}_{\text{Intercept}} + \underbracket{\xvec^\t \hat{\Sigma}_j^{-1} \muvech_j}_{\text{Linear}} - \underbracket{\frac{1}{2} \xvec^\t \hat{\Sigma}_j^{-1} \xvec}_{\text{Quadratic}}.
+    \end{aligned}
+\end{equation}
+This leads to a quadratic decision surface.
+
+\paragraph{Estimation of parameters}
+
+Recall:
+\begin{equation}
+    \begin{aligned}
+        \muvech_j                                 & = \frac{1}{n_j} \sum_{i\text{ s.t. } y_i = j} \xvec_i, \quad j = 1, \ldots, K, \expl{(Vector of sample means)}                                      \\
+        \underbracket{\hat{\Sigma}_j}_{p\times p} & = \frac{1}{n_j - 1} \sum_{i\text{ s.t. } y_i = j} (\xvec_i - \muvech_j)(\xvec_i - \muvech_j)^\t\negthinspace, \quad j = 1, \ldots, K. \expl{(Sample covariance)}
+    \end{aligned}
+\end{equation}
+This leads to a quadratic decision surface:
+\begin{equation}
+    \xvec\colon \hat{\delta}_1(\xvec) = \hat{\delta}_2(\xvec)
+\end{equation}
+and estimated probabilities:
+\begin{equation}
+    \widehat{\P(Y = 1 \given \Xvec = \xvec)} = \frac{e^{\hat{\delta}_1(\xvec)}}{e^{\hat{\delta}_1(\xvec)} + e^{\hat{\delta}_2(\xvec)}}.\expl{(For two classes)}
+\end{equation}
+
+\paragraph{\acs{lda} vs \acs{qda}}
+
+\acs{qda} has many more parameters:
+\begin{itemize}
+    \item \acs{lda} has $Kp + p(p+1)/2$ parameters: $\quad\muvec_1, \ldots, \muvec_K$ and $\Sigma$.
+    \item \acs{qda} has $Kp + Kp(p+1)/2$ parameters: $\quad\muvec_1, \ldots, \muvec_K$ and $\Sigma_1, \ldots, \Sigma_K$.
+\end{itemize}
+
+\begin{example}
+    For example, with $K = 2, p = 50$, \acs{lda} has $1375$ parameters, while \acs{qda} has $2650$ parameters. Any choice between the two models need to involve that data.
+\end{example}
+
+\paragraph{\acs{lda} vs \acs{lr}}
+
+Let's compare \acl{lda} and \acl{lr}.
+\begin{itemize}
+    \item Both lead to a linear decision surface.
+    \item \acs{lda} can be naturally applied for any number of classes.
+    \item \acs{lda} is more restrictive as it makes the assumption that $\Xvec$ is a multivariate Gaussian conditional on the class, so this needs to be checked.
+    \item \acs{lda} is computationally more stable when probabilities are closer to $0$ or $1$.
+\end{itemize}

@@ -1,0 +1,185 @@
+
+In a regression setting, under a squared error loss, we estimate $\E[Y \given \Xvec = \xvec]$, for example, through:
+\begin{enumerate}
+    \item \emph{Kernel-based methods}:
+          \begin{equation}
+              \widehat{\E[Y \given \Xvec = \xvec]} = \Avg(y_i \given \xvec_i \in N_k(\xvec)).
+          \end{equation}
+    \item \emph{Linear regression}:
+          \begin{equation}
+              \widehat{\E[Y \given \Xvec = \xvec]} = \hat{\beta}_0 + \hat{\beta}_1 x_1 + \cdots + \hat{\beta}_p x_p = \xvec^\t \hat{\betavec}.
+          \end{equation}
+\end{enumerate}
+
+In a classification setting, under a $0$-$1$ loss, we estimate $\P(1 \given \Xvec = \xvec)$, for example, through:
+\begin{enumerate}
+    \item \emph{$k$-nearest neighbors classifier} (non-parametric).
+    \item \emph{Logistic regression} (parametric).
+\end{enumerate}
+Those methods will provide an estimate of $\P(1 \given \Xvec = \xvec)$, namely $\widehat{\P(1 \given \Xvec = \xvec)}$, or more generally:
+\begin{equation}
+    \P(Y = j \given \Xvec = \xvec), \quad j = 1, \ldots, C,
+\end{equation}
+where $C$ is the number of classes.
+
+\section{\texorpdfstring{$k$-nearest neighbors classifier}{k-nearest neighbors classifier}}
+
+Let $k$ be a positive integer and $\tuple{\xvec_i, y_i}, i = 1, \ldots, n$ be training data. Then, $\P(Y = j \given \Xvec = \xvec_0)$, with $\xvec_0$ as a realization of $\Xvec$, is estimated as follows:
+\begin{enumerate}
+    \item Identify the $k$ training data that are closest to $\xvec_0$. Denote these as $N_k(\xvec_0)$.
+    \item Estimate the following quantity:
+          \begin{equation}
+              \widehat{\P(Y = j \given \Xvec = \xvec_0)} = \frac{1}{k} \sum_{i \in N_k(\xvec_0)}\hspace{-8pt}\oone(y_i = j), \quad j = 1, \ldots, C,
+          \end{equation}
+          where $\oone(\blank)$ is the indicator function.
+    \item Classify $\xvec_0$ to the class with the largest estimated probability ($0$-$1$ loss, threshold $0.5$ for binary classification).
+\end{enumerate}
+
+The choice of $k$ is crucial for the performance of the method. This is connected to the bias-variance trade-off. We identify two cases:
+\begin{itemize}
+    \item With \emph{large values of $k$} we have a simpler decision surface, thus less flexible, but it may generalize well to new data. However, we also have high bias and low variance.
+    \item With \emph{small values of $k$} the surface is more local, more flexible/jiggly and may not generalize well to new data. The bias-variance relationship is reversed, with low bias and high variance.
+\end{itemize}
+
+\subsection{Error rate on test data}
+
+In order to find the optimal trade-off between bias and variance, the simplest approach is to calculate the error rate on unseen test data, \ie:
+\begin{enumerate}
+    \item Calculate probabilities on test data for a range of values of $k$.
+    \item Use the response values of the test data to calculate error rate.
+    \item Choose the value of $k$ that minimizes the error rate.
+\end{enumerate}
+
+\section{Logistic regression}
+
+This method is the equivalent of linear regression for classification problems. Why can't we use linear regression for classification problems? Let's discuss some examples to understand why.
+
+\begin{examples}\leavevmode
+    \begin{enumerate}
+        \item Suppose we want to predict medical condition of patients arriving at emergency based on their symptoms. Assume that the response $Y$ can take only three possible values:
+              \begin{equation}
+                  Y = \begin{cases}
+                      1 & \text{if the patient has a stroke},            \\
+                      2 & \text{if the patient has a drug overdose},     \\
+                      3 & \text{if the patient has an epileptic seizure}
+                  \end{cases}
+              \end{equation}
+              and that the symptoms are represented by a vector $\xvec$. If we use linear regression to predict $Y$ based on $\xvec$, \ie, we try to fit a line to the data, we have two problems:
+              \begin{itemize}
+                  \item We are implying an ordering between the values of the response
+                  \item We are implying an equal difference between pairs of response values, \eg, the difference between $1$ and $2$ is the same as the difference between $2$ and $3$.
+              \end{itemize}
+        \item Let us now consider only a binary response:
+              \begin{equation}
+                  Y = \begin{cases}
+                      1 & \text{if the patient has a drug overdose}, \\
+                      0 & \text{if the patient has a stroke}.
+                  \end{cases}
+              \end{equation}
+              Since $Y$ is binary, it follows a Bernoulli distribution:
+              \begin{equation}
+                  f(y) = \begin{cases}
+                      p     & \text{if } y = 1, \\
+                      1 - p & \text{if } y = 0.
+                  \end{cases}
+              \end{equation}
+              Therefore:
+              \begin{equation}
+                  \E[Y \given \Xvec = \xvec] = 1 \cdot \P(1 \given \xvec) + 0 \cdot \P(0 \given \xvec) = \P(1 \given \xvec).
+              \end{equation}
+              This means that linear regression makes the assumption:
+              \begin{equation}
+                  \E[Y \given \Xvec = \xvec] = \underbracket{\P(1 \given \xvec)}_{\in [0,1]} = \beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p = \underbracket{\xvec^\t \betavec}_{\mathclap{\in (-\infty, +\infty)}},
+              \end{equation}
+              which is not possible since the left-hand side is a probability and thus must be between $0$ and $1$.
+    \end{enumerate}
+\end{examples}
+
+For logistic regression, we assume:
+\begin{equation}
+    \P(1 \given \xvec) = \frac{e^{\xvec^\t\betavec}}{1 + e^{\xvec^\t \betavec}} \in (0,1).
+\end{equation}
+This function is called \emph{logistic function} or \emph{sigmoid}.
+
+\begin{figure}[tb]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+                axis lines=middle,
+                enlargelimits,
+                xlabel=$\xvec^\t \betavec$,
+                ylabel=$\P(1 \given \xvec)$,
+                xtick={0},
+                ytick={0, 0.5, 1},
+                width=.8\textwidth,
+                height=.4\textwidth,
+                legend style={
+                        at={(.29\textwidth, 5.5cm)},
+                        anchor=north
+                    },
+                legend cell align=left,
+                smooth
+            ]
+            \addplot[domain=-10:10, samples=100, thick] {exp(x) / (1 + exp(x))};
+            \addplot[domain=-10:10, samples=100, thick, dashed] {exp(-x) / (1 + exp(-x))};
+            \legend{\text{$\beta_0 = 0, \beta_1 = 1$}, \text{$\beta_0 = 0, \beta_1 = -1$}}
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Logistic or \emph{sigmoid} function}
+\end{figure}
+
+\begin{example}
+    For $\betavec = \tuple{\beta_0, \beta_1}$ the explicit function is:
+    \begin{equation}
+        \P(1 \given \xvec) = \frac{e^{\beta_0 + \beta_1 x_1}}{1 + e^{\beta_0 + \beta_1 x_1}}.
+    \end{equation}
+\end{example}
+
+We can interpret the coefficients in terms of \emph{odds}:
+\begin{equation}
+    \frac{\P(1\given \xvec)}{\P(0\given \xvec)} = \frac{\P(1\given \xvec)}{1 - \P(1\given \xvec)} = \frac{\frac{e^{\xvec^\t\betavec}}{1 + e^{\xvec^\t\betavec}}}{1 - \frac{e^{\xvec^\t\betavec}}{1 + e^{\xvec^\t\betavec}}} = e^{\xvec^\t\betavec}\negthinspace.
+\end{equation}
+If we take the $\log$ we get the \emph{log-odds} (or \emph{logit}):
+\begin{equation}
+    \log\left(\frac{\P(1\given \xvec)}{1 - \P(1\given \xvec)}\right) = \xvec^\t\betavec.
+\end{equation}
+
+We have now reduced the problem to the estimation of $\betavec$ (parameter estimation). To do so, we rely on the method of \emph{maximum likelihood estimation} (\acs{mle}). The likelihood function corresponds to the likelihood of the specific configuration of data we have observed:
+\begin{equation}
+    \L(\betavec) = \prod_{i = 1}^n \P(1 \given \xvec_i)^{y_i} (1 - \P(1 \given \xvec_i))^{1 - y_i}\negthinspace.
+\end{equation}
+We can also compute the \emph{log-likelihood}:
+\begin{equation}
+    \begin{aligned}
+        \l(\betavec) = \log\L(\betavec) & = \sum_{i = 1}^n y_i\log \P(1 \given \xvec_i) + (1 - y_i)\log\bigl(1 - \P(1 \given \xvec_i)\bigr) \\
+                                     & = \sum_{i = 1}^n \left(y_i\log\left(\frac{\P(1 \given \xvec_i)}{1 - \P(1 \given \xvec_i)}\right) + \log\bigl(1 - \P(1 \given \xvec_i)\bigr)\right)\\
+                                     & = \sum_{i = 1}^n \left(y_i \xvec_i^\t \betavec - \log\bigl(1 + e^{\betavec^\t \xvec_i}\bigr)\right).
+    \end{aligned}
+\end{equation}
+
+To find the $\betavec$ that maximizes the log-likelihood, \ie, solving:
+\begin{equation}
+    \pdv{\l(\betavec)}{\beta_j} = 0, \quad j = 0, \ldots, p,
+\end{equation}
+there is no closed-form solution, unlike for linear regression, for which we have:
+\begin{equation}
+    \betavech = (X^\t X)^{-1} X^\t Y,
+\end{equation}
+so the equations can only be solved numerically (for example, using an adaptation of the Newton-Raphson method). 
+
+At the end of the estimation we get different quantities of interest:
+\begin{enumerate}
+    \item The estimated coefficients of the model: $\betavech_0, \betavech_1, \ldots, \betavech_p$.
+    \item The $p$-values and $H_0$ hypothesis tests for the significance of each coefficient:
+    \begin{equation}
+        H_0 = \begin{cases}
+            \beta_j = 0,\\
+            \beta_j \neq 0,
+        \end{cases}\quad \text{for } j = 0, \ldots, p.
+    \end{equation}
+    \item The prediction:
+    \begin{equation}
+        \widehat{\P(1 \given \xvec)} = \frac{e^{\betavech^\t \xvec}}{1 + e^{\betavech^\t \xvec}}.
+    \end{equation}
+    \item Classification, \acs{roc} curve on test data, etc.
+\end{enumerate}

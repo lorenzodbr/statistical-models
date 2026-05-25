@@ -1,0 +1,113 @@
+\chapter{Support Vector Machines}
+
+All the methods analyzed so far try to approximate the quantity $\P(1 \given \xvec)$. \acsp{svm} concentrate their effects on finding a function $g(\xvec)$ that best separate the two classes. We can identify three versions of \acsp{svm}:
+\begin{enumerate}
+    \item \emph{Maximal Margin Classifiers}, used when the data are linearly separable;
+    \item \emph{Support Vector Classifiers}, used when the data are not linearly separable;
+    \item \emph{Support Vector Machines}, an extension to non-linear classifiers.
+\end{enumerate}
+
+\section{Maximal Margin Classifiers}
+
+When we say that data is linearly separable, we can actually identify an infinite number of hyperplanes that can separate the two classes. Therefore, the problem, after having identified them, is to pick one based on some optimality criterion.
+
+\begin{definition}[Hyperplane]
+    In a $p$-dimensional space, a hyperplane is a flat affine subspace of dimension $p-1$.
+\end{definition}
+
+In general, a hyperplane is identified by the equation:
+\begin{equation}
+    \beta_0 + \beta_1 X_1 + \dots + \beta_p X_p = 0 \iff \beta_0 + \betavec^\t\xvec = 0,\quad\text{ with } \betavec = \begin{pmatrix}
+        \beta_1 \\
+        \vdots  \\
+        \beta_p
+    \end{pmatrix}.
+\end{equation}
+
+The hyperplane divides the space into two half-spaces, one where $\beta_0 + \betavec^\t\xvec > 0$ and one where $\beta_0 + \betavec^\t\xvec < 0$. The points that lie on the hyperplane satisfy $\beta_0 + \betavec^\t\xvec = 0$.
+
+\paragraph{Separating hyperplane}
+
+Given the data:
+\begin{equation}
+    X_{n \times p}, \xvec_1, \ldots, \xvec_n
+\end{equation}
+the goal is to produce the response variables $y_i \in \set{-1,1}$. We map $y_i$ to $1$ if $\beta_0 + \betavec^\t\xvec_i > 0$ and to $-1$ if $\beta_0 + \betavec^\t\xvec_i < 0$. We can also write this in a more compact way as:
+\begin{equation}
+    y_i(\beta_0 + \betavec^\t\xvec_i) > 0, \quad i = 1, \ldots, n.
+\end{equation}
+Such a hyperplane can be used for classification for a new $\xvec^*$:
+\begin{equation}
+    f(\xvec^*) = \beta_0 + \betavec^\t\xvec^* \rightarrow y^* = \begin{cases}
+        1  & \text{if } f(\xvec^*) > 0, \\
+        -1 & \text{if } f(\xvec^*) < 0.
+    \end{cases}
+\end{equation}
+
+In this context, the \emph{optimal} separating hyperplane is the one that maximizes the margin, where the \emph{margin} is the minimum distance of the points to the hyperplane.
+
+A hyperplane is defined by its orthogonal direction given by $\betavec$. Let us consider only $\betavec$s such that $\Norm{\betavec} = \sqrt{\beta_1^2 + \dots + \beta_p^2} = 1$. The distance of a point $\xvec_i$ to the hyperplane is obtained considering a generic point $\zvec$ on the hyperplane, \ie, such that $\beta_0 + \betavec^\t\zvec = 0$, and projecting the vector $\xvec_i - \zvec$ on the direction $\betavec$:
+\begin{equation}
+    \operatorname{dist}(\xvec, H) = \abs{\betavec^\t(\xvec - \zvec)} = \bigl|\betavec^\t\xvec - \underbracket{\betavec^\t\zvec}_{\mathclap{\beta_0 + \betavec^\t\zvec = 0}}\bigr| = \abs{\beta_0 + \betavec^\t\xvec}.
+\end{equation}
+Then, the maximal margin classifier is defined by:
+\begin{equation}
+    \begin{aligned}
+        \tuple{\hat{\beta}_0, \betavech} = & \;\argmin_{\beta_0, \betavec} \min_{i = 1, \ldots, n} y_i(\beta_0 + \betavec^\t\xvec_i) \\
+                                           & \;\text{s.t.}\; \norm{\betavec} = 1.
+    \end{aligned}
+\end{equation}
+Equivalently, we can write:
+\begin{equation}
+    \begin{aligned}
+         & \argmax_{\beta_0, \ldots, \beta_p} M                                                \\
+         & \text{s.t.}\; \beta^2_1 + \dots + \beta^2_p = 1,                                 \\
+         & \phantom{s.t.} y_i(\beta_0 + \betavec^\t\xvec_i) \geq M, \quad i = 1, \ldots, n.
+    \end{aligned}
+\end{equation}
+
+Some remarks:
+\begin{itemize}
+    \item We need at least two observations that are closest to the hyperplane and on either side of the hyperplane.
+    \item In general, there are not many observations that are the closest to the hyperplane. They are called support vectors and completely characterize the hyperplane.
+\end{itemize}
+
+However, there are also some problems:
+\begin{enumerate}
+    \item Classes are typically not linearly separable.
+    \item The classifier is sensitive to a small number of support vectors: this could lead to overfitting and it is not robust to outliers.
+\end{enumerate}
+A solution is to relax the conditions, \ie, to allow some violations. From \emph {hard margin} we move to \emph{soft margin} classifiers, which are also called \emph{support vector classifiers}.
+
+\section{Support Vector Classifiers}
+
+The optimization problem now becomes:
+\begin{equation}
+    \begin{aligned}
+         & \max_{\beta_0, \ldots, \beta_p} M                                                                \\
+         & \text{s.t.}\; \norm{\betavec} = \beta^2_1 + \dots + \beta^2_p = 1,                                                  \\
+         & \phantom{s.t.} y_i(\beta_0 + \betavec^\t\xvec_i) \geq M(1 - \epsilon_i), \quad i = 1, \ldots, n, \\
+         & \phantom{s.t.} \epsilon_i \geq 0, \quad i = 1, \ldots, n,                                        \\
+         & \phantom{s.t.} \sum_{i = 1}^n \epsilon_i \leq C,
+    \end{aligned}
+\end{equation}
+where $\epsilon_i$ are called \emph{slack variables} and $C$ is a tuning parameter that controls the amount of violation allowed.
+
+\paragraph{Slack variables}
+
+Based on where a point is with respect to the hyperplane, we can identify three cases:
+\begin{itemize}
+    \item $\epsilon_i = 0$ for observations on the correct side of the hyperplane and at least $M$ away from it;
+    \item $0 < \epsilon_i < 1$ for observations on the correct side of the hyperplane but less than $M$ away from it;
+    \item $\epsilon_i > 1$ for observations on the wrong side of the hyperplane.
+\end{itemize}
+
+\paragraph{Choice of $\mathbb{C}$}
+
+If we set $C = 0$, we get the maximal margin classifier, \ie, we admit no errors, if the two classes are linearly separable, otherwise the optimization problem has no solution. If we set $C > 0$, we can consider it as an upper bound on the number of violations. $C$ is also connected to the bias-variance trade-off:
+\begin{itemize}
+    \item A small $C$ gives rise to a small margin and few violations, which reduces the number of support vectors and leads to low bias and high variance.
+    \item A large $C$ gives rise to many violations with a large margin, together with high bias and low variance.
+\end{itemize}
+
+Since $C$ needs to be tuned, methods like \acs{cv} or similar should be used.

@@ -1,0 +1,119 @@
+\chapter{Model assessment}
+
+\section{Resampling methods}
+
+We have seen a number of classifiers, such as \acs{lr}, \acs{lda}, \acs{qda}, Naive Bayes, $k$-NN. In this section, we will see methods to perform model selection, \ie, comparing different models and tuning of hyperparameters.
+
+Different models are associated to a different level of complexity (\eg, number of parameters, $k$, etc.) and therefore a different trade-off between bias and variance. We recall that we can have different degrees of complexity of decision surfaces in the classification setting:
+\begin{itemize}
+    \item \emph{Simple decision surfaces} are given by $k$-NN with large $k$, \acs{lda}, parametric models with small number of parameters. These models have high bias and low variance.
+    \item \emph{Complex decision surfaces} are given by $k$-NN with small $k$ and parametric models with many parameters. These models have low bias and high variance.
+\end{itemize}
+This reasoning can be done also in the regression setting. In polynomial regression, we can vary the degree of the polynomial to obtain different levels of complexity of the decision surface. For instance, we can set $d$ equals to the number of observations minus $1$ to fit the data perfectly, but this will lead to overfitting.
+
+\paragraph{Measure accuracy on unseen data}
+
+The best solution is to use a large, designated test set, left aside to select the optimal model. However, often we cannot have access to a separated dataset that can be used as test set only. To overcome this problem we can rely on two different approaches:
+\begin{enumerate}
+    \item Make some adjustments to the training error in order to estimate the error rate. This is done through \acf{aic}, \acf{bic}, etc. Those methods can be used only for parametric models, as the likelihood is needed to compute the criteria, and they are called \emph{asymptotic}.
+    \item \emph{Resampling methods}: estimate directly the test error rate by devising some resampling strategy.
+\end{enumerate}
+
+\paragraph{Actual resampling methods} The general idea is to hold out a subset of the data from the fitting process, so that we can use these observations to test the fitted model. There are various (simpler and more complex) versions of this idea, that try to reach a compromise between:
+\begin{enumerate}
+    \item Computational complexity.
+    \item Using enough data for fitting and testing.
+    \item Accounting for variations due to specific sampling.
+\end{enumerate}
+
+\paragraph{Different strategies}
+\begin{enumerate}
+    \item \emph{Validation set approach.} We randomly divide the dataset into two parts: training set and validation set. Typical split proportions are $50$-$50$ and $70$-$30$. Then, the model is fitted on training data and tested on validation data.
+          \begin{examples}\leavevmode
+              \begin{itemize}
+                  \item \emph{Polynomial regression}
+                        \begin{enumerate}
+                            \item Fix $d$.
+                            \item Get $\betavech$ on training data.
+                            \item Compute $\hat{y}_i = \xvec_i^\t\betavech,\; i = 1, \dots, n\;$ on validation data ($\xvec_i \in \text{Validation set}$).
+                            \item Compare $\hat{y}_i$ with the true $y_i$ (calculate \acs{mse} on validation data).
+                            \item Do this across a grid of values for $d$ and choose $d$ that achieves the minimum \acs{mse}.
+                        \end{enumerate}
+                  \item \emph{$k$-NN}
+                        \begin{enumerate}
+                            \item Fix $k$.
+                            \item Calculate $\P(1 \given \xvec_i)$ for $\xvec_i \in \text{Validation set}$ using $k$-NN on training data.
+                            \item Calculate error rate by comparing $\hat{y}_i$ with $y_i$.
+                            \item Choose optimal $k$ on a grid of values.\qedhere
+                        \end{enumerate}
+              \end{itemize}
+          \end{examples}
+
+          Some problems with this approach are:
+          \begin{itemize}
+              \item Variability for different data splits (but we can repeat the procedure multiple times and average the results).
+              \item Not using all the data to fit and test the model.
+          \end{itemize}
+
+    \item \emph{$k$-fold cross-validation.} With this approach we randomly divide data into $k$ equally sized parts (typical values are $k = 5$ or $k = 10$). Then:
+          \begin{enumerate}
+              \item Leave out the $k$-th fold.
+              \item Fit the model on the remaining $k - 1$ folds.
+              \item Use the model to make predictions on the left-out fold.
+              \item Repeat across $k$ folds and combine the results.
+          \end{enumerate}
+
+          Formally:
+          \begin{enumerate}
+              \item Fix a model (\ie, set parameters $k$, $d$, \etc).
+              \item Let $C_1, \dots, C_k$ be the indices of the observations in each fold.
+              \item For each fold $C_i$, calculate the error:
+                    \begin{equation}
+                        E_i = \begin{dcases}
+                            \acs{mse}_i\colon \frac{1}{\abs{C_i}}\sum_{j \in C_i} (y_j - \hat{y}_j)^2      & \text{if regression},     \\
+                            \acs{er}_i\colon \frac{1}{\abs{C_i}}\sum_{j \in C_i} \oone(\hat{y}_j \neq y_j) & \text{if classification},
+                        \end{dcases} \quad i = 1,\ldots,k.
+                    \end{equation}
+              \item Then combine the results across folds:
+                    \begin{equation}
+                        \acs{cv} = \frac{1}{k}\sum_{i = 1}^k E_i.
+                    \end{equation}
+          \end{enumerate}
+
+          With $k$-fold \acs{cv} we can benefit from the following advantages:
+          \begin{itemize}
+              \item Both fitting and testing see the entire dataset.
+              \item Low variability of \acs{cv} error.
+          \end{itemize}
+          However, performing this is computationally more expensive than a single train-validation split.
+\end{enumerate}
+
+\paragraph{Choice of $\bm{k}$} Some key points to consider when choosing $k$ are:
+\begin{itemize}
+    \item Empirically, $k = 5$ or $k = 10$ are good choices.
+    \item $k = n$ is the largest admissible value and each fold is made of a single observation. This variant is called \emph{\acf{loocv}}. It is computationally expensive in general, except for linear regression where there is a closed-form formula to compute the \acs{loocv} error without fitting $n$ different models:
+          \begin{equation}
+              \acs{loocv} = \frac{1}{n}\sum_{i = 1}^n \left(\frac{y_i - \hat{y}_i}{1 - h_i}\right)^2\negthinspace,
+          \end{equation}
+          where $\hat{y}_i$ is the prediction made using $\betavech$ fitted on full data and $h_i$ is the $i$-th diagonal element of the \emph{hat matrix} $H = X(X^\t X)^{-1}X^\t\negthinspace$, \ie, $h_i = H_{ii}$.
+
+          \begin{note}
+              The $h_i$ term is also called \emph{leverage} and it measures the influence of the $i$-th observation on its own predicted value. The $H$ matrix is referred to as \emph{hat matrix} because it maps the observed $\yvec$ to the fitted $\yvech$, \ie, $\yvech = H\yvec$.
+          \end{note}
+
+          A problem related to \acs{loocv} is that it has higher variability compared to lower-valued $k$-fold \acs{cv}, because the training sets are very similar to each other (differing by only one observation produces highly correlated subsets).
+\end{itemize}
+
+\paragraph{Hyperparameter tuning vs. Model comparison} Cross-validation can be used both for hyperparameter tuning (\ie, the choice of $d$, $k$, \ldots) and for model comparison.
+
+\begin{example}
+    Let's compare $k$-NN and logistic regression in a setting with $X_1, \ldots, X_p$ predictors. If we perform \acs{cv} on full data and vary the parameter $k$ we obtain two curves, one for $k$-NN and one for logistic regression (the latter will be constant as it doesn't depend on $k$). However, this comparison could be a bit unfair towards logistic regression since the \acs{cv} procedure to select $k$ has seen the full data.
+\end{example}
+
+\paragraph{Nested cross-validation} To overcome the problem of unfair comparison, we can use \emph{nested cross-validation}:
+\begin{enumerate}
+    \item Take a fold out.
+    \item Perform $k$-fold \acs{cv} on the remaining $k-1$ folds to select the tuning parameters.
+    \item Use the optimal model to predict fold left out in step 1 and calculate the error.
+    \item Iterate across all folds.
+\end{enumerate}

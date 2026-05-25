@@ -1,0 +1,109 @@
+\section{Bagging}
+
+Decision trees are easily interpretable but they tend to have a high variance. Bagging and boosting are two techniques that reduce the variance of a statistical learning method without increasing the bias. The main disadvantage is the loss of interpretability, but there are various techniques to overcome this problem.
+
+The term stands for \emph{Bootstrap aggregation}. The motivation behind this method is the following: assume we have $n$ independent random variables $Z_1, \dots, Z_n$ with all the same variance $\sigma^2$ and mean $\mu$. Consider $\overbar{Z} = \frac{1}{n} \sum_{i=1}^n Z_i$. Then:
+\begin{equation}
+    \begin{aligned}
+        \Var(\overbar{Z}) &= \Var\left( \frac{1}{n} \sum_{i=1}^n Z_i \right) = \frac{1}{n^2} \sum_{i=1}^n \Var(Z_i) = \frac{\sigma^2}{n},\\
+        \E[\overbar{Z}] &= \E\left[ \frac{1}{n} \sum_{i=1}^n Z_i \right] = \frac{1}{n} \sum_{i=1}^n \E[Z_i] = \mu,
+    \end{aligned}
+\end{equation}
+where the summation is taken outside of the variance because the $Z_i$ are independent. We notice that the variance of the aggregated variable $\overbar{Z}$ is smaller than the variance of each $Z_i$ by a factor of $n$, while the mean is unchanged. In out context, consider $B$ independent training sets. We could then build $B$ models $\hat{f}_1, \dots, \hat{f}_B$ and then average them to reduce variance:
+\begin{equation}
+    \hat{f}_{\text{Avg}}(\xvec) = \frac{1}{B} \sum_{i=1}^B \hat{f}_i(\xvec).
+\end{equation}
+The problem is that we normally have only one dataset. The solution is to use the \emph{bootstrap}: build $B$ training sets of the same size as the original dataset by repeatedly sampling with replacement from the dataset that we have, \ie, take one row, put it into the new dataset, and then put it back into the original dataset. This way, we can build a model on each of the $B$ boostrapped datasets, $\hat{f}^*_i$ and then average the predictions:
+\begin{equation}
+    \hat{f}_{\,\text{Bag}}(\xvec) = \frac{1}{B} \sum_{i=1}^B \hat{f}^*_i(\xvec).
+\end{equation}
+
+Some remarks:
+\begin{enumerate}
+    \item For classification, $\hat{f}_i^*$ can be taken either as the estimated probabilities $\hat{\P}_i^*(c\given \xvec)$ for each class or as the predicted class for each tree (after setting a threshold). In the second case, you take the majority vote as the predicted class.
+    \item The $B$ bootstrapped datasets will not be independent so we do not get a full reduction in variance by a factor of $B$. 
+    \item Bagging reduces variance without increasing bias. Therefore, it makes sense to do bagging on complex models so the starting bias is low and we benefit from the variance reduction. 
+    \item $B$ should be taken as large as computationally possible (no issues with overfitting).
+\end{enumerate}
+
+\paragraph{Out-of-Bag error estimation}
+
+Having built a model by bagging, we want to test its prediction accuracy on unseen data. We can do cross-validation, but it is computationally expensive. An efficient alternative is to make use of the bootstrap resampling.
+
+\begin{note}
+    Each bootstrapped dataset has $n$ observations. Consider the observation $\xvec_i$ from the original dataset. What is the probability that $\xvec_i$ is not included in a bootstrapped dataset?
+    \begin{equation}
+        \left(1 - \frac{1}{n}\right)^n \xrightarrow{n\to\infty} e^{-1} \approx 0.368\text{.}
+    \end{equation}
+    That is, each sample uses approximately $63\%$ of the data. We call the unseen observation \emph{out-of-bag observations} and we can evaluate the model on them.
+\end{note}
+
+For each observation $\xvec$, make a prediction based on the trees that have been fitted on samples that did not include $\xvec$. An average (or \emph{consensus class}) is taken among these predictions only. Errors, \acs{roc} curves, etc.\@ are built using these probabilities.
+
+\paragraph{Cost of bagging}
+
+\begin{enumerate}
+    \item Loss of interpretability: an average of a tree is not a tree. However, one can calculate various measures of variable importance. For each predictor, add up the total amount that the \acs{rss}/Gini/Entropy is decreased by splits on that predictor across the $B$ trees.
+    \item Bootstrap samples are correlated and not independent: the variance of the sum of correlated variables is higher than the variance of a sum of independent variables. 
+\end{enumerate}
+
+Random forests provide a way to ``decorrelate'' trees.
+
+\section{Random forests}
+
+Question: why would the trees grown in bagging be correlated? Strong predictors will tend to appear at the first splits of the trees and the trees will then look quite similar. The idea is, before each split in each tree, draw $m$ features at random from the $p$ predictors and look for splits among these variables only.
+
+If there is a strong predictor, it will now appear at first split only on $m/p$ trees out of the $B$ that are grown. Therefore, $m$ has now a role in the bias-variance tradeoff: 
+\begin{itemize}
+    \item Strong predictors not included will lead to higher bias;
+    \item Strong predictors always included will lead to higher variance.
+\end{itemize}
+
+\paragraph{Choice of $m$}
+
+\begin{enumerate}
+    \item $m = p$ is bagging, so random forests is a generalization of bagging.
+    \item Typical default values are:
+    \begin{description}
+        \item[Classification] $m = \lfloor\sqrt{p}\rfloor$.
+        \item[Regression] $m = \max\{\lfloor p/3 \rfloor, 1\}$.
+    \end{description}
+    \item The best strategy is to use cross-validation to find the optimal trade-off on any given dataset. Indeed, $m$ is also related to the number of strong predictors in the dataset: many strong predictors will require a small $m$, while few strong predictors will require a large $m$.
+\end{enumerate}
+
+\section{Boosting}
+
+It is based on the idea of aggregating trees that are sequentially grown from the same data. Each tree is fitted on the ``residuals'' of the previous model. We use \emph{weak learners} (simple models) and update these slowly by fitting a tree to the residuals of the previous model.
+
+An algorithm for boosting is called \emph{Gradient Boosting}:
+\begin{enumerate}
+    \item Let $\L(y_i, \hat{y}_i) = (y_i - \hat{y}_i)^2$ be the loss function.
+    \item Initialize the model with $f_0(\xvec) = \argmin_\gamma \sum_{i=1}^n \L(y_i, \gamma)$. For the squared error loss, this is just the mean of the $y$, $\overbar{y}$.
+    \item For $m = 1, \dots, M$:
+    \begin{enumerate}[a.]
+        \item Calculate $r_{im} = y_i - f_{m-1}(\xvec_i)$ for $i = 1, \dots, n$.
+        \item Fit a tree to the residuals, giving terminal regions $R_{\mathit{jm}}$, $j = 1, \dots, J_m$.
+        \item For $j = 1, \dots, J_m$, compute:
+        \begin{equation}
+            \gamma_{\mathit{jm}} = \argmin_\gamma \sum_{\xvec_i \in R_{\mathit{jm}}} \L(y_i - f_{m-1}(\xvec_i), \gamma),
+        \end{equation}
+        which can be interpreted as the average of the residuals in the $j$-th region of the $m$-th tree.
+        \item Update:
+        \begin{equation}
+            f_m(\xvec_i) = f_{m-1}(\xvec_i) + \sum_{j=1}^{J_m} \gamma_{\mathit{jm}} \oone(\xvec_i \in R_{\mathit{jm}}).
+        \end{equation}
+    \end{enumerate}
+    \item Output $\hat{f}(\xvec) = f_M(\xvec)$.       
+\end{enumerate}
+
+Some remarks:
+\begin{enumerate}[beginpenalty=10000]
+    \item $J_m$ is typically small ($2$, $3$).
+    \item $M$ is related to the bias-variance tradeoff, so it needs to be tuned by cross-validation or similar.
+    \item A common version of boosting has an additional parameter, called \emph{learning rate}, $0 < \nu \leq 1$, that is inserted in the update step:
+    \begin{equation}
+        f_m(\xvec_i) = f_{m-1}(\xvec_i) + \nu \sum_{j=1}^{J_m} \gamma_{\mathit{jm}} \oone(\xvec_i \in R_{\mathit{jm}}).
+    \end{equation}
+    Usually, $\nu$ is set to a small value and $M$ is tuned.
+    \item An extension of the algorithm is \emph{Stochastic Gradient Boosting}, where it fits a tree on a random sample of the data. Therefore, one can evaluate the performance of the method during the learning.
+\end{enumerate}

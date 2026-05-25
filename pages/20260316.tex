@@ -1,0 +1,168 @@
+\section{Generalized Linear Models}
+
+We have already discussed two types of models:
+\begin{itemize}
+    \item \emph{Linear regression}, to predict continuous responses. In this case we want to find the distribution of: \begin{equation}
+              Y \given \Xvec = \xvec \sim \normal(\xvec^\t\betavec, \sigma^2).
+          \end{equation}
+          In doing this, we are assuming three things:
+          \begin{enumerate}
+              \item Normality of the response variable $Y$.
+              \item Linearity over $\betavec$.
+              \item Homoscedasticity, \ie, constant variance $\sigma^2$ for all $\xvec$.
+          \end{enumerate}
+    \item \emph{Logistic regression}, to predict binary responses. In this case we assume that:
+          \begin{equation}
+              Y \given \Xvec = \xvec \sim \bernoulli\underbracket{\left(\frac{e^{\xvec^\t\betavec}}{1 + e^{\xvec^\t\betavec}}\right)}_{\P(1\given \xvec)}.
+          \end{equation}
+\end{itemize}
+
+Let's denote with $Y_i$ the response variable conditioned on the $i$-th observation $\xvec_i$:
+\begin{equation}
+    Y_i \coloneq Y \given \Xvec = \xvec_i.
+\end{equation}
+
+Now we compare two types of models, namely the \emph{linear model} and the \textit{\acs{glm}}.
+
+\begin{multicols}{2}
+    \begin{center}
+        \textbf{LM}
+    \end{center}
+    \begin{itemize}
+        \item $Y_i \sim \normal(\mu_i, \sigma^2)$ is called \emph{stochastic component}.
+        \item $\E[Y_i] = \mu_i = \eta_i$, where $\eta_i = \xvec_i^\t\betavec$ is called \emph{deterministic component}.
+    \end{itemize}
+
+    \columnbreak
+
+    \begin{center}
+        \textbf{GLM}
+    \end{center}
+    \begin{itemize}
+        \item $Y_i \sim f(y_i; \mu_i, \phi)$, where $f$ is a member of the exponential dispersion family.
+        \item $g(\mu_i) = \eta_i = \xvec_i^\t\betavec$, where $g$ is called \emph{link function}.
+    \end{itemize}
+\end{multicols}
+
+Different choices of $f$ and $g$ give rise to different types of \acsp{glm}.
+
+\begin{example}
+    A \acs{glm} with $f$ normal and $g$ identity is just a linear model.
+\end{example}
+
+\paragraph{Exponential Dispersion Family}
+
+\begin{definition}[Exponential Dispersion Family]
+    A density function belongs to the \emph{exponential dispersion family} if it can be written in the form:
+    \begin{equation}\label{eq:edf}
+        f(y_i; \theta_i, \phi) = \exp\left(\frac{y_i\theta_i - b(\theta_i)}{a_i(\phi)} + c(y_i, \phi)\right)
+    \end{equation}
+    for some parameters $\theta_i$ and $\phi$, and some functions $a_i(\blank)$, $b(\blank)$ and $c(\blank, \blank)$.
+\end{definition}
+
+In~\cref{eq:edf}:
+\begin{itemize}
+    \item $\theta_i$ is called \emph{canonical parameter}.
+    \item $\phi$ is called \emph{dispersion parameter}.
+    \item $b$ is called \emph{cumulant generator}.
+\end{itemize}
+
+Let's focus on the binomial distribution. If we write $Y_i \sim \binomial(n_i, \pi_i)$, we can connect $\theta_i$ and $\mu_i$ as follows:
+\begin{equation}
+    \mu_i = n_i\pi_i = n_i \frac{e^{\theta_i}}{1 + e^{\theta_i}}
+\end{equation}
+and also in the variance:
+\begin{equation}
+    \Var(Y_i) = n_i\pi_i(1 - \pi_i) = n_i \frac{\mu_i}{n_i}\left(1 - \frac{\mu_i}{n_i}\right) = \mu_i\left(1 - \frac{\mu_i}{n_i}\right).
+\end{equation}
+
+\begin{note}
+    Here the variance is not constant, since $\mu_i$ depends on $\xvec_i$. Apart from the linear model, for any other \acs{glm} heteroscedasticity is naturally embedded in the model itself.
+\end{note}
+
+In general, one can show that $\mu_i = b'(\theta_i)$.
+
+\begin{example}
+    For the binomial case:
+    \begin{equation}
+        b'(\theta_i) = (n_i \log(1 + e^{\theta_i}))' = n_i \frac{e^{\theta_i}}{1 + e^{\theta_i}} = \mu_i.\qedhere
+    \end{equation}
+\end{example}
+
+The variance also can be expressed in terms of $b$:
+\begin{equation}
+    \Var(Y_i) = b''(\theta_i)a_i(\phi) = V(\mu_i)a_i(\phi),
+\end{equation}
+where $V(\mu_i)$ is called \emph{variance function}.
+
+\begin{example}
+    With the Gaussian distribution we have that the variance computed with $b$ is constant, as expected for the linear model.
+\end{example}
+
+\paragraph{Choice of link functions}
+
+We said the link function $g$ is a function such that $g(\mu_i) = \eta_i = \xvec_i^\t\betavec$. In this way, we connect the mean of the distribution to the linear predictors and parameters.
+
+Let's now consider a Bernoulli distribution:
+\begin{equation}
+    Y_i \sim \bernoulli(\pi_i).
+\end{equation}
+Then $\mu_i = \pi_i \in (0,1)$ and $\eta_i = \xvec_i^\t\betavec \in (-\infty, \infty)$. We would like to have a link function that maps $(0,1)$ into $(-\infty, \infty)$. To achieve this, we search for the inverse first, \ie, we want a function $g^{-1}$ that maps $(-\infty, \infty)$ into $(0,1)$. There are mainly two popular choices to construct $g^{-1}$ by taking the cumulative distribution function of a random variable:
+\begin{enumerate}
+    \item $g^{-1} = \Phi$, where $\Phi$ is the \acs{cdf} of a $\normal(0,1)$ distribution. Therefore, $g = \Phi^{-1}$ (quantile function). If we choose $f = \bernoulli$ and $g = \Phi^{-1}\negthinspace$, we get the \emph{probit regression}.
+    \item Consider a logistic distribution, which has the following density function:
+          \begin{equation}
+              f(z; \mu, s) = \frac{\exp((z - \mu) / s)}{s(1 + \exp((z - \mu) / s)^2)},
+          \end{equation}
+          with $z \in (-\infty, \infty)$. Setting $\mu = 0$ and $s = 1$, we get:
+          \begin{equation}
+              f(z; 0, 1) = \frac{\exp(z)}{1 + \exp(z)}.
+          \end{equation}
+          We conclude that choosing $f = \bernoulli$ and $g = f^{-1}\negthinspace$, we obtain the logistic regression. To write explicitly the link function, we have:
+          \begin{equation}
+              \mu_i = \frac{e^{\eta_i}}{1 + e^{\eta_i}}
+          \end{equation}
+          and this can be inverted to get:
+          \begin{equation}
+              \eta_i = g(\mu_i) = \log\left(\frac{\mu_i}{1 - \mu_i}\right),
+          \end{equation}
+          which is called \emph{logit link}.
+\end{enumerate}
+
+The second option is named \emph{canonical link function} and is the default option in the \texttt{glm} function in \texttt{R}. In particular, for this function:
+\begin{equation}
+    \eta_i = \log\left(\frac{\mu_i}{1 - \mu_i}\right) = \theta_i,
+\end{equation}
+so $\eta_i = \theta_i$. In general, for a canonical link function:
+\begin{equation}
+    \eta_i = g(\mu_i) = \theta_i.
+\end{equation}
+Since $\mu_i = b'(\theta_i)$, we can also write:
+\begin{equation}
+    g = (b')^{-1}\negthinspace.
+\end{equation}
+There are other options for the Bernoulli distribution, such as the complementary log-log link, etc.
+
+\paragraph{Likelihood of \acsp{glm}}
+
+We know that the $\log$-likelihood is of the form:
+\begin{equation}
+    \l(\betavec, \phi) = \sum_{i = 1}^n \log f(y_i; \theta_i, \phi).
+\end{equation}
+In the case of a \acs{glm} with a canonical link function, we can write:
+\begin{equation}
+    \begin{aligned}
+        \l(\betavec, \phi) & = \sum_{i = 1}^n \log f(y_i; \theta_i, \phi)                                             \\
+                           & = \sum_{i = 1}^n \left(\frac{y_i\theta_i - b(\theta_i)}{a_i(\phi)} + c(y_i, \phi)\right).
+    \end{aligned}
+\end{equation}
+We also remember that $\theta_i$ and $\mu_i$ are connected as $\mu_i = b'(\theta_i)$, and that $\mu_i$ is connected to $\betavec$ as:
+\begin{equation}
+    g(\mu_i) = \eta_i = \xvec_i^\t\betavec.
+\end{equation}
+The \texttt{glm} function in \texttt{R} tries to optimize the function with respect to $\betavec$ using:
+\begin{itemize}
+    \item \emph{Fisher scoring} (a variant of the Newton-Raphson method).
+    \item \emph{Iteratively Reweighted Least-Squares} algorithm.
+\end{itemize}
+At the end, we get $\betavec$ and the maximum likelihood standard errors.

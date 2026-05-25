@@ -1,0 +1,175 @@
+
+Now let's analyze practical ways of solving the optimization problem. The first constraint, \ie:
+\begin{equation}
+    C_1\colon \norm{\betavec} = \beta^2_1 + \dots + \beta^2_p = 1,
+\end{equation}
+is not very good to have, since it is not convex.
+
+\begin{example}
+    Consider $p = 2$. Then, the constraint becomes:
+    \begin{equation}
+        \beta^2_1 + \beta^2_2 = 1,
+    \end{equation}
+    which is a circumference. The set of points that satisfy this constraint is not convex, since the segment connecting two points on the circumference does not necessarily lie on the circumference itself.
+\end{example}
+We can get rid of this constraint by replacing the second constraint, \ie:
+\begin{equation}
+    \begin{aligned}
+        \tilde{C}_2\colon & \frac{1}{\norm{\betavec}}y_i(\beta_0 + \betavec^\t\xvec_i) \geq M(1 - \epsilon_i), \quad i = 1, \dots, n, \\
+        \iff              & y_i(\beta_0 + \betavec^\t\xvec_i) \geq \norm{\betavec}M(1 - \epsilon_i), \quad i = 1, \dots, n.
+    \end{aligned}
+\end{equation}
+Now, among all the $\betavec$s, we consider the ones such that $\norm{\betavec} = 1/M$, \ie, $M = 1/\norm{\betavec}$. Therefore, the equivalent optimization problem is:
+\begin{equation}
+    \begin{aligned}
+         & \max_{\beta_0, \betavec, \epsilonvec} \frac{1}{\norm{\betavec}}                             \\
+         & \text{s.t.}\; y_i(\beta_0 + \betavec^\t\xvec_i) \geq 1 - \epsilon_i, \quad i = 1, \dots, n, \\
+         & \phantom{s.t.} \epsilon_i \geq 0, \quad i = 1, \dots, n,                                    \\
+         & \phantom{s.t.} \sum_{i=1}^n \epsilon_i \leq C                                               \\
+         & \quad\Big\Updownarrow                                                                       \\
+         & \min_{\beta_0, \betavec, \epsilonvec} \norm{\betavec}^2                                     \\
+         & \text{s.t.}\; y_i(\beta_0 + \betavec^\t\xvec_i) \geq 1 - \epsilon_i, \quad i = 1, \dots, n, \\
+         & \phantom{s.t.} \epsilon_i \geq 0, \quad i = 1, \dots, n,                                    \\
+         & \phantom{s.t.} \sum_{i=1}^n \epsilon_i \leq C.
+    \end{aligned}
+\end{equation}
+In both cases, obviously, we have $n$ constraints coming from the second line, $n$ constraints coming from the third line and one constraint coming from the fourth line, for a total of $2n + 1$ constraints. In the second formulation, the objective function is convex and the constraints are linear, so we are sure that there is one and only one global minimum.
+
+\paragraph{Optimization with equality and inequality constraints} Consider:
+\begin{equation}
+    \begin{aligned}
+         & \min_{\alphavec} f(\alphavec)                                \\
+         & \text{s.t.}\; g_i(\alphavec) = 0, \quad i = 1, \dots, d,     \\
+         & \phantom{s.t.} h_j(\alphavec) \leq 0, \quad j = 1, \dots, m.
+    \end{aligned}
+\end{equation}
+The solution to this problem comes from the \emph{generalized Lagrangian}, which is defined as:
+\begin{equation}
+    \lagr(\alphavec, \gammavec, \deltavec) = f(\alphavec) + \sum_{i=1}^d \gamma_i h_i(\alphavec) + \sum_{j=1}^m \delta_j g_j(\alphavec),
+\end{equation}
+where $\gammavec = (\gamma_1, \dots, \gamma_d)$ and $\deltavec = (\delta_1, \dots, \delta_m)$ are the Lagrange multipliers. To justify the use of this function, consider this quantity:
+\begin{equation}
+    \theta_\textsc{p}(\alphavec) = \max_{\substack{\gammavec, \deltavec\\\deltavec \geq 0}}\lagr(\alphavec, \gammavec, \deltavec) = \lagr(\alphavec, \gammavec^*\negthinspace, \deltavec^*).
+\end{equation}
+Now we can link:
+\begin{equation}
+    \begin{aligned}
+        \min_{\alphavec} f(\alphavec) & = \min_{\alphavec} \theta_\textsc{p}(\alphavec)         \\
+                                      & = \min_{\alphavec} \max_{\substack{\gammavec, \deltavec \\\deltavec \geq 0}} \lagr(\alphavec, \gammavec, \deltavec).
+    \end{aligned}
+\end{equation}
+
+\begin{note}
+    Why this? Consider an $\alphavec$ that does not satisfy the constraints, \ie, an $\alphavec$ such that $h_i(\alphavec) \neq 0$ or $g_j(\alphavec) > 0$. Then, $\max_{\gammavec, \deltavec} \lagr(\alphavec, \gammavec, \deltavec) = +\infty$, since we can make $\gamma_i$ or $\delta_j$ arbitrarily large. We conclude that $\alphavec$ will not be the solution to the optimization problem.
+\end{note}
+
+The $p$ in $\theta_\textsc{p}$ stands for \emph{primal}, since we are still considering the original optimization problem. We can also define the \emph{dual} version of the problem as:
+\begin{equation}
+    \max_{\substack{\gammavec, \deltavec\\\deltavec \geq 0}} \theta_\textsc{d}(\gammavec, \deltavec) = \max_{\substack{\gammavec, \deltavec\\\deltavec \geq 0}} \min_{\alphavec} \lagr(\alphavec, \gammavec, \deltavec).
+\end{equation}
+
+\begin{note}
+    In general, the two problems are not equivalent. In particular,
+    \begin{equation}
+        \text{max-min} \leq \text{min-max}.
+    \end{equation}
+    However, here, \ie, with a convex objective function $f\negthinspace$, convex constraints $g_i$ and linear functions $h_i$, they are equivalent.
+\end{note}
+
+\paragraph{Karush-Kuhn-Tucker conditions} Consider $\alphavec^*$\negthinspace, $\gammavec^*$ and $\deltavec^*$ at the optimum and $\theta_\textsc{p}(\alphavec^*) = \theta_\textsc{d}(\gammavec^*\negthinspace, \deltavec^*)$. Then:
+\begin{equation}
+    \delta_i^*g_i(\alphavec^*) = 0, \quad i = 1, \dots, m. \expl{(Complementary slackness conditions)}
+\end{equation}
+
+\begin{proof}
+    \begin{equation}
+        \begin{aligned}
+            f(\alphavec^*) = \min_\alphavec \lagr(\alphavec, \gammavec^*\negthinspace, \deltavec^*) & = \min_\alphavec \left(f(\alphavec) + \sum_{i=1}^d \gamma_i^* h_i(\alphavec) + \sum_{j=1}^m \delta_j^* g_j(\alphavec)\right)                         \\
+                                                                                                    & \leq f(\alphavec^*) + \underbracket{\sum_{i=1}^d \gamma_i^* h_i(\alphavec^*)}_{0} + \underbracket{\sum_{j=1}^m \delta_j^* g_j(\alphavec^*)}_{\leq 0} \\
+                                                                                                    & \leq f(\alphavec^*).
+        \end{aligned}
+    \end{equation}
+    This implies:
+    \begin{equation}
+        \sum_{i = 1}^m \underbracket{\delta_i^* g_i(\alphavec^*)}_{\leq 0} = 0 \implies \delta_i^* g_i(\alphavec^*) = 0, \quad i = 1, \dots, m.
+    \end{equation}
+\end{proof}
+
+\paragraph{Back to Support Vector Classifiers} Now, we need to rewrite the constraints in order to apply the KKT conditions. We have:
+\begin{equation}
+    \begin{aligned}
+        y_i(\beta_0 + \betavec^\t\xvec_i) \geq 1 - \epsilon_i & \iff -y_i(\beta_0 + \betavec^\t\xvec_i) + 1 - \epsilon_i \leq 0, \quad i = 1, \dots, n, \\
+        \epsilon_i \geq 0                                     & \iff -\epsilon_i \leq 0, \quad i = 1, \dots, n,                                        \\
+        \sum_{i=1}^n \epsilon_i \leq C                        & \iff \sum_{i=1}^n \epsilon_i - C \leq 0.
+    \end{aligned}
+\end{equation}
+The Lagrangian is:
+\begin{equation}
+    \begin{aligned}
+        \lagr(\beta_0, \betavec, \epsilonvec, \gammavec, \deltavec, \mu) & = \frac{1}{2}\norm{\betavec}^2                                              \\
+                                                                         & - \sum_{i=1}^n \gamma_i(y_i(\beta_0 + \betavec^\t\xvec_i) - 1 + \epsilon_i) \\
+                                                                         & - \sum_{i=1}^n \delta_i\epsilon_i                                           \\
+                                                                         & + \mu\left(\sum_{i=1}^n \epsilon_i - C\right).
+    \end{aligned}
+\end{equation}
+Then:
+\begin{equation}
+    \begin{aligned}[t]
+         & \min_{\beta_0, \betavec, \epsilonvec} \frac{1}{2}\norm{\betavec}^2 \\
+         & \text{ s.t. } \ldots
+    \end{aligned} = \underbracket{\min_{\beta_0,\betavec,\epsilonvec}\max_{\gammavec, \deltavec,\mu \geq 0} \lagr(\blank)}_{\text{Primal}} = \underbracket{\max_{\gammavec, \deltavec, \mu \geq 0}\min_{\beta_0, \betavec, \epsilonvec} \lagr(\blank)}_{\text{Dual}}.
+\end{equation}
+
+To optimize the function we need to compute the derivatives with respect to $\beta_0$, $\betavec$ and $\epsilonvec$ and set them equal to zero. We have:
+\begin{align}
+    \pdv{\lagr}{\beta_0}    & = -\sum_{i=1}^n \gamma_i y_i = 0 \implies \sum_{i=1}^n \gamma_i y_i = 0,                                \\
+    \pdv{\lagr}{\betavec}   & = \betavec - \sum_{i=1}^n \gamma_i y_i\xvec_i = 0 \implies \betavec = \sum_{i=1}^n \gamma_i y_i\xvec_i, \\
+    \pdv{\lagr}{\epsilon_i} & = \mu - \gamma_i - \delta_i = 0 \implies \gamma_i = \mu - \delta_i, \quad i = 1, \dots, n.
+\end{align}
+If we plug these values back into the Lagrangian, we get:
+\begin{equation}
+    \begin{aligned}
+        \theta_\textsc{d}(\gammavec, \deltavec, \mu) & = \frac{1}{2}\betavec^\t\betavec - \sum_{i=1}^n (\underbracket{\gamma_i y_i}_{0}\beta_0 + \gamma_iy_i\betavec^\t\xvec_i - \gamma_i + \underbracket{\epsilon_i\gamma_i) - \sum_{i=1}^n \delta_i\epsilon_i - \mu\sum_{i=1}^n \epsilon_i}_{-\gamma_i - \delta_i + \mu = 0} - \mu C \\
+                                                     & = \frac{1}{2} \betavec^\t\betavec - \betavec^\t \underbracket{\sum_{i=1}^n \gamma_i y_i \xvec_i}_{\betavec} + \sum_{i = 1}^n \gamma_i - \mu C                                                                                                                \\
+                                                     & = \sum_{i=1}^n \gamma_i - \frac{1}{2}\sum_{i,j} \gamma_i\gamma_j y_i y_j \xvec_i\cdot\xvec_j - \mu C.
+    \end{aligned}
+\end{equation}
+Finally, the dual problem is:
+\begin{equation}
+    \begin{aligned}
+         & \max_{\gammavec, \mu} \sum_{i=1}^n \gamma_i - \frac{1}{2}\sum_{i,j} \gamma_i\gamma_j y_i y_j \xvec_i\cdot\xvec_j - \mu C, \\
+         & \text{s.t. } 0 \leq \gamma_i \leq \mu, \quad i = 1, \dots, n,                                                             \\
+         & \phantom{s.t. }\sum_{i=1}^n \gamma_i y_i = 0.
+    \end{aligned}
+\end{equation}
+Equivalently, we can write:
+\begin{equation}
+    \begin{aligned}
+         & \max_{\gammavec} \sum_{i=1}^n \gamma_i - \frac{1}{2}\sum_{i,j} \gamma_i\gamma_j y_i y_j \xvec_i\cdot\xvec_j \\
+         & \text{s.t. } 0 \leq \gamma_i \leq \mu, \quad i = 1, \dots, n,                                               \\
+         & \phantom{s.t. } \sum_{i=1}^n \gamma_i y_i = 0,
+    \end{aligned}
+\end{equation}
+with $\mu$ as a tuning parameter ($C = 0 \iff \mu = +\infty$). We observe that $\mu$ has the opposite interpretation of $C$, but the same role in the bias-variance trade-off.
+
+At the optimum:
+\begin{equation}
+    \betavech = \sum_{i = 1}^n \hat{\gamma}_i y_i \xvec_i,
+\end{equation}
+where $\betavec$ is a $p$-dimensional vector and $\gammavec$ is an $n$-dimensional vector. Therefore:
+\begin{itemize}[beginpenalty=10000]
+    \item if $n \gg p$, then the primal problem has fewer parameters, so it is better to solve it rather than the dual problem;
+    \item if $p \gg n$, then the dual problem has fewer parameters, so it is better to solve it rather than the primal problem.
+\end{itemize}
+On top of that, many $\gamma_i$ will be zero. In fact, using the KKT conditions, $\delta_i^*g_i(\alphavec^*) = 0$:
+\begin{equation}\label{eq:gamma_i}
+    \hat{\gamma}_i[y_i(\hat{\beta}_0 + \betavech^\t\xvec_i) - 1 + \hat{\epsilon}_i] = 0, \quad i = 1, \dots, n.
+\end{equation}
+\begin{note}
+    $\beta_0$ is estimated from these conditions as an average over $n$.
+\end{note}
+Take a point in the correct side of the hyperplane. Then:
+\begin{equation}
+    y_i(\hat{\beta}_0 + \betavech^\t\xvec_i) > 1\quad (\text{since } \hat{\epsilon}_i = 0).
+\end{equation}
+So, for the product in \ref{eq:gamma_i} to be zero, we need $\hat{\gamma}_i = 0$. This means that the only non-zero $\hat{\gamma}_i$ are the ones corresponding to the points that lie on the margin or on the wrong side of the hyperplane. These points are still the ones we called \emph{support vectors} earlier, since they are the only ones that contribute to the estimation of $\betavec$.

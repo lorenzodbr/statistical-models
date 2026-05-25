@@ -1,0 +1,116 @@
+\chapter{Introduction}
+
+\section{What we are going to talk about}
+
+In this course we will talk about \emph{statistical learning}, which includes both old and modern approaches:
+\begin{enumerate}
+    \item \emph{Linear regression} (Gauss, 1800s), which provides a quantitative response
+    \item \emph{\acf{lda}} (Fisher, 1936), which provides a qualitative response. It can be extended to \emph{\acf{qda}} and applied to Naive Bayes classifiers.
+    \item \emph{Logistic Regression} (1940s)
+    \item \emph{\acfp{glm}} (1970s)
+    \item \emph{\acfp{crt}} (1980s), which are computer-intensive methods and can be extended to \emph{Random Forests} and \emph{Boosting}.
+    \item \emph{Machine Learning} (1990s), which includes Support Vector Machines, Neural Networks, Deep Learning, Unsupervised Learning (Clustering and PCA), etc.
+\end{enumerate}
+
+\section{What is Statistical Learning?}
+
+\begin{example}
+    Suppose we have a dataset containing wage data related to workers in the US. Our goal is to predict the wage from a number of factors (predictors), such as education, age, etc.
+\end{example}
+
+We could formalize the problem as follows:
+\begin{itemize}
+    \item Let $Y$ be the response (dependent variable),
+    \item Let $\Xvec$ be the predictor (independent variable), a vector composed of $p$ predictors, \ie:
+          \begin{equation}
+              \Xvec = (X_1, X_2, \dots, X_p)^\t \negmedspace.
+          \end{equation}
+    \item Then, $Y = f(\Xvec) + \epsilon$ is our prediction. The $f$ is a fixed but unknown function of $X_1, \dots, X_p$ (systematic component) and $\epsilon$ is a stochastic component such that:
+          \begin{equation}
+              \E[\epsilon] = 0 \quad\text{and}\quad\epsilon\perp\Xvec.
+          \end{equation}
+          The perpendicular symbol means that $\epsilon$ is independent of $\Xvec$, so the error does not depend on the predictors.
+\end{itemize}
+
+The estimation of $f$ is important for two reasons:
+\begin{description}
+    \item[Prediction] We want to predict $Y$ when we only have observations of $\Xvec$. Given $\hat{f}$ estimate of $f$, the prediction of $Y$ when $\Xvec = \xvec$ is $\hat{Y} = \hat{f}(\xvec)$. If this is the only goal, then $\hat{f}$ can also be a black-box, \ie, we are not interested in the relationship between $Y$ and $\Xvec$, but only in the accuracy of the prediction.
+
+          The accuracy of $\hat{f}$ as a prediction for $y$ can be described by:
+          \begin{equation}
+              \begin{aligned}
+                  \E[(Y - \hat{f}(\xvec))^2 \given \Xvec = \xvec] & = \E[(f(\xvec) + \epsilon - \hat{f}(\xvec))^2 \given \Xvec = \xvec]                                            \\
+                                                                  & = \E[(f(\xvec)- \hat{f}(\xvec) + \epsilon)^2 \given \Xvec = \xvec]                                             \\
+                                                                  & = \E[(f(\xvec) - \hat{f}(\xvec))^2 \given \Xvec = \xvec] + \E[\epsilon^2]                                      \\
+                                                                  & \quad+ 2\E[(f(\xvec) - \hat{f}(\xvec))\epsilon \given \Xvec = \xvec]                                           \\
+                                                                  & = (f(\xvec) - \hat{f}(\xvec))^2 + \Var(\epsilon) + 2(f(\xvec) - \hat{f}(\xvec))\underbracket{\E[\epsilon]}_{0} \\[-1em]
+                                                                  & = (f(\xvec) - \hat{f}(\xvec))^2 + \Var(\epsilon).
+              \end{aligned}
+          \end{equation}
+          The variance of $\epsilon$ is called \emph{irreducible error}, since it cannot be reduced by any method, while the first term is called \emph{reducible error}, since it can be reduced by choosing a better $\hat{f}$.
+    \item[Inference] We want to answer to different questions:
+          \begin{enumerate}
+              \item Which predictors are associated with the response?
+              \item What is the relationship between $Y$ and each predictor?
+              \item How do we estimate $f$?
+          \end{enumerate}
+
+          Broadly speaking, there are two types of methods to estimate $f$:
+          \begin{itemize}
+              \item \emph{Parametric approaches}: we make an assumption about the functional form of $f$, which depends on parameters, \eg:
+                    \begin{equation}
+                        f(\Xvec) = \beta_0 + \beta_1 X_1 + \dots + \beta_p X_p.
+                    \end{equation}
+                    So, parameters are unknown and statistical learning becomes parameter estimation of:
+                    \begin{equation}
+                        \hat{\beta}_0, \hat{\beta}_1, \dots, \hat{\beta}_p.
+                    \end{equation}
+                    Once we have them, we can make estimations.
+
+                    A disadvantage of this method is that $f$ may be far from the parametric family we have chosen, while an advantage is the possibility of interpretation of the model (inference).
+
+                    \begin{note}
+                        Linear models are \emph{linear in the parameters}, so:
+                        \begin{equation}
+                            f(x_1) = \beta_0 + \beta_1 x_1 + \beta_2 x_1^2 + \dots + \beta_p x_1^p
+                        \end{equation}
+                        is allowed, while, for example:
+                        \begin{equation}
+                            f(x_2) = \beta_0e^{\beta_1 x_2}
+                        \end{equation}
+                        is not linear in the parameters, so it is not allowed.
+                    \end{note}
+              \item \emph{Non-parametric approaches}: no explicit assumptions about the functional form of $f$ are made. They estimate $f$ by getting as close as possible to the data, trying not to be too rough or wiggly (overfitting). These methods are more flexible, but, as said, they have greater potential for overfitting.
+          \end{itemize}
+\end{description}
+
+\section{Bias-Variance Trade-off}
+
+The bias-variance tradeoff is a fundamental concept in statistical learning, which describes the relationship between the bias and variance of an estimator. Suppose that we compute the mean squared error (MSE) of an estimator $\hat{f}$ at a point $\xvec$:
+\begin{equation}\label{eq:bias-variance-tradeoff}
+    \begin{aligned}
+        \E[(Y - \hat{f}(\Xvec))^2 \given \Xvec = \xvec] & = \E[(f(\Xvec) + \epsilon - \hat{f}(\Xvec) + \E[\hat{f}(\Xvec)] - \E[\hat{f}(\Xvec)])^2\given \Xvec = \xvec]                                                    \\
+                                                        & = \E[(\underbracket{f(\Xvec) - \E[\hat{f}(\Xvec)]}_a + \underbracket{\epsilon}_b + \underbracket{\E[\hat{f}(\Xvec)] - \hat{f}(\Xvec)}_c)^2\given \Xvec = \xvec] \\
+                                                        & = \E[(f(\Xvec) - \E[\hat{f}(\Xvec)])^2\given \Xvec = \xvec] + \E[\epsilon^2]                                                                                    \\
+                                                        & \quad + \E[(\hat{f}(\Xvec) - \E[\hat{f}(\Xvec)])^2\given \Xvec = \xvec]                                                                                         \\
+                                                        & \quad + 2\E[(f(\Xvec) - \E[\hat{f}(\Xvec)])\epsilon\given \Xvec = \xvec]                                                                                        \\
+                                                        & \quad + 2\E[(f(\Xvec) - \E[\hat{f}(\Xvec)])(\E[\hat{f}(\Xvec)] - \hat{f}(\Xvec))\given \Xvec = \xvec]                                                           \\
+                                                        & \quad + 2\E[\varepsilon(E[\hat{f}(\Xvec)] - \hat{f}(\Xvec))\given \Xvec = \xvec].
+    \end{aligned}
+\end{equation}
+\begin{note}
+    The term $\E[\hat{f}(\Xvec)]$ is the expectation taken over $n \to \infty$ datasets.
+\end{note}
+
+We can check that all the terms except the first three are zero:
+\begin{itemize}
+    \item $2\E[(f(\Xvec) - \E[\hat{f}(\Xvec)])\epsilon\given \Xvec = \xvec] (f(\Xvec) - \E[\hat{f}(\Xvec)])\E[\epsilon] = 0$ since $\E[\epsilon] = 0$,
+    \item $2\E[(f(\Xvec) - \E[\hat{f}(\Xvec)])(\E[\hat{f}(\Xvec)] - \hat{f}(\Xvec))\given \Xvec = \xvec] = 0$ since $\E[\E[Z] - Z] = 0$ for any random variable $Z$,
+    \item $2\E[\varepsilon(E[\hat{f}(\Xvec)] - \hat{f}(\Xvec))\given \Xvec = \xvec] = 0$ since $\E[\varepsilon] = 0$ and $\E[E[\hat{f}(\Xvec)] - \hat{f}(\Xvec)] = 0$.
+\end{itemize}
+Therefore we have:
+\begin{equation}
+    {\underbracket{(f(\xvec) - \E[\hat{f}(\xvec)])}_{\text{Bias}}}^2 + \Var(\epsilon) + \Var(\hat{f}(\xvec)).
+\end{equation}
+
+Simple models tend to have high bias and low variance, meaning that on new data, $\hat{f}$ does not change much. With a $n$-degree polynomial we can always pass through $n+1$ points, so it has low bias and high variance. However, the resulting curve will be wiggly. High degree polynomials (complex models) are more flexible but they are the opposite of simple models, since they have low bias and high variance. The accuracy of the model depends on the $a$, $b$ and $c$ terms of the \cref{eq:bias-variance-tradeoff}, but $b$ is not reducible, while $a$ and $c$ are inversely proportional. In conclusion, for a given dataset, we need to find a good trade-off between bias and variance.

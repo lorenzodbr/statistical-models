@@ -1,0 +1,183 @@
+\chapter{Shrinkage methods}
+
+Some facts:
+\begin{itemize}
+    \item Least squares estimator of $\betavec$ has no bias but high variance when $n \approx p$ and infinite variance when $n < p$.
+    \item Improving prediction accuracy by reducing $p$ (variable selection) can be computationally expensive.
+    \item Alternatives to least squares estimator have been developed where $\betavec$ is estimated by adding a constraint or penalty on the squared-error objective function (likelihood).
+\end{itemize}
+
+Two popular approaches are:
+\begin{enumerate}
+    \item Ridge regression,
+    \item Lasso regression.
+\end{enumerate}
+
+\section{Ridge regression}
+
+Recall that for the least squares estimator we have:
+\begin{equation}
+    \betavech_{\textrm{LS}} = \argmin_{\betavec} (\Yvec - X\betavec)^\t (\Yvec - X\betavec)\;\longrightarrow\;\betavech_{\textrm{LS}} = (X^\t X)^{-1} X^\t \Yvec.
+\end{equation}
+
+In Ridge regression:
+\begin{equation}
+    \betavech_{\textsc{Ridge}} = \argmin_{\betavec} (\Yvec - X\betavec)^\t (\Yvec - X\betavec)\quad \textrm{s.t. } \sum_{j=1}^p \beta_j^2 \leq c, \quad c \geq 0.
+\end{equation}
+If $c \to \infty$ we get the least squares estimator. As $c$ decreases, more weight is put on the constraint, resulting in shrunk estimates.
+
+The Ridge optimization problem can be rewritten as:
+\begin{equation}
+    \betavech_{\textsc{Ridge}} = \argmin_{\betavec} \max_{\lambda \geq 0} \left[ (\Yvec - X\betavec)^\t (\Yvec - X\betavec) + \lambda \sum_{j=1}^p \beta_j^2 \right].
+\end{equation}
+This makes sense since:
+\begin{itemize}
+    \item if we consider a $\betavec$ such that $\sum_{j=1}^p \beta_j^2 > c$, then we can set $\lambda$ to a large value ($\infty$) to make the objective function arbitrarily large, so $\betavec$ cannot be the solution of the optimization problem;
+    \item if we consider a $\betavec$ such that $\sum_{j=1}^p \beta_j^2 < c$, then we can set $\lambda$ to $0$ to make the objective function as small as possible, so $\betavec$ must be the solution of the original optimization problem.
+\end{itemize}
+Here $\lambda$ plays the role of $c$, just in the opposite way:
+\begin{itemize}
+    \item if $\lambda \to 0$ we get the least squares estimator,
+    \item as $\lambda$ increases, more weight is put on the penalty, resulting in shrunk estimates.
+\end{itemize}
+
+The solution of the Ridge regression optimization problem is:
+\begin{equation}
+    \begin{aligned}
+        \pdv{}{\betavec} \left[ (\Yvec - X\betavec)^\t (\Yvec - X\betavec) + \lambda \sum_{j=1}^p \beta_j^2 \right] & = 0                                        \\
+        -2 X^\t \Yvec + 2 X^\t X \betavec + 2 \lambda \betavec                                                      & = 0                                        \\
+        X^\t\Yvec - X^\t X \betavec - \lambda \betavec                                                              & = 0                                        \\
+        (X^\t X)\betavec + \lambda\oone\betavec &= X^\t \Yvec \\
+        (X^\t X + \lambda\oone)\betavec &= X^\t \Yvec         \\
+        \betavech_{\textsc{Ridge}}                                                                                  & = (X^\t X + \lambda\oone)^{-1} X^\t \Yvec.
+    \end{aligned}
+\end{equation}
+We can state some observations:
+\begin{itemize}
+    \item This is a closed-form solution, as in the least squares case.
+    \item It depends on $\lambda$.
+    \item It is computationally efficient.
+    \item For $\lambda > 0$, $X^\t X + \lambda\oone$ is invertible, even if $n < p$.
+\end{itemize}
+
+\paragraph{Paths of solutions}
+
+The larger the $\lambda$, the smaller the $c$ and the more shrunk the estimates. Moreover, $\lambda$ has a role in bias variance trade-off, so it is usually selected by cross-validation.
+
+\paragraph{Bias of $\bm{\betavech_{\textsc{Ridge}}}$}
+
+\begin{equation}
+    \begin{aligned}
+        \betavech_{\textsc{Ridge}} & = (X^\t X + \lambda\oone)^{-1} X^\t \Yvec\qquad\expl{$[R = X^\t X]$}                            \\
+                                   & = (R + \lambda\oone)^{-1} X^\t \Yvec                                                          \\
+                                   & = (R + \lambda\oone)^{-1} R R^{-1} X^\t \Yvec                                                   \\
+                                   & = (R + \lambda\oone)^{-1} R \underbracket{(X^\t X)^{-1} X^\t \Yvec}_{\betavech_{\textrm{LS}}} \\
+                                   & = (R(\oone + \lambda R^{-1}))^{-1} R \betavech_{\textrm{LS}}                                        \\
+                                   & = (\oone + \lambda R^{-1})^{-1} \underbracket{R^{-1} R}_{\oone}\betavech_{\textrm{LS}}         \\
+                                   & = {\underbracket{(\oone + \lambda(X^\t X)^{-1})}_{A}}^{-1} \betavech_{\textrm{LS}}.
+    \end{aligned}
+\end{equation}
+Therefore, $\betavech_{\textsc{Ridge}} = A \betavech_{\textrm{LS}}$ where $A$ is a matrix that depends on $\lambda$ and $X$.
+
+We compute the expectation value of $\betavech_{\textsc{Ridge}}$:
+\begin{equation}
+    \begin{aligned}
+        \E[\betavech_{\textsc{Ridge}}] & = A \E[\betavech_{\textrm{LS}}]                  \\
+                                       & = (\oone + \lambda(X^\t X)^{-1})^{-1} \betavec.
+    \end{aligned}
+\end{equation}
+and the bias is:
+\begin{equation}
+    \begin{aligned}
+        \textrm{Bias}(\betavech_{\textsc{Ridge}}) & = \E[\betavech_{\textsc{Ridge}}] - \betavec                                                                                 \\
+                                                 & = (\oone + \lambda(X^\t X)^{-1})^{-1} \betavec - \betavec                                                        \\
+                                                 & = \left[ (\oone + \lambda(X^\t X)^{-1})^{-1} - \oone \right] \betavec.
+    \end{aligned}
+\end{equation}
+
+We conclude that increasing $\lambda$ increases the bias of $\betavech_{\textsc{Ridge}}$, but it can reduce the variance.
+
+\section{Lasso regression}
+
+The acronym means \emph{Least Absolute Shrinkage and Selection Operator}. The optimization problem is:
+\begin{equation}
+    \betavech_{\textsc{Lasso}} = \argmin_{\betavec} (\Yvec - X\betavec)^\t (\Yvec - X\betavec) + \lambda \sum_{j=1}^p |\beta_j|,
+\end{equation}
+with $\lambda \geq 0$ as tuning parameter. As before, this is equivalent to:
+\begin{equation}
+    \betavech_{\textsc{Lasso}} = \argmin_{\betavec} (\Yvec - X\betavec)^\t (\Yvec - X\betavec)\quad \textrm{s.t. } \sum_{j=1}^p |\beta_j| \leq c, \quad c \geq 0.
+\end{equation}
+
+\paragraph{Role of $\bm{\lambda}$}
+
+Some facts about $\lambda$:
+\begin{enumerate}
+    \item If $\lambda \to 0$ we get the least squares estimator.
+    \item As $\lambda$ increases ($c$ decreases), more weight is put on the penalty, resulting in shrunk estimates.
+    \item We get one $\betavech_{\textsc{Lasso}}$ for each $\lambda$, but there's no closed-form expression.
+    \item Efficient numerical algorithms have been developed to compute $\betavech_{\textsc{Lasso}}$ for a given $\lambda$.
+    \item $\lambda$ is related to the bias-variance trade-off, so it is usually selected by cross-validation.
+    \item For $\lambda$ sufficiently large, the Lasso estimates for some $\beta$s are shrunk exactly to zero, \ie, we are doing variable selection.
+\end{enumerate}
+
+\paragraph{Constrained optimization}
+Now we ask a question: \emph{why can Lasso estimate be exactly zero?}
+Let us consider just two predictors, so $p = 2$, and $\beta_1$ and $\beta_2$ are the two coefficients. The objective function is:
+\begin{equation}
+    (\Yvec - X\betavec)^\t (\Yvec - X\betavec).
+\end{equation}
+
+The two additional terms in Ridge and Lasso regression are different when interpreted as norms:
+\begin{itemize}
+    \item \emph{Ridge regression} term is the $\ell_2$ norm of $\betavec$, meaning that it represents the distance of $\betavec$ from the origin in the $p$-dimensional space. The constraint $\sum_{j=1}^p \beta_j^2 \leq c$ defines a sphere in this space, and the solution is found at the point where the contours of the least squares objective function touch this sphere.
+    \item \emph{Lasso regression} term is the $\ell_1$ norm of $\betavec$, meaning that it represents the sum of the absolute values of the coefficients. The constraint $\sum_{j=1}^p |\beta_j| \leq c$ defines a diamond-shaped region in the $p$-dimensional space, and the solution is found at the point where the contours of the least squares objective function touch this diamond. The corners of the diamond correspond to points where one or more coefficients are exactly zero, which is why Lasso can produce sparse solutions.
+\end{itemize}
+
+\begin{example}
+    Let's assume that we have only one predictor ($p = 1$), then:
+    \begin{equation}
+        \betavech_{\textsc{Lasso}} = \argmin_{\beta} (\Yvec - \Xvec\beta)^\t (\Yvec - \Xvec\beta) + \lambda |\beta|.
+    \end{equation}
+    If we take the derivative with respect to $\beta$ and set it to zero, we get:
+    \begin{equation}
+        -2 \Xvec^\t(\Yvec - \Xvec\beta) + \lambda\sgn(\beta) = 0,
+    \end{equation}
+    where $\sgn(\beta)$ is a variant of the sign function defined as:
+    \begin{equation}
+        \sgn(\beta) = \begin{cases}
+            1      & \text{if } \beta > 0, \\
+            [-1,1] & \text{if } \beta = 0, \\
+            -1     & \text{if } \beta < 0.
+        \end{cases}
+    \end{equation}
+    Here we used the concept of \emph{subdifferential}, which is a generalization of the derivative for functions that are not differentiable.
+\end{example}
+
+\paragraph{$\bm{\betavech_{\textsc{Lasso}}}$ vs $\bm{\betavech_\textrm{LS}}$}
+
+Consider the least squares estimator $\betavech_\textrm{LS}$ for one predictor, which is the solution of the optimization problem:
+\begin{equation}
+    \Xvec^\t(\Yvec - \Xvec\beta) - \frac{\lambda}{2}\sgn(\beta) = 0.
+\end{equation}
+
+We distinguish three cases:
+\begin{itemize}
+    \item $\begin{aligned}[t]
+                  \beta_{\textsc{Lasso}} > 0 & \iff \Xvec^\t(\Yvec - \Xvec\beta_\textsc{Lasso}) = \frac{\lambda}{2}                                                              \\
+                                                   & \iff \Xvec^\t \Yvec = \Xvec^\t \Xvec\beta_\textsc{Lasso} + \frac{\lambda}{2}                                        \\
+                                                   & \iff \beta_{\textsc{Lasso}} = (\Xvec^\t \Xvec)^{-1} \Xvec^\t \Yvec - \frac{\lambda}{2} (\Xvec^\t \Xvec)^{-1} \\
+                                                   & \iff \beta_{\textsc{Lasso}} = \beta_\textrm{LS} - \frac{\lambda}{2} (\Xvec^\t \Xvec)^{-1}\negthinspace.
+              \end{aligned}$
+    \item $\begin{aligned}
+                  \beta_{\textsc{Lasso}} < 0 & \iff \Xvec^\t(\Yvec - \Xvec\beta_{\textsc{Lasso}}) = -\frac{\lambda}{2} \iff \beta_{\textsc{Lasso}} = \beta_\textrm{LS} + \frac{\lambda}{2} (\Xvec^\t \Xvec)^{-1}\negthinspace.
+              \end{aligned}$
+    \item $\begin{aligned}[t]
+                  \beta_{\textsc{Lasso}} = 0 & \iff \Xvec^\t(\Yvec - \Xvec\beta_{\textsc{Lasso}}) \in \left[-\frac{\lambda}{2}, \frac{\lambda}{2}\right]                                                              \\
+                                                   & \iff \Xvec^\t \Yvec - \underbracket{(\Xvec^\t \Xvec) \beta_{\textsc{Lasso}}}_{0} \in \left[-\frac{\lambda}{2}, \frac{\lambda}{2}\right]                   \\
+                                                   & \iff \beta_\textrm{LS} = (\Xvec^\t \Xvec)^{-1} \Xvec^\t \Yvec \in \left[-\frac{\lambda}{2} (\Xvec^\t \Xvec)^{-1}, \frac{\lambda}{2} (\Xvec^\t \Xvec)^{-1}\right].
+              \end{aligned}$
+\end{itemize}
+
+\paragraph{Soft-thresholding operator}
+
+The soft-thresholding operator is used as the basis of the coordinate descent algorithm for solving the Lasso optimization problem when $p > 1$.

@@ -1,0 +1,203 @@
+\section{Support Vector Machines}
+
+\acsp{svm} extend Support Vector Classifiers to the case of non-linear decision surfaces. There are two main ideas behind this extension:
+\begin{enumerate}
+    \item Augment the feature space so that observations become linearly separable in the higher-dimensional space.
+    \item Can we actually do this without going in a higher dimensional space?
+\end{enumerate}
+
+\paragraph{Quadratic decision surface} Suppose we have $p$ features $x_1, \dots, x_p$. We can build the augmented feature space in this way:
+\begin{equation}
+    x_1, x_1^2, x_2, x_2^2, \dots, x_p, x_p^2.
+\end{equation}
+The \acs{svc} problem on the augmented space becomes:
+\begin{equation}
+    \begin{aligned}
+         & \min_{\beta_0, \betavec, \epsilonvec} \frac{1}{2}\norm{\betavec}^2                                                                                        \\
+         & \text{s.t.}\; y_i\left(\beta_0 + \sum_{j = 1}^{p}\beta_{j1}x_{ij} + \sum_{j = 1}^{p}\beta_{j2}x_{ij}^2\right) \geq 1 - \epsilon_i, \quad i = 1, \dots, n, \\
+         & \phantom{s.t.} \epsilon_i \geq 0, \quad i = 1, \dots, n,                                                                                                  \\
+         & \phantom{s.t.} \sum_{i=1}^n \epsilon_i \leq C.
+    \end{aligned}
+\end{equation}
+
+In the augmented feature space $\rr^{2p}$ we obtain therefore a linear decision surface:
+\begin{equation}
+    \zvec \in \rr^{2p}\colon \beta_0 + \betavec^\t\zvec = 0.
+\end{equation}
+In the original feature space $\rr^p$ we obtain a quadratic decision surface:
+\begin{equation}
+    \xvec \in \rr^p\colon \beta_0 + \sum_{j = 1}^{p}\beta_{j1}x_{j} + \sum_{j = 1}^{p}\beta_{j2}x_{j}^2 = 0.
+\end{equation}
+The space can be extended considering interaction terms $x_i x_j$ or even higher degrees, but it becomes computationally expensive.
+
+Recall that in a \acs{svc} the decision surface is linear and defined by:
+\begin{equation}
+    \begin{aligned}
+        f(\xvec) & = \beta_0 + \betavec^\t\xvec                           \\
+                 & = \beta_0 + \sum_{j=1}^p\beta_jx_j                     \\
+                 & = \beta_0 + \betavec \cdot \xvec                       \\
+                 & = \beta_0 + \sum_{i = 1}^n \gamma_i y_i \xvec_i \xvec.
+    \end{aligned}
+\end{equation}
+In the optimization (estimation of $\gammavec$), we solve:
+\begin{equation}
+    \max_\gammavec \sum_{i = 1}^n \gamma_i - \frac{1}{2}\sum_{i,j = 1}^{n} \gamma_i\gamma_j y_i y_j \xvec_i \cdot \xvec_j.
+\end{equation}
+
+We notice that the optimization depends on the data only through the inner products $\xvec_i \cdot \xvec_j$. Therefore it would make sense to replace the inner product with a more general function $K(\xvec_i, \xvec_j)$, called \emph{kernel}.
+
+\paragraph{Going higher dimensions}
+
+Suppose we have a function $\Phi\colon \rr^p \to \rr^N$ with $N > p$, that maps the original feature space to a higher-dimensional space. Therefore we can rewrite $f(\xvec)$ in this space as:
+\begin{equation}
+    f(\xvec) = \beta_0 + {\underbracket{\betavec}_{\mathclap{\betavec \in \rr^N}}}^\t \underbracket{\Phi(\xvec)}_z = \beta_0 + \sum_{i = 1}^n \underbracket{\gamma_i}_{\gamma \in \rr^n} \negthickspace y_i \Phi(\xvec_i) \cdot \Phi(\xvec).
+\end{equation}
+So, $\beta_0$ and $\gammavec$ get estimated by:
+\begin{equation}
+    \max_\gammavec \sum_{i = 1}^n \gamma_i - \frac{1}{2}\sum_{i,j = 1}^{n} \gamma_i\gamma_j y_i y_j \Phi(\xvec_i) \cdot \Phi(\xvec_j).
+\end{equation}
+\begin{note}
+    We notice that while the $\beta$s are $N$, the $\gamma$s stay in number $n$.
+\end{note}
+
+Since $\Phi$ is generally not known, we would not want to compute $\Phi(\xvec_i) \cdot \Phi(\xvec_j)$ directly. However, we can rely on the so called \emph{kernel trick}, which consists in finding a function $K\colon \rr^p \times \rr^p \to \rr$ such that it acts as a dot product in some higher dimensional space for some function $\Phi$. Mercer's theorem states the properties that such function needs to have.
+
+Using such kernel in $f(\xvec)$:
+\begin{equation}
+    f(\xvec) = \beta_0 + \sum_{i = 1}^n \gamma_i y_i K(\xvec_i, \xvec)
+\end{equation}
+and the optimization becomes:
+\begin{equation}
+    \max_\gammavec \sum_{i = 1}^n \gamma_i - \frac{1}{2}\sum_{i,j = 1}^{n} \gamma_i\gamma_j y_i y_j K(\xvec_i, \xvec_j).
+\end{equation}
+The decision surface is therefore defined by:
+\begin{equation}
+    \xvec\colon f(\xvec) = 0
+\end{equation}
+and it is non-linear, with the shape influenced by the choice of the kernel.
+
+The most common choices for the kernel are:
+\begin{description}
+    \item[Linear Kernel] $\hfill K(\xvec, \zvec) = \xvec \cdot \zvec. \inlineeqno$
+    \item[Polynomial Kernel] $\hfill K(\xvec, \zvec) = \bigl(1 + \sum_{j=1}^p \xvec_j \zvec_j\bigr)^n \text{ of degree } n. \hfill \inlineeqno$
+    \item[Radial Kernel] $\hfill K(\xvec, \zvec) = \exp\bigl(- \gamma \sum_{j=1}^p (\xvec_j - \zvec_j)^2\bigr) \text{ with } \gamma > 0. \hfill \inlineeqno$
+
+          If $\gamma = \frac{1}{2\sigma^2}$, then the radial kernel is also called \emph{Gaussian kernel}. For a $\zvec$ far from $\xvec$, the kernel gets small: for this, it is also called \emph{local kernel}.
+\end{description}
+The choice of $\gammavec, n, \muvec$ is important as it relates to the bias-variance trade-off. Again, \acs{cv} is needed for the selection of these parameters.
+
+In conclusion, for a \acs{svm} we need:
+\begin{enumerate}
+    \item A kernel function $K$ with optimized tuning parameters.
+    \item The calculation of $\binom{n}{2}$ values of $K(\xvec_i, \xvec_j)$ to estimate $\beta_0$ and $\gammavec$.
+\end{enumerate}
+
+\paragraph{Multiple classes}
+
+If there are more than two classes (namely $K > 2$), we can proceed with mainly two approaches:
+\begin{enumerate}
+    \item \emph{One vs All}: train $K$ classifiers where the labels are ``class $c$'' vs ``not class $c$''\negthinspace, for $c = 1, \dots, K$. One can then combine these classifiers by assigning $\xvec$ to the class $c$ for which $\abs{f_c(\xvec)}$ is maximal.
+
+          However, two problems arise with this approach:
+          \begin{itemize}
+              \item \emph{Potential ambiguity}: if for a given $\xvec$ we have $f_c(\xvec) > 0$ for more than one class, we cannot assign $\xvec$ to a single class.
+              \item \emph{Unbalanced data}: if one class is much more represented than the others, the classifier for that class will be more accurate than the others, and it will be more likely to assign $\xvec$ to that class.
+          \end{itemize}
+    \item \emph{One vs One}: train $\binom{K}{2} = K(K-1)/2$ classifiers, one for each pair of classes. Then, classify $\xvec$ to the class with the higher number of votes.
+
+          This approach is computationally more expensive, and there could still be potentially ambiguity. However, if $K$ is not too large, this is what is usually done.
+\end{enumerate}
+
+\paragraph{\acsp{svc} vs Logistic Regression}
+
+The optimization problem of \acs{svc} is, as said before:
+\begin{equation}
+    \begin{aligned}
+         & \min_{\beta_0, \betavec, \epsilonvec} \frac{1}{2}\norm{\betavec}^2                                     \\
+         & \text{s.t.}\; y_i\left(\beta_0 + \betavec^\t\xvec_i\right) \geq 1 - \epsilon_i, \quad i = 1, \dots, n, \\
+         & \phantom{s.t.} \epsilon_i \geq 0, \quad i = 1, \dots, n,                                               \\
+         & \phantom{s.t.} \sum_{i=1}^n \epsilon_i \leq C.
+    \end{aligned}
+\end{equation}
+The first constraint is equivalent to:
+\begin{equation}
+    \epsilon_i \geq 1 - y_i(\beta_0 + \betavec^\t\xvec_i).
+\end{equation}
+If we combine with the second $\epsilon_i \geq 0$, we get:
+\begin{equation}
+    \epsilon_i \geq \max\{0, 1 - y_i(\beta_0 + \betavec^\t\xvec_i)\} = [1 - y_i(\beta_0 + \betavec^\t\xvec_i)]_+.
+\end{equation}
+Using the third constraint:
+\begin{equation}
+    \sum_{i=1}^n [1 - y_i(\beta_0 + \betavec^\t\xvec_i)]_+ \leq \sum_{i=1}^n \epsilon_i \leq C.
+\end{equation}
+So, the optimization problem can be rewritten as:
+\begin{equation}
+    \begin{aligned}
+         & \min_{\beta_0, \betavec} \frac{1}{2}\norm{\betavec}^2                        \\
+         & \text{s.t.}\; \sum_{i=1}^n [1 - y_i(\beta_0 + \betavec^\t\xvec_i)]_+ \leq C.
+    \end{aligned}
+\end{equation}
+Computing the Lagrangian:
+\begin{equation}
+    \lagr(\beta_0, \betavec, \gamma) = \frac{1}{2}\norm{\betavec}^2 + \gamma\left(\sum_{i=1}^n [1 - y_i(\beta_0 + \betavec^\t\xvec_i)]_+\right)
+\end{equation}
+with $\gamma \geq 0$ as a tuning parameter, and the equivalent unconstrained optimization problem is:
+\begin{equation}
+    \min_{\beta_0, \betavec} \sum_{i=1}^n [1 - y_i(\beta_0 + \betavec^\t\xvec_i)]_+ + \frac{\lambda}{2}\norm{\betavec}^2\negthinspace.
+\end{equation}
+Compared with Ridge:
+\begin{equation}
+    \min_{\beta_0, \betavec} \sum_{i=1}^n (y_i - \beta_0 - \betavec^\t\xvec_i)^2 + \frac{\lambda}{2}\norm{\betavec}^2\negthinspace.
+\end{equation}
+
+The loss function of \acs{svc} is called \emph{hinge loss}, while the one of logistic regression is just the \emph{squared error loss}. So, \acs{svm} uses a different loss function:
+\begin{equation}
+    \L(y, f(\xvec)) = \begin{cases}
+        0              & \text{if } 1 - y f(\xvec) < 0 \iff yf(\xvec) \geq 1, \\
+        1 - y f(\xvec) & \text{if } 1 - y f(\xvec) \geq 0 \iff yf(\xvec) < 1.
+    \end{cases}
+\end{equation}
+We observe that if the point is correctly classified, then the loss is zero. If the point is misclassified, then the loss is proportional to the distance from the decision surface.
+
+For the logistic regression, we don't have a Ridge penalty, but we can add it. The loss function is the negative log-likelihood:
+\begin{equation}
+    \L(y_i, f(\xvec_i)) = \begin{cases}
+        -\log\P(1 \given \xvec_i)       & \text{if } y_i = 1,  \\
+        -\log(1 - \P(1 \given \xvec_i)) & \text{if } y_i = -1.
+    \end{cases}
+\end{equation}
+We recall that for logistic regression we have:
+\begin{equation}
+    \P(1 \given \xvec) = \frac{e^{\beta_0 + \betavec^\t\xvec}}{1 + e^{\beta_0 + \betavec^\t\xvec}}
+\end{equation}
+and therefore:
+\begin{itemize}
+    \item $y_i = 1$:
+          \begin{equation}
+              -\log\P(1 \given \xvec_i) = -\log\left(\frac{e^{\beta_0 + \betavec^\t\xvec_i}}{1 + e^{\beta_0 + \betavec^\t\xvec_i}}\right) = \log(1 + e^{-(\beta_0 + \betavec^\t\xvec_i)}).
+          \end{equation}
+    \item $y_i = -1$:
+          \begin{equation}
+              -\log(1 - \P(1 \given \xvec_i)) = -\log\left(1 - \frac{e^{\beta_0 + \betavec^\t\xvec_i}}{1 + e^{\beta_0 + \betavec^\t\xvec_i}}\right) = \log(1 + e^{\beta_0 + \betavec^\t\xvec_i}).
+          \end{equation}
+\end{itemize}
+The writing can be simplified by noticing that $y_i \in \{-1, 1\}$:
+\begin{equation}
+    \L(y_i, f(\xvec_i)) = \log(1 + e^{-y_if(\xvec_i)}).
+\end{equation}
+
+Let's now compare the two optimization problems:
+\begin{description}
+    \item[\acs{svc}] $\min_{\beta_0, \betavec} \sum_{i=1}^n [1 - y_i(\beta_0 + \betavec^\t\xvec_i)]_+ + \frac{\lambda}{2}\norm{\betavec}^2$
+    \item[\acs{lr} with Ridge penalty] $\min_{\beta_0, \betavec} \sum_{i=1}^n \log(1 + e^{-y_i(\beta_0 + \betavec^\t\xvec_i)}) + \frac{\lambda}{2}\norm{\betavec}^2$.
+\end{description}
+
+Support Vectors techniques can be extended also to regression problems through the use of the so called \emph{$\epsilon$-insensitive loss function}:
+\begin{equation}
+    \L(y, f(\xvec)) = \begin{cases}
+        0                             & \text{if } \abs{y - f(\xvec)} < \epsilon,    \\
+        \abs{y - f(\xvec)} - \epsilon & \text{if } \abs{y - f(\xvec)} \geq \epsilon.
+    \end{cases}
+\end{equation}
+that is zero if the residuals are small enough (less than the parameter $\epsilon$) and proportional to the distance from the decision surface otherwise.

@@ -1,0 +1,176 @@
+\subsection{Naive Bayes classifier}
+
+In this setting we are dealing with a categorical variable $Y$ and $K$ classes. Naive Bayes belongs to the family of discriminant analysis methods. We recall how to estimate $\P(Y = j \given \Xvec = \xvec)$:
+\begin{equation}
+    \P(Y = j \given \Xvec = \xvec) = \frac{\pi_j f_j(\xvec)}{\sum_{i = 1}^K \pi_i f_i(\xvec)}, j = 1, \dots, K.
+\end{equation}
+
+We also recall that discriminant analysis methods make assumptions on $f_j(\xvec)$:
+\begin{enumerate}
+    \item \acs{lda}, $f_i(\xvec) = \normal_p(\muvec_j, \Sigma)$. Normality and homoscedasticity give rise to linear decision surfaces.
+    \item \acs{qda}, $f_i(\xvec) = \normal_p(\muvec_j, \Sigma_j)$. Normality and heteroscedasticity give rise to quadratic decision surfaces.
+\end{enumerate}
+
+A third possible model is the Naive Bayes classifier. The main assumption on $f_i(\xvec)$ is:
+\begin{equation}
+    f_j(\xvec) = \prod_{l = 1}^p f_{\mathit{jl}}(x_l),
+\end{equation}
+with $f_{\mathit{jl}}(x_l)$ the distribution of $X_l$ conditional on $Y = j$. In other words, predictors $x_1, \ldots, x_p$ are independent conditional on $Y = j$. If $\Xvec$ are discrete variables, then:
+\begin{equation}
+    \P(X_1 = x_1, \ldots, X_p = x_p \given Y = j) = \underbracket{\P(X_1 = x_1 \given Y = j)}_{f_{j1}(x_1)} \cdots \underbracket{\P(X_p = x_p \given Y = j)}_{f_{\mathit{jp}}(x_p)}.
+\end{equation}
+
+\paragraph{Gaussian Naive Bayes}
+
+We assume:
+\begin{enumerate}
+    \item\label{assumption:gaussian} $\Xvec \given Y = j \sim \normal_p(\muvec_j, \Sigma_j)$. \expl{(Gaussianity)}
+    \item\label{assumption:naive}
+          $X_i \perp X_l \given Y = j$\quad for $i \neq l$. \expl{(Conditional independence)}
+\end{enumerate}
+
+\begin{proposition}
+    Under a Gaussian assumption:
+    \begin{equation}
+        W\negthinspace \perp Z \iff \Cov(W\negthinspace, Z) = 0.
+    \end{equation}
+\end{proposition}
+
+\begin{note}
+    The $(\Rightarrow)$ direction is true for any distribution, while the $(\Leftarrow)$ direction is true only for Gaussian distributions.
+\end{note}
+
+Therefore, \ref{assumption:gaussian} and \ref{assumption:naive} together mean that:
+\begin{equation}
+    \Sigma_j = \begin{pmatrix}
+        \sigma_{j1}^2 & 0             & \cdots & 0             \\
+        0             & \sigma_{j2}^2 & \cdots & 0             \\
+        \vdots        & \vdots        & \ddots & \vdots        \\
+        0             & 0             & \cdots & \sigma_{\mathit{jp}}^2
+    \end{pmatrix}.
+\end{equation}
+The covariance matrix is diagonal and depends on $j$, with $\sigma_{\mathit{jl}}^2 = \Var(X_l \given Y = j)$.
+
+Compared to Naive Bayes:
+\begin{enumerate}[beginpenalty=10000]
+    \item \acs{lda} has variances that do not depend on $j$ (\ie, values along the diagonal are the same across classes), but non-zero values off-diagonal.
+    \item \acs{qda} has non-zero class-specific off-diagonal values.
+\end{enumerate}
+
+\paragraph{Naive Bayes decision surface}
+
+We know from the previous section that:
+\begin{equation}
+    \begin{aligned}
+        \P(Y = j \given \Xvec = \xvec) & \propto \pi_j f_j(\xvec)                                                                                                                                             \\
+                                       & = \pi_j \prod_{l = 1}^p f_{\mathit{jl}}(x_l)                                                                                                                                  \\
+                                       & = \pi_j \prod_{l = 1}^p \frac{1}{\sqrt{2\pi\sigma_{\mathit{jl}}^2}}e^{-\frac{1}{2}\left(\frac{x_l - \mu_{\mathit{jl}}}{\sigma_{\mathit{jl}}}\right)^2}\negthinspace.
+    \end{aligned}
+\end{equation}
+Therefore, the decision surface is built from:
+\begin{equation}
+    \delta_j(\xvec) = \log(\pi_jf_j(\xvec)) = \log(\pi_j) - \frac{1}{2}\sum_{l = 1}^p \log(\sigma_{\mathit{lj}}^2) - \frac{1}{2}\sum_{l = 1}^p \left(\frac{x_l - \mu_{\mathit{jl}}}{\sigma_{\mathit{jl}}}\right)^2\negthinspace.
+\end{equation}
+We can see that we have a simpler quadratic form compared to \acs{qda} ($\xvec^\t\Sigma_j^{-1}\xvec$), since it does not require the inversion of $\Sigma_j$.
+
+\paragraph{Multinomial Naive Bayes classifier}
+
+Consider $X_1,\ldots, X_p$ categorical variables. We also consider $f_j(\xvec) = \P(\Xvec = \xvec \given Y = j)$ in this case. How many parameters are involved?
+
+\begin{example}
+    Analyze the situation with two classes, $j = 1,2$ and $p$ predictors $\set{x_i}$, each of which has $G_i$ categories, with $i = 1, \ldots, p$. We have:
+    \begin{equation}
+        \P(Y = j \given \Xvec = \xvec) \propto \P(Y = j) \P(X_1 = x_1 \given Y = j) \cdots \P(X_p = x_p \given Y = j).
+    \end{equation}
+    For each term $\P(X_i = x_k \given Y = j)$, we need to estimate parameters in the form $\theta_{ijk}$. For example, for $i = 1$:
+    \begin{equation}
+        \begin{aligned}
+            \theta_{111}   & = \P(X_1 = 1 \given Y = 1)    \\
+                           & \quad\vdots                   \\
+            \theta_{11G_1} & = \P(X_1 = G_1 \given Y = 1)  \\
+            \theta_{121}   & = \P(X_1 = 1 \given Y = 2)    \\
+                           & \quad\vdots                   \\
+            \theta_{12G_1} & = \P(X_1 = G_1 \given Y = 2).
+        \end{aligned}
+    \end{equation}
+    We would need to estimate parameters also for $i = 2, \ldots, p$ in this example.
+\end{example}
+
+If we assume global independence of parameters between predictors, the estimation of vectors of probability can be done separately. Moreover, we estimate the single $\theta_{ijk}$ under local independence of parameters. Therefore, we can estimate the distribution of $X_i\given Y = j$ from data separately for each predictor $X_i$ and class $j$.
+
+\section{Bayesian inference}
+We set $Z \coloneq X_i \given Y = j$ and we call $f(z; \thetavec)$ distribution of $Z$. We have access to some data $z_1, \ldots, z_n$ and we want to estimate $\thetavec$ from that data. The most common approach is by maximizing the likelihood:
+\begin{equation}
+    \L(\thetavec) = \prod_{i = 1}^n f(z_i; \thetavec).
+\end{equation}
+Then:
+\begin{equation}
+    \thetavech = \argmax_{\thetavec} \L(\thetavec)
+\end{equation}
+as the \acs{mle} of $\thetavec$. Doing this, we use $\thetavec$ as unknown but fixed constants.
+
+\paragraph{Bayesian Philosophy} In Bayesian inference, $\thetavec$ is in fact a random variable which has a \emph{prior} distribution $h(\thetavec)$, which represents the knowledge about $\thetavec$ we have before we see the data. Given the data, we update this distribution:
+\begin{equation}
+    h(\thetavec) \longrightarrow g(\thetavec \given \text{data}),
+\end{equation}
+which is called the \emph{posterior} distribution and combines prior knowledge and information from data. In practice:
+\begin{equation}
+    g(\thetavec \given \text{data}) = \frac{f(\text{data} \given \thetavec)h(\thetavec)}{\P(\text{data})} \propto f(\text{data} \given \thetavec)h(\thetavec).
+\end{equation}
+We can see the posterior distribution as a refinement of the prior distribution, which is updated with the information from data (likelihood).
+
+There are simple cases where the shape of $g(\thetavec \given \text{data})$ is known, so Bayesian inference estimates parameters of the posterior distribution. However, in most cases we have no knowledge about $g$, and \ac{mcmc} sampling is needed to draw samples from $g$.
+
+\begin{example} Beta-binomial. Consider:
+    \begin{itemize}[beginpenalty=10000]
+        \item $Z$ binary (remembering that $Z \coloneq X_i \given Y = j$).
+        \item $Z \sim \bernoulli(\theta)$, with $0 \leq \theta \leq 1$ and $\theta = \P(Z = 1)$.
+        \item $z_1, \ldots, z_n$ i.i.d. samples from $Z$.
+    \end{itemize}
+    Therefore:
+    \begin{equation}
+        \begin{aligned}
+            \L(\theta) & = \prod_{i = 1}^n \theta^{z_i}(1 - \theta)^{1 - z_i}                             \\
+                       & = \theta^{\sum_{i = 1}^n z_i}(1 - \theta)^{n - \sum_{i = 1}^n z_i}\negthinspace.
+        \end{aligned}
+    \end{equation}
+
+    In the classical frequentist approach:
+    \begin{equation}
+        \hat{\theta}^{(\text{MLE})} = \argmax_{\theta} \L(\theta) = \frac{1}{n}\sum_{i = 1}^n z_i. \expl{(Empirical frequencies)}
+    \end{equation}
+    In Bayesian inference, we need to set a prior distribution:
+    \begin{equation}
+        h(\theta) = \frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha)\Gamma(\beta)}\theta^{\alpha - 1}(1 - \theta)^{\beta - 1},
+    \end{equation}
+    with $\alpha$ and $\beta$ fixed according to prior knowledge. Then:
+    \begin{equation}
+        \begin{aligned}
+            g(\theta \given \text{data}) & \propto \L(\theta)h(\theta)                                                                                         \\
+                                         & = \theta^{\sum_{i = 1}^n z_i}(1 - \theta)^{n - \sum_{i = 1}^n z_i}\cdot \theta^{\alpha - 1}(1 - \theta)^{\beta - 1} \\
+                                         & = \theta^{\sum_{i = 1}^n z_i + \alpha - 1}(1 - \theta)^{n - \sum_{i = 1}^n z_i + \beta - 1}\negthinspace.
+        \end{aligned}
+    \end{equation}
+    We recognize $g(\theta\given \text{data})$ as a Beta distribution with:
+    \begin{equation}
+        \begin{aligned}
+            \alpha^* & = \alpha + \sum_{i = 1}^n z_i    \\
+            \beta^*  & = \beta + n - \sum_{i = 1}^n z_i
+        \end{aligned}
+    \end{equation}
+    Technically, we say that the Beta prior is \emph{conjugate} to the binomial likelihood.
+\end{example}
+
+\paragraph{Choice of prior}
+
+The choice of the prior distribution is a crucial step in Bayesian inference. Since the expected value of a Beta distribution is $\alpha/(\alpha + \beta)$, we can use this information to set those parameters. It is quite common to set $\alpha = \beta = 1$, which corresponds to a uniform distribution on $[0, 1]$ and therefore to a non-informative prior. In this case:
+\begin{equation}
+    g(\theta \given \text{data}) = \betadist\left(\sum_{i = 1}^n z_i + 1, n - \sum_{i = 1}^n z_i + 1\right).
+\end{equation}
+So:
+\begin{equation}
+    \hat{\theta}^{(\textsc{Bayesian})} = \frac{\sum_{i = 1}^n z_i + 1}{n + 2}.
+\end{equation}
+The increments at the numerator and denominator are also called \emph{imaginary counts}. They are useful to avoid zero probabilities or divisions by zero.
+
+For a more general categorical variable, the parameter $\theta$ becomes a vector of probabilities $\thetavec$, the binomial distribution becomes a \emph{multinomial distribution} and the Beta distribution becomes a \emph{Dirichlet distribution}.

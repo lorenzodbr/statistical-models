@@ -1,0 +1,200 @@
+\chapter{Unsupervised Learning}
+
+Up to now we only discussed \emph{supervised learning} methods, for which we have data related both to $\Xvec$ and $Y$. Our goal was to learn a rule to predict $Y$ from $\Xvec$. In \emph{unsupervised learning} methods, instead, we only have data on $\Xvec$. The objective, here, is to find latent structures and patterns in the data through a form of exploratory data analysis. These methods are also more subjective than supervised learning methods and can in fact lead to a supervised learning procedure.
+
+Some examples of unsupervised learning methods are:
+\begin{itemize}
+    \item We can search for patterns in residuals: if we see a structure, it's probable we missed some important predictor in the model.
+    \item Principal Component Regression: we can use the principal components of $\Xvec$ as predictors in a regression model.
+\end{itemize}
+
+The two main approaches to unsupervised learning are:
+\begin{enumerate}
+    \item Clustering
+    \item \acf{pca}
+\end{enumerate}
+
+\section{Clustering}
+
+The goal of clustering is to describe the data structure via a partition into subgroups of observations. In contrast to classification, where we know the groups, here we need to deduce them from the data.
+
+Formally, we split data $D$ into $K$ clusters, $C_1, C_2, \dots, C_K$ that form a partition, \ie:
+\begin{equation}
+    \bigcup_{k=1}^K C_k = D, \qquad C_i \cap C_j = \emptyset, \quad i \neq j,
+\end{equation}
+into meaningful (homogeneous) clusters. We can characterize the homogeneity in different ways, such as:
+\begin{itemize}
+    \item Similarity within groups,
+    \item Dissimilarity between groups.
+\end{itemize}
+The two main ingredients for this method are:
+\begin{enumerate}
+    \item The choice of an \emph{optimality criterion} to decide the best partition.
+    \item Devising an \emph{optimization procedure}, in which the optimality criterion is used.
+\end{enumerate}
+
+\paragraph{Optimality criterion}
+
+It is typically defined based on a \emph{distance measure}, \ie, observations in one cluster should be closer to each other according to this measure. A popular choice is the \emph{Euclidean distance}.
+
+In general:
+\begin{equation}
+    C_1, \ldots, C_K = \argmin_{\substack{\Gamma_1, \ldots, \Gamma_K \\ \text{partition of } D}} \sum_{i=1}^K W(\Gamma_i),
+\end{equation}
+with $W(\Gamma_i)$ the sum of distances of any two objects in $\Gamma_i$. In the case of the Euclidean distance, we have:
+\begin{equation}
+    W(\Gamma_i) = \frac{1}{2\abs{\Gamma_i}} \sum_{\xvec, \yvec \in \Gamma_i} \sum_{l = 1}^p (x_l - y_l)^2\negthinspace.
+\end{equation}
+This is also referred to as \emph{within-cluster variation}, since the $W$ is equivalent to:
+\begin{equation}\label{eq:within_cluster_variation}
+    W(\Gamma_i) = \sum_{\xvec \in \Gamma_i} \sum_{l = 1}^p (x_l - \bar{x}_\mathit{il})^2\negthinspace, \quad \text{with } \bar{x}_\mathit{il} = \frac{1}{\abs{\Gamma_i}} \sum_{\xvec \in \Gamma_i} x_l.
+\end{equation}
+The $\bar{\xvec}_\mathit{il}$ is the sample mean of predictor $l$ in cluster $\Gamma_i$.
+
+\begin{proof}
+    Let's consider the case $p = 1$. From \cref{eq:within_cluster_variation} we have:
+    \begin{equation}
+        \begin{aligned}
+            2W(\Gamma_i) & = \frac{1}{\abs{\Gamma_i}} \sum_{x, y \in \Gamma_i} (x - y)^2                                                                                                                                                                               \\
+                         & = \frac{1}{\abs{\Gamma_i}} \sum_{x\in \Gamma_i} \sum_{y \in \Gamma_i} (x^2 - 2xy + y^2)                                                                                                                                                     \\
+                         & = \frac{1}{\abs{\Gamma_i}} \left( \abs{\Gamma_i}\sum_{x\in \Gamma_i} x^2 - 2\sum_{x\in \Gamma_i}x \underbracket{\sum_{y \in \Gamma_i} y}_{\abs{\Gamma_i}\bar{x}_i} + \abs{\Gamma_i}\underbracket{\sum_{y \in \Gamma_i} y^2}_{y = x} \right) \\
+                         & = 2\sum_{x\in \Gamma_i} x^2 - 2\abs{\Gamma_i}\bar{x}_i \sum_{x\in \Gamma_i} x                                                                                                                                                               \\
+                         & = 2\sum_{x\in \Gamma_i} x^2 - 2\abs{\Gamma_i}^2 \bar{x}_i^2                                                                                                                                                                                 \\
+                         & = 2\sum_{x\in \Gamma_i} (x - \bar{x}_i)^2.
+        \end{aligned}
+        \vspace{-1.5em}
+    \end{equation}
+\end{proof}
+
+Another formulation for the optimality criterion is the so called \emph{between cluster variation}, that comes from the idea that minimizing the within-cluster variation is equivalent to maximizing the between-cluster variation, \ie, dissimilarity between clusters. Indeed, the overall distance between any pair of observations is a constant that can be split into the sum of the within-cluster variation and the between-cluster variation. Therefore, minimizing one is equivalent to maximizing the other.
+
+\paragraph{Optimization Algorithm}
+
+The optimal problem is actually NP-hard, since there are approximately $K^n$ ways to split $n$ observations into $K$ clusters. Therefore, efficient greedy approaches are needed. However, they will only lead to local optima. Popular choices are:
+\begin{description}
+    \item[$K$-means] This method uses the Euclidean distance as the optimality criterion and fixes $K$. The algorithm is the following:
+          \begin{enumerate}[beginpenalty=10000]
+              \item \emph{Random initialization}: assign a random cluster to each observation. This can be done \emph{uniformly} (typically used) or at random.
+              \item \emph{Iterate}:
+                    \begin{itemize}
+                        \item For each cluster $i = 1, \ldots, K$ compute the centroid $\bar{\xvec}_\mathit{i}$ of the cluster.
+                        \item Assign each observation $1, \ldots, n$ to the cluster whose centroid is closest to it, with respect to the Euclidean distance.
+                    \end{itemize}
+          \end{enumerate}
+
+          There is no guarantee of a global maximum so a good practice is to perform the random initialization a certain number of times and keep the best result.
+    \item[Hierarchical clustering] It is a family of clustering techniques with various distance measures that can be used. Differently to $K$-means, $K$ is not fixed a priori. The output is a hierarchy of nested clusters, with the hierarchy represented as a \emph{dendogram} (\Cref{fig:dendogram}). In the figure, similarity is pictured vertically and not horizontally, in the sense that the observation $b$ and $c$ are ``closer'' to each other than $a$ and $b$, because the split happened at a higher level of the hierarchy ($d_1 > d_2$ in the figure).
+
+          In addition to a distance between the observations, the method needs a distance between clusters. This is called \emph{linkage criterion} and a common choice for it is the \emph{average linkage}:
+          \begin{equation}
+              d_{\textsc{al}(C_i, C_j)} = \frac{1}{\abs{C_i}\abs{C_j}} \sum_{\xvec, \yvec \in C_i} d(\xvec, \yvec),
+          \end{equation}
+          where $d(\xvec, \yvec)$ is the distance between two observations, such as the Euclidean distance.
+
+          The algorithm can proceed in a bottom-up or top-down approach:
+          \begin{itemize}
+              \item \emph{Agglomerative}: start with each observation in one cluster and then merge the two clusters that are closest to each other; continue until everything is in one cluster.
+              \item \emph{Divisive}: start with everything in one cluster and perform recursive splitting of clusters according to the optimality criterion.
+          \end{itemize}
+\end{description}
+
+\begin{figure}[ptb]
+    \centering
+    \forestset{
+        LT/.style = {
+                delay={where content={}{shape=coordinate}{}},
+                where n children=0{tier=word, baseline}{},
+                for tree={
+                        text height = 2ex,
+                        text depth  = 0.5ex,
+                        inner ysep = 0pt,
+                        inner xsep = 1pt,
+                        forked edge,
+                        s sep = 3mm,
+                    }}}
+
+    \begin{forest}  LT
+        [
+        [
+                [
+                        [
+                                [\phantom{a}]
+                                    [$a$]
+                            ]
+                            [
+                                [\phantom{a}]
+                            ]
+                    ]
+                    [
+                        [$b$]
+                            [
+                                [\phantom{a}]
+                                    [$c$]
+                            ]
+                    ]
+            ]
+            [
+                [\phantom{a}]
+                    [
+                        [\phantom{a}]
+                            [\phantom{a}]
+                    ]
+            ]
+        ]
+        \draw[latex-latex] (-0.6, -4.1) -- (-0.6, -2.5) node[pos=0.7, right] {\scriptsize $d_2$};
+        \draw[latex-latex] (-1.15, -4.1) -- (-1.15, -1.4) node[pos=0.8, right] {\scriptsize $d_1$};
+    \end{forest}
+    \caption{Example of a dendogram. $a$, $b$ and $c$ are three observations.}
+    \label{fig:dendogram}
+\end{figure}
+
+\paragraph{Selection of $\mathbb{K}$} To select $K$, we can use the \emph{elbow method}, which consists in plotting the optimality criterion as a function of $K$ and looking for an elbow in the plot (\Cref{fig:elbow_method}). The idea is that, as $K$ increases, the optimality criterion will decrease, but after a certain point the improvement will be negligible. Therefore, we look for the point where the improvement starts to be negligible, which is exactly the elbow of the plot.
+
+\begin{figure}[ptb]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+                axis lines=middle,
+                xlabel={$K$},
+                xlabel style={right},
+                ylabel={$\displaystyle \sum_{i=1}^K W(C_i)$},
+                ylabel style={
+                        rotate=90,
+                        yshift=.5em,
+                        anchor=south,
+                        at={(axis description cs:0,0.5)},
+                    },
+                xtick={1,2,3,4,5,6},
+                ytick=\empty,
+                ymin=0.1, ymax=1,
+                xmin=0, xmax=7,
+                width=.6\textwidth,
+                height=.4\textwidth,
+            ]
+            \addplot[domain=1:6, thick, smooth] {0.2 + 0.2/(x-0.7)};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Example of the curve of the elbow method for selecting $K$. In this case, the elbow is at $K = 2$.}
+    \label{fig:elbow_method}
+\end{figure}
+
+\section{Clustering Network Data}
+
+This is a special case of clustering, where the data are represented as a graph, with nodes and edges. It is also called \emph{community detection}. The goal is, given a network made of nodes (actors) and edges (interactions), to find unknown groupings of nodes.
+
+We have three main approaches to this problem:
+\begin{itemize}
+    \item Hierarchical clustering,
+    \item Spectral clustering ($K$-means),
+    \item Stochastic block models (mixture models).
+\end{itemize}
+
+\paragraph{Optimality criterion} To define an optimality criterion we need to understand what groups have in common.
+
+Let $\ell = \tuple{C_1, \dots, C_K}$ be a partition of the nodes and $f_\mathit{ij}(\ell)$ the fraction of edges in the network that connect a node in $C_i$ to a node in $C_j$. In particular, $f_\mathit{ii}(\ell)$ is the fraction of edges in cluster $C_i$. We can define the following optimality criterion (\emph{modularity}) as:
+\begin{equation}
+    M(\ell) = \sum_{i=1}^K (f_\mathit{ii}(\ell) - f_\mathit{ii}^*)^2\negthinspace,
+\end{equation}
+where $f_\mathit{ii}^*$ is the expected value of $f_\mathit{ii}(\ell)$ under a random assignment of edges to nodes. Large values of modularity suggest \emph{non-trivial} (\ie, not random) group structures.
+
+\paragraph{Hierarchical clustering} We can apply the hierarchical clustering method, so we merge/split nodes/clusters that maximize the modularity.

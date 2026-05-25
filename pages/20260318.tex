@@ -1,0 +1,88 @@
+\subsection{Simulating data from a \acs{glm}}
+
+We will consider two models:
+\begin{enumerate}
+    \item \emph{Poisson regression}, which provide a count response.
+    \item \emph{Logistic regression}, which is used for binary responses.
+\end{enumerate}
+
+\paragraph{Poisson regression}
+
+First let's describe what parameters we have and what we expect. For a variable $Y$ that follows a Poisson distribution, we have:
+\begin{itemize}
+    \item $X_1, \dots, X_p$: the predictors.
+    \item $Y_i \coloneq Y \given \Xvec = \xvec_i,\; i = 1, \dots, n$: the response variable conditioned on the predictors.
+\end{itemize}
+\begin{equation}
+    {\renewcommand\arraystretch{1.6}
+        \begin{array}{c|ccc|cc|c|c}
+            \multicolumn{1}{c}{}                         & 1      & \cdots & \multicolumn{1}{c}{p} &                      & \multicolumn{1}{c}{} & \multicolumn{1}{c}{}  & \\
+            \cline{2-4} \cline{7-7}
+            1                                            & x_{11} & \cdots & x_{1p}                &                      &                      & y_1                   & \\
+            \vdots                                       & \vdots & \ddots & \vdots                &                      &                      & \vdots                & \\
+            n                                            & x_{n1} & \cdots & x_{np}                &                      &                      & y_n                   & \\
+            \cline{2-4} \cline{7-7} \multicolumn{1}{c}{} &        & X      & \multicolumn{1}{c}{}  & \multicolumn{1}{c}{} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{Y}
+        \end{array}
+    }
+\end{equation}
+Here, $y_1, \ldots y_n$ are $n$ observations of our response and are independent but not identically distributed, since the mean of $Y_i$ depends on the index $i$. We assume $Y_i \sim \poisson(\mu_i)$. Then:
+\begin{equation}
+    g(\mu_i) = \log(\mu_i) = \eta_i = \xvec_i^\t\betavec.
+\end{equation}
+We can rewrite the definition of $Y_i$ as $\poisson(e^{\xvec_i^\t\betavec})$.
+
+Now we want to simulate data from this model. First we set $p = 1$ and $n = 100$. Then:
+\begin{enumerate}[beginpenalty=10000]
+    \item Generate $x_1, \ldots, x_{100}$ from any distribution.
+    \item We set $\eta_i = \beta_0 + \beta_1 x_i$, $i = 1, \ldots, 100$. For example, we can fix $\beta_0 = 1$ and $\beta_1 = 2$.
+    \item We sample $y_i \sim \poisson(e^{\eta_i})$, $i = 1, \ldots, 100$.
+\end{enumerate}
+
+\paragraph{Residuals}
+
+In linear models we can express the response observation in two different but equivalent ways:
+\begin{itemize}
+    \item $y_i = \xvec_i^\t\betavec + \varepsilon_i$, where $\varepsilon_i \sim \normal(0, \sigma^2)$.
+    \item $y_i \sim \normal(\xvec_i^\t\betavec, \sigma^2)$.
+\end{itemize}
+
+A natural definition of residuals in linear models is:
+\begin{equation}
+    e_i = y_i - \xvec_i^\t\betavec, \quad i = 1, \ldots, n.
+\end{equation}
+For a \acs{glm}, we can define the residuals as \emph{pseudo-residuals}:
+\begin{equation}
+    r_i = y_i - \hat{\mu}_i, \quad i = 1, \ldots, n,
+\end{equation}
+
+A common way to standardize the residuals is to calculate the \emph{Pearson residuals}:
+\begin{equation}
+    r_i^P = \frac{y_i - \hat{\mu}_i}{\sqrt{\frac{\widehat{\Var(y_i)}}{\hat{\phi}}}}, \quad i = 1, \ldots, n.
+\end{equation}
+For the Poisson regression pseudo-residuals are actually:
+\begin{equation}
+    r_i = y_i - \hat{\mu}_i = y_i - e^{\xvec_i^\t\hat{\betavec}}\negthinspace,
+\end{equation}
+and the Pearson residuals are:
+\begin{equation}
+    r_i^P = \frac{y_i - e^{\xvec_i^\t\hat{\betavec}}}{\sqrt{e^{\xvec_i^\t\hat{\betavec}}}}, \quad i = 1, \ldots, n.
+\end{equation}
+Asymptotically, the Pearson residuals are distributed as a standard normal distribution, but they could be skewed if $\hat{\mu}_i$ is small.
+
+\paragraph{Deviance}
+
+The deviance of an observation is defined as:
+\begin{equation}
+    d_i = 2(\l_i(\underbracket{y_i}_{\mathclap{\hat{\mu}_i = y_i}}, y_i) - \l_i(\underbracket{\hat{\mu}_i}_{\mathclap{e^{\xvec_i^\t\hat{\betavec}}}}, y_i)) \geq 0, \quad i = 1, \ldots, n.
+\end{equation}
+Here we are basically computing $y_i - \hat{\mu}_i$ at the level of the log-likelihood. The general deviance is computed as a sum:
+\begin{equation}
+    D = \sum_{i = 1}^n d_i
+\end{equation}
+and:
+\begin{equation}
+    r_i^D = \sqrt{d_i} \cdot \sgn(y_i - \hat{\mu}_i) = \begin{cases}
+        \sqrt{d_i}  & \text{if } y_i \geq \hat{\mu}_i, \\
+        -\sqrt{d_i} & \text{if } y_i < \hat{\mu}_i.    \\
+    \end{cases}
+\end{equation}

@@ -1,0 +1,157 @@
+\section{Cox-Proportional Hazard Model}
+
+In this semi-parametric model, the hazard function is given by:
+\begin{equation}
+    h(t\given \xvec_i) = h_0(t) \exp(\xvec_i^\t \betavec),
+\end{equation}
+or equivalently:
+\begin{equation}
+    \log h(t \given \xvec_i) = \log h_0(t) + \xvec_i^\t \betavec.
+\end{equation}
+Basically, it replaces the intercept with an arbitrary function of time, and considers $\betavec$ without the intercept, \ie:
+\begin{equation}
+    \betavec = \begin{pmatrix}
+        \beta_1 \\
+        \vdots  \\
+        \beta_p
+    \end{pmatrix}.
+\end{equation}
+It is \emph{semi-parametric} because a part is parametric (the $\betavec$) and a part is non-parametric (the $h_0(t)$).
+
+We notice that, in this way, the hazard is not constant in time. The non-parametric part $h_0(t)$ is called \emph{baseline hazard} since:
+\begin{equation}
+    h_0(t) = h(t \given x_1 = 0, \dots, x_p = 0).
+\end{equation}
+A generic individual with covariates $\xvec_i$ has hazard that is a multiple of the baseline hazard, and the multiplicative factor is $\exp(\xvec_i^\t\betavec)$.
+
+\begin{note}
+    Why is it called proportional hazard? Consider one predictor:
+    \begin{equation}
+        x = \begin{cases}
+            0 & \text{female}, \\
+            1 & \text{male}.
+        \end{cases}
+    \end{equation}
+    Then:
+    \begin{equation}
+        \begin{aligned}
+            h(t \given x = 0) & = h_0(t),                                                                   \\
+            h(t \given x = 1) & = h_0(t) \exp(\beta_1) \iff \log h(t \given x = 1) = \log h_0(t) + \beta_1.
+        \end{aligned}
+    \end{equation}
+
+    Since $h(0)$ can be flexible, this is a less restrictive model. Moreover, since we have a multiplicative factor, two survival curves for different covariate values cannot cross.
+\end{note}
+
+\paragraph{Interpretation of the coefficients}
+
+The quantity:
+\begin{equation}
+    \exp(\betavec^\t\xvec_i)
+\end{equation}
+is the global relative risk for patient $i$. Individual $\beta$s capture the effect of each covariate on the hazard, keeping all the other covariates at a constant level. In particular, we can distinguish between the following cases:
+\begin{itemize}
+    \item $\beta_j > 0 \implies e^{\beta_j} > 1$: increased hazard of dying at any time $t$ given that you have survived up to time $t$ as $x_j$ increases by one unit.
+    \item $\beta_j < 0 \implies e^{\beta_j} < 1$: decreased hazard of dying at any time $t$ given that you have survived up to time $t$ as $x_j$ increases by one unit.
+\end{itemize}
+
+\section{Partial likelihood}
+
+We said that $h_0(t)$ is arbitrary, in the sense that it is unknown. Therefore, the likelihood function cannot be evaluated and then optimized. David Cox developed a novel inference procedure by approximating the full likelihood via a partial likelihood that does not depend on $h_0(t)$.
+
+We can look at the data generative process in a different way:
+\begin{equation}
+    \text{event} = \tuple{t, \text{patient}}.
+\end{equation}
+The full likelihood can be written as:
+\begin{equation}
+    \prod_{k = 1}^K g(t_k)f(\text{patient}_k \given t_k).
+\end{equation}
+The $g(t_k)$ term represent something that happened at time $t_k$ and the $f(\text{patient}_k \given t_k)$ term represent the probability that the patient $k$ died at time $t_k$ conditioned on the fact that something happened at time $t_k$.
+
+The idea behind the partial likelihood is to ignore the $g(t_k)$ term and to focus on the part of the likelihood that most depend on $\betavec$:
+\begin{equation}
+    \begin{aligned}
+        \PL(\betavec) & = \prod_{k = 1}^K f(\text{patient}_k \given t_k)                                                                \\
+                      & = \prod_{k = 1}^K \frac{h_0(t_k)\exp(\betavec^\t\xvec_k)}{\sum_{j \in R(t_k)} h_0(t_k)\exp(\betavec^\t\xvec_j)} \\
+                      & = \prod_{k = 1}^K \frac{\exp(\betavec^\t\xvec_k)}{\sum_{j \in R(t_k)} \exp(\betavec^\t\xvec_j)} = f(\betavec),
+    \end{aligned}
+\end{equation}
+where $R(t_k)$ is the risk set at time $t_k$, \ie the set of patients that are still alive at time $t_k$. This is a multinomial likelihood. We notice some facts:
+\begin{itemize}
+    \item $\PL(\betavec)$ does not depend on $h_0(t)$.
+    \item Find $\betavec$ that maximizes $\PL(\betavec)$ is equivalent to find $\betavec$ that maximizes the full likelihood.
+    \item $h_0(t)$ can be estimated a posteriori (given $\hat{\betavec}$).
+\end{itemize}
+
+\section{Survival models for prediction}
+
+Relative risk can be calculated for any individual on some test set:
+\begin{equation}
+    \hat{\eta}_i = \hat{\beta}_1 x_{i1} + \dots + \hat{\beta}_p x_\mathit{ip}, \quad i = 1, \dots, n.
+\end{equation}
+We also need to stratify the patients into risk groups, for example \texttt{low}, \texttt{medium} and \texttt{high} risk. Then, we can check for covariates that are particularly prevalent in each group.
+
+Since it holds:
+\begin{equation}
+    \hat{\eta}_{i^*} > \hat{\eta}_i \implies t_i > t_{i^*},
+\end{equation}
+we could use
+\begin{equation}
+    C = \frac{\sum_{\tuple{i, i^*} \text{ s.t. } y_i > y_{i^*}} \oone(\hat{\eta}_{i^*} > \hat{\eta}_i)\delta_{i^*}}{\sum_{\tuple{i, i^*} \text{ s.t. } y_i > y_{i^*}} \delta_{i^*}}
+\end{equation}
+as a measure of the predictive performance of the model, with $\betavech$ estimated from training data. We multiply by $\delta_{i^*}$ to select only those $i^*$ that are not censored.
+
+Basically, with this ratio we are checking how many pairs of patients are correctly ordered by the model given the estimated relative risk. We compare the predicted order (through the relative risk $\hat{\eta}_i$) with the true order (through the observed survival times $y_i$).
+
+\section{Application to dynamic networks}
+
+\begin{definition}[Relational event]
+    A \emph{relational event} is an instantaneous interaction between two or more actors at a particular point in time.
+\end{definition}
+
+\begin{example}
+    Some examples are the sending of emails, likes, messages, bike sharing, etc.
+\end{example}
+
+The generative process of a relational event produces a sequence of events:
+\begin{equation}
+    \text{event} = \tuple{t, \text{sender}, \text{receiver}},
+\end{equation}
+with $\text{sender} \in S$ and $\text{receiver} \in R$. We have two cases for $S$ and $R$ sets:
+\begin{itemize}
+    \item $S = R$: the sender and the receiver are the same set of actors, for example in email communication.
+    \item $S \cap R = \emptyset$: as in two-mode networks, the sender and the receiver are different sets of actors.
+\end{itemize}
+
+\paragraph{Relational event model}
+
+Modelling hazard of interactions:
+\begin{equation}
+    h(t \given \xvec_{s,r}) = h_0(t) \exp(\betavec^\t\xvec_{s,r}(t)),
+\end{equation}
+where $\xvec_{s,r}$ is a vector of covariates associated to the pair $(s,r)$ at time $t$. The aim is to infere $\betavec$ from data.
+
+\begin{examples}
+    Some examples of covariates are:
+    \begin{itemize}
+        \item Age difference between sender and receiver in a friendship network.
+        \item Physical distance between sender and receiver.
+        \item Whether sender is a teacher or a student (node-level).
+        \item Reciprocity: whether $\tuple{r, s}$ happened before time $t$.
+        \item Triadic (transitive) closure:
+              \begin{equation}
+                  x_{\mathrm{sr}}(t) = \begin{cases}
+                      1 & \text{if } \tuple{s, k} \text{ and } \tuple{k, r} \text{ happened before time } t, \\
+                      0 & \text{otherwise}.
+                  \end{cases}
+              \end{equation}
+    \end{itemize}
+    The first two are called \emph{dyadic}. The first three are exogenous, while the last two are endogenous.
+\end{examples}
+
+Let's analyize the partial likelihood in this context. We end up with a similar expression as before:
+\begin{equation}
+    \PL(\betavec) = \prod_{k = 1}^K \frac{\exp(\betavec^\t\xvec_{s_k,r_k}(t_k))}{\sum_{(s_{k^*}, r_{k^*}) \in R(t_k)} \exp(\betavec^\t\xvec_{s_{k^*},r_{k^*}}(t_k))}.
+\end{equation}
+$R(t_k)$ has about $p^2$ elements with $p$ as the number of units. Computationally more efficient methods are developed considering this new partial likelihood.

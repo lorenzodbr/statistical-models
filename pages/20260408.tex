@@ -1,0 +1,191 @@
+\section{Model selection for linear models}
+
+As we saw, model selection can be performed by evaluating the fitted model on unseen data (\eg, with \acs{cv}). Alternatively, for parametric models, for which we can define a likelihood function, there are criteria that make adjustments to training error (likelihood) by accounting for model complexity. These criteria are:
+\begin{enumerate}
+    \item \acf{aic}:
+          \begin{equation}
+              \operatorname{AIC}(M) = -2\log\L + 2d,
+          \end{equation}
+          where $\log\L$ is the log-likelihood of the model $M$ and $d$ is the number of parameters in the model (which tells its complexity).
+
+          \begin{observation}
+              If we only had the log-likelihood term, we would always select the most complex model. In fact, minimizing the error is equivalent to maximizing the likelihood, and the more complex the model, the better it fits the data.
+          \end{observation}
+
+          Considering different models $M_i$, $i = 1, \dots, m$, we choose the model with the lowest \acs{aic} value.
+
+    \item \acf{bic}:
+          \begin{equation}
+              \operatorname{BIC}(M) = -2\log\L + \log(n)d,
+          \end{equation}
+          where $n$ is the number of observations. Typically, $\log(n) > 2$ for $n > 7$. This criterion puts more weight on model complexity, so in the end we tend to select simpler models than with \acs{aic}.
+\end{enumerate}
+
+Some remarks:
+\begin{enumerate}[beginpenalty=10000]
+    \item The true model may note be in the family of models we consider (called \emph{misclassification}).
+    \item Model selection depends on which and how much data we have. For example, the true generating process of a dataset may be a polynomial of high degree, but we may not have enough data to fit this model robustly. This problem is even more pronounced in high-dimensional cases ($p \gg n$) when even a simple linear model may not be possible to fit.
+    \item The bias-variance trade-off is connected also to the bias and variance of $\betavec$.
+\end{enumerate}
+
+\paragraph{Linear models}
+
+Consider a linear model consisting of:
+\begin{itemize}
+    \item $Y$ response.
+    \item $X_1, \dots, X_p$ predictors.
+    \item $\epsilon$ error term, with $\epsilon \sim \normal(0, \sigma^2)$.
+\end{itemize}
+
+Formally we can write:
+\begin{equation}
+    Y = \beta_1\xvec_1 + \dots + \beta_p\xvec_p + \epsilon = \xvec^\t\betavec + \epsilon,
+\end{equation}
+
+We also have a dataset $\tuple{\xvec_i, y_i},\;i = 1, \dots, n$. Our aim is to estimate $\betavec = \tuple{\beta_1 \cdots \beta_p}^\t$ from data. We proceed with a least squares approach. In matrix form we can write:
+\begin{equation}
+    \begin{aligned}
+        \yvec           & = X\betavec + \epsilonvec, \\
+        \begin{pmatrix}
+            y_1    \\
+            \vdots \\
+            y_n
+        \end{pmatrix} & = \begin{pmatrix}
+                              x_{11} & \cdots & x_{1p} \\
+                              \vdots & \ddots & \vdots \\
+                              x_{n1} & \cdots & x_{np}
+                          \end{pmatrix}
+        \begin{pmatrix}
+            \beta_1 \\
+            \vdots  \\
+            \beta_p
+        \end{pmatrix} + \begin{pmatrix}
+                            \epsilon_1 \\
+                            \vdots     \\
+                            \epsilon_n
+                        \end{pmatrix}.
+    \end{aligned}
+\end{equation}
+We then compute the least squares estimator $S(\betavec)$ as:
+\begin{equation}
+    \begin{aligned}
+        S(\betavec) & = \sum_{i=1}^n (y_i - \xvec_i^\t\betavec)^2                                                \\
+                    & = (\yvec - X\betavec)^\t(\yvec - X\betavec)                                                \\
+                    & = \yvec^\t\yvec - \yvec^\t X\betavec - (X\betavec)^\t\yvec + (X\betavec)^\t (X\betavec)    \\
+                    & = \yvec^\t\yvec - \yvec^\t X\betavec - \betavec^\t X^\t\yvec + \betavec^\t X^\t X\betavec,
+    \end{aligned}
+\end{equation}
+and seeing that the terms $\yvec^\t X\betavec$ and $\betavec^\t X^\t\yvec$ are scalars and one the transpose of the other, we can write:
+\begin{equation}
+    = \yvec^\t\yvec - 2\betavec^\t X^\t\yvec + \betavec^\t X^\t X\betavec.
+\end{equation}
+Now we take the derivative with respect to $\betavec$ and set it to zero:
+\begin{equation}
+    \begin{aligned}
+        \pdv{S(\betavec)}{\betavec} & = -2X^\t\yvec + 2X^\t X\betavec = \zerovec \\
+                                    & = -X^\t\yvec + X^\t X \betavec = \zerovec  \\
+                                    & = (X^\t X)\betavec = X^\t\yvec.
+    \end{aligned}
+\end{equation}
+These $p$ equations in $p$ parameters expressed in matrix form are called \emph{normal equations}. When $X^\t X$ is invertible, we can solve for $\betavec$ as:
+\begin{equation}
+    \betavec = (X^\t X)^{-1} X^\t\yvec.
+\end{equation}
+
+\paragraph{Bias and variance of $\betavech$}
+
+Under the assumption that the linear model generated the data:
+\begin{itemize}
+    \item $\E[\betavech] = \E[(X^\t X)^{-1} X^\t\yvec] = (X^\t X)^{-1} X^\t\E[\yvec] = \underbracket{(X^\t X)^{-1} X^\t X}_{\oone}\betavec = \betavec.\inlineeqno$
+    \item $\begin{aligned}[t]
+                  \Var(\betavech) & = \Var((X^\t X)^{-1} X^\t\yvec)                                                                              \\
+                                  & = ((X^\t X)^{-1})^\t X^\t \sigma^2 \oone_n X(X^\t X)^{-1}      \qquad \expl{[$\Var(A\xvec) = A\Var(\xvec)A^\t$]}                                              \\
+                                  & = (X^\t X)^{-1} X^\t \sigma^2 \oone_n X(X^\t X)^{-1}    \qquad \expl{$[((X^\t X)^{-1})^\t = (X^\t X)^{-1}]$} \\
+                                  & = \sigma^2 (X^\t X)^{-1}{\underbracket{(X^\t X)(X^\t X)}_{\oone_p}}^{-1}                                     \\
+                                  & = \sigma^2 {\underbracket{(X^\t X)}_{p \times p}}^{-1}\negmedspace.
+              \end{aligned}$
+\end{itemize}
+
+\paragraph{Bias-variance trade-off for linear models}
+
+Also here assume that data are generated by a linear model. In earlier sections we defined:
+\begin{equation}
+    \E[(y_0 - \hat{f}(\xvec_0))^2] = {\underbracket{(f(\xvec_0) - \E[\hat{f}(\xvec_0)])}_{\text{Bias}}}^2 + \Var(\hat{f}(\xvec_0)) + \Var(\epsilon).
+\end{equation}
+In the case of linear models, we can write:
+\begin{description}
+    \item[Bias]
+          \begin{equation}
+              \xvec_0^\t\betavec - \E[\xvec_0^\t\betavech] = \xvec_0^\t\betavec - \xvec_0^\t\underbracket{\E[\betavech]}_{\betavec} = 0.
+          \end{equation}
+          In other words, a zero bias in $\betavech$ results in a zero-biased model.
+    \item[Variance]
+          \begin{equation}
+              \begin{aligned}[t]
+                  \Var(\xvec_0^\t\betavech) & = \xvec_0^\t\Var(\betavech)\xvec_0                                                               \\
+                                            & = \sigma^2\operatorname{Trace}(\xvec_0^\t(X^\t X)^{-1}\xvec_0)                                   \\
+                                            & = \sigma^2\operatorname{Trace}((X^\t X)^{-1}\xvec_0\xvec_0^\t)                                   \\
+                                            & = \sigma^2\operatorname{Trace}\left(\left(\frac{X^\t X}{n}n\right)^{-1}\xvec_0\xvec_0^\t\right). \\
+              \end{aligned}
+          \end{equation}
+
+          Assuming $\E[X_i] = 0$, $\Var(X_i) = 1$ and independence of $X_i$s, then $\frac{X^\t X}{n} \approx \oone_p$. Therefore:
+          \begin{equation}
+              \approx \sigma^2\operatorname{Trace}((\oone_p n)^{-1}\oone_p) = \sigma^2\operatorname{Trace}\left(\frac{1}{n}\oone_p\right) = \frac{p}{n}\sigma^2\negthinspace.
+          \end{equation}
+\end{description}
+So, for a linear model:
+\begin{equation}
+    \E[(y_0 - \hat{f}(\xvec_0))^2] \approx 0 + \frac{p}{n}\sigma^2 + \sigma^2\negthinspace,
+\end{equation}
+but we can only act on the second term. In fact, the prediction accuracy depends on the ratio $\frac{p}{n}$. In particular, we can distinguish three cases:
+\begin{enumerate}
+    \item $n \gg p$: the bias is about zero and the variance is low, so the \acs{lr} model will do very well in these cases (if the model is well-specified).
+    \item $n \approx p$: we have variability in $\betavech$ and therefore in the predictions. This leads to overfitting and poor generalization.
+    \item $n < p$: $X^\t X$ is not invertible, so there will be infinitely many $\betavec$ that minimize the least squares error, so infinitely many models that fit the data equally well.
+\end{enumerate}
+
+\paragraph{Prediction accuracy of linear models}
+
+Three main approaches to improve prediction accuracy of linear models are:
+\begin{enumerate}
+    \item \emph{Limiting $p$} by doing \emph{variable selection}. In this way we reduce variance at the expense of some bias. We also achieve interpretability, as we can identify which predictors are relevant for the response.
+    \item \emph{Shrinkage methods}, which replace the \emph{least squares estimator} by alternative methods.
+    \item \emph{Dimensionality reduction}, which projects the $p$ predictors into a lower-dimensional space (with ${M < p}$) and use the $M$ projections as predictors.
+\end{enumerate}
+
+\paragraph{Subset selection}
+
+The idea here is to identify a subset of important predictors among $X_1, \ldots, X_p$. \emph{Ideally}, we should consider all possible subsets. The algorithm for selecting the best subset is the following:
+\begin{enumerate}
+    \item Let $M_0$ be the null model (only intercept).
+    \item For $k = 1, \ldots, p$:
+          \begin{enumerate}[a.]
+              \item Fit all $\binom{p}{k}$ models with $k$ predictors.
+              \item Pick the best among them, and call it $M_k$.
+          \end{enumerate}
+    \item Select the best model out of $M_0, M_1, \ldots, M_p$ by using some model selection criterion (\eg, \acs{aic}, \acs{bic}, \acs{cv}).
+\end{enumerate}
+
+The problem here is clear: with $p$ predictors, we have $2^p$ possible subsets, so the number of models to fit grows exponentially with $p$.
+
+\begin{example}
+    With $p = 2$ we only have $4$ models to test. However, with $p = 100$ we have $2^{100} \approx 1.26 \cdot 10^{30}$ models to test, which is computationally infeasible.
+\end{example}
+Therefore, we need to use some approximation methods to find a good subset of predictors. Three common approaches are called \emph{stepwise methods}:
+\begin{description}
+    \item[Forward selection]\leavevmode
+          \begin{enumerate}
+              \item Let $M_0$ be the null model (only intercept).
+              \item For $k = 0, \ldots, p-1$:
+                    \begin{enumerate}
+                        \item Fit $p - k$ models that augment $M_k$ with one of the remaining predictors.
+                        \item Choose the best among them, and call it $M_{k+1}$.
+                        \item Fix $M_{k+1}$ and repeat.
+                    \end{enumerate}
+              \item Select the best model among $M_0, M_1, \ldots, M_p$ by using some model selection criterion (\eg, \acs{aic}, \acs{bic}, \acs{cv}).
+          \end{enumerate}
+          With this method we reduce the number of models to fit from $2^p$ to $\frac{p(p+1)}{2} + 1$.
+    \item[Backward selection] The same procedure can be done in reverse, starting from the full model (if it's possible to fit it) and removing one predictor at a time.
+    \item[Stepwise selection] This method is a combination of the previous two. At each step we add a predictor like for forward selection and then we check if any of the previously included predictors can be removed without worsening the model fit. This variant is particularly useful when there are correlations among predictors.
+\end{description}
