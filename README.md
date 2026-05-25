@@ -4,7 +4,7 @@ Notes of the Statistical Models course (Statistics for Data Science Mod. 2) @ Un
 
 ## How to Use This Repository
 
-You can view the compiled PDF of the notes directly on GitHub by navigating to the `main.pdf` file in the repository. Click on it to open and read the notes online.
+You can view the compiled PDF of the notes [here](https://lorenzodbr.github.io/statistical-models/main.pdf).
 
 ## How to Clone and Compile Locally with LaTeX
 
