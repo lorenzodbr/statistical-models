@@ -130,7 +130,7 @@ Modelling hazard of interactions:
 \begin{equation}
     h(t \given \xvec_{s,r}) = h_0(t) \exp(\betavec^\t\xvec_{s,r}(t)),
 \end{equation}
-where $\xvec_{s,r}$ is a vector of covariates associated to the pair $(s,r)$ at time $t$. The aim is to infere $\betavec$ from data.
+where $\xvec_{s,r}$ is a vector of covariates associated to the pair $(s,r)$ at time $t$. The aim is to infer $\betavec$ from data.
 
 \begin{examples}
     Some examples of covariates are:
@@ -150,7 +150,7 @@ where $\xvec_{s,r}$ is a vector of covariates associated to the pair $(s,r)$ at 
     The first two are called \emph{dyadic}. The first three are exogenous, while the last two are endogenous.
 \end{examples}
 
-Let's analyize the partial likelihood in this context. We end up with a similar expression as before:
+Let's analyze the partial likelihood in this context. We end up with a similar expression as before:
 \begin{equation}
     \PL(\betavec) = \prod_{k = 1}^K \frac{\exp(\betavec^\t\xvec_{s_k,r_k}(t_k))}{\sum_{(s_{k^*}, r_{k^*}) \in R(t_k)} \exp(\betavec^\t\xvec_{s_{k^*},r_{k^*}}(t_k))}.
 \end{equation}

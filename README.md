@@ -1,6 +1,10 @@
 # Statistical Models
 
-Notes of the Statistical Models course (Statistics for Data Science Mod. 2) @ University of Trento
+Notes of the Statistical Models course (Statistics for Data Science Mod. 2) @ University of Trento.
+
+## How to Use This Repository
+
+You can view the compiled PDF of the notes directly on GitHub by navigating to the `main.pdf` file in the repository. Click on it to open and read the notes online.
 
 ## How to Clone and Compile Locally with LaTeX
 
