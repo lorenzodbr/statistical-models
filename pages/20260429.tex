@@ -53,7 +53,7 @@ A hyperplane is defined by its orthogonal direction given by $\betavec$. Let us 
 Then, the maximal margin classifier is defined by:
 \begin{equation}
     \begin{aligned}
-        \tuple{\hat{\beta}_0, \betavech} = & \;\argmin_{\beta_0, \betavec} \min_{i = 1, \ldots, n} y_i(\beta_0 + \betavec^\t\xvec_i) \\
+        \tuple{\hat{\beta}_0, \betavech} = & \;\argmax_{\beta_0, \betavec} \min_{i = 1, \ldots, n} y_i(\beta_0 + \betavec^\t\xvec_i) \\
                                            & \;\text{s.t.}\; \norm{\betavec} = 1.
     \end{aligned}
 \end{equation}
@@ -72,7 +72,7 @@ Some remarks:
     \item In general, there are not many observations that are the closest to the hyperplane. They are called support vectors and completely characterize the hyperplane.
 \end{itemize}
 
-However, there are also some problems:
+However, there are some problems with the maximal margin classifier:
 \begin{enumerate}
     \item Classes are typically not linearly separable.
     \item The classifier is sensitive to a small number of support vectors: this could lead to overfitting and it is not robust to outliers.

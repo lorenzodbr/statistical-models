@@ -100,9 +100,7 @@ we could use
 \begin{equation}
     C = \frac{\sum_{\tuple{i, i^*} \text{ s.t. } y_i > y_{i^*}} \oone(\hat{\eta}_{i^*} > \hat{\eta}_i)\delta_{i^*}}{\sum_{\tuple{i, i^*} \text{ s.t. } y_i > y_{i^*}} \delta_{i^*}}
 \end{equation}
-as a measure of the predictive performance of the model, with $\betavech$ estimated from training data. We multiply by $\delta_{i^*}$ to select only those $i^*$ that are not censored.
-
-Basically, with this ratio we are checking how many pairs of patients are correctly ordered by the model given the estimated relative risk. We compare the predicted order (through the relative risk $\hat{\eta}_i$) with the true order (through the observed survival times $y_i$).
+as a measure of the predictive performance of the model, with $\betavech$ estimated from training data. We multiply by $\delta_{i^*}$ to select only those $i^*$ that are not censored. Basically, with this ratio we are checking how many pairs of patients are correctly ordered by the model given the estimated relative risk. We compare the predicted order (through the relative risk $\hat{\eta}_i$) with the true order (through the observed survival times $y_i$).
 
 \section{Application to dynamic networks}
 
@@ -141,13 +139,13 @@ where $\xvec_{s,r}$ is a vector of covariates associated to the pair $(s,r)$ at 
         \item Reciprocity: whether $\tuple{r, s}$ happened before time $t$.
         \item Triadic (transitive) closure:
               \begin{equation}
-                  x_{\mathrm{sr}}(t) = \begin{cases}
+                  x_{s,r}(t) = \begin{cases}
                       1 & \text{if } \tuple{s, k} \text{ and } \tuple{k, r} \text{ happened before time } t, \\
                       0 & \text{otherwise}.
                   \end{cases}
               \end{equation}
     \end{itemize}
-    The first two are called \emph{dyadic}. The first three are exogenous, while the last two are endogenous.
+    The first two are called \emph{dyadic}. The first three are \emph{exogenous}, while the last two are \emph{endogenous}.
 \end{examples}
 
 Let's analyze the partial likelihood in this context. We end up with a similar expression as before:

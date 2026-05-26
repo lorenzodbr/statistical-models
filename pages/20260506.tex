@@ -36,7 +36,7 @@ Recall that in an \acs{svc} the decision surface is linear and defined by:
         f(\xvec) & = \beta_0 + \betavec^\t\xvec                           \\
                  & = \beta_0 + \sum_{j=1}^p\beta_jx_j                     \\
                  & = \beta_0 + \betavec \cdot \xvec                       \\
-                 & = \beta_0 + \sum_{i = 1}^n \gamma_i y_i \xvec_i \xvec.
+                 & = \beta_0 + \sum_{i = 1}^n \gamma_i y_i \xvec_i\cdot \xvec.
     \end{aligned}
 \end{equation}
 In the optimization (estimation of $\gammavec$), we solve:
@@ -84,7 +84,7 @@ The most common choices for the kernel are:
 
           If $\gamma = \frac{1}{2\sigma^2}$, then the radial kernel is also called \emph{Gaussian kernel}. For a $\zvec$ far from $\xvec$, the kernel gets small: for this, it is also called \emph{local kernel}.
 \end{description}
-The choice of $\gammavec, n, \muvec$ is important as it relates to the bias-variance trade-off. Again, \acs{cv} is needed for the selection of these parameters.
+The choice of $\gammavec, n, \mu$ is important as it relates to the bias-variance trade-off. Again, \acs{cv} is needed for the selection of these parameters.
 
 In conclusion, for an \acs{svm} we need:
 \begin{enumerate}
@@ -110,7 +110,7 @@ If there are more than two classes (namely $K > 2$), we can proceed with mainly 
 
 \paragraph{\acsp{svc} vs Logistic Regression}
 
-The optimization problem of \acs{svc} is, as said before:
+The primal optimization problem of \acs{svc} is, as said before:
 \begin{equation}
     \begin{aligned}
          & \min_{\beta_0, \betavec, \epsilonvec} \frac{1}{2}\norm{\betavec}^2                                     \\
@@ -189,11 +189,11 @@ The writing can be simplified by noticing that $y_i \in \{-1, 1\}$:
 
 Let's now compare the two optimization problems:
 \begin{description}
-    \item[\acs{svc}] $\min_{\beta_0, \betavec} \sum_{i=1}^n [1 - y_i(\beta_0 + \betavec^\t\xvec_i)]_+ + \frac{\lambda}{2}\norm{\betavec}^2$
-    \item[\acs{lr} with Ridge penalty] $\min_{\beta_0, \betavec} \sum_{i=1}^n \log(1 + e^{-y_i(\beta_0 + \betavec^\t\xvec_i)}) + \frac{\lambda}{2}\norm{\betavec}^2$.
+    \item[\acs{svc}] $\min_{\beta_0, \betavec} \sum_{i=1}^n [1 - y_i(\beta_0 + \betavec^\t\xvec_i)]_+ + \frac{\lambda}{2}\norm{\betavec}^2\negthinspace$.
+    \item[\acs{lr} with Ridge penalty] $\min_{\beta_0, \betavec} \sum_{i=1}^n \log(1 + e^{-y_i(\beta_0 + \betavec^\t\xvec_i)}) + \frac{\lambda}{2}\norm{\betavec}^2\negthinspace$.
 \end{description}
 
-Support Vectors techniques can be extended also to regression problems using the so called \emph{$\epsilon$-insensitive loss function}:
+Support Vector techniques can be extended to regression problems using the so called \emph{\mbox{$\epsilon$-insensitive} loss function}:
 \begin{equation}
     \L(y, f(\xvec)) = \begin{cases}
         0                             & \text{if } \abs{y - f(\xvec)} < \epsilon,    \\

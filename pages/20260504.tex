@@ -14,20 +14,21 @@ is not very good to have, since it is not convex.
 \end{example}
 We can get rid of this constraint by replacing the second constraint, \ie:
 \begin{equation}
-    \begin{aligned}
-        \tilde{C}_2\colon & \frac{1}{\norm{\betavec}}y_i(\beta_0 + \betavec^\t\xvec_i) \geq M(1 - \epsilon_i), \quad i = 1, \dots, n, \\
-        \iff              & y_i(\beta_0 + \betavec^\t\xvec_i) \geq \norm{\betavec}M(1 - \epsilon_i), \quad i = 1, \dots, n.
-    \end{aligned}
+    \begin{gathered}
+        \tilde{C}_2\colon \frac{1}{\norm{\betavec}}y_i(\beta_0 + \betavec^\t\xvec_i) \geq M(1 - \epsilon_i), \quad i = 1, \dots, n, \\[-2pt]
+        \Big\Updownarrow                                                                                                            \\[1pt]
+        \tilde{C}_2\colon y_i(\beta_0 + \betavec^\t\xvec_i) \geq \norm{\betavec}M(1 - \epsilon_i), \quad i = 1, \dots, n.
+    \end{gathered}
 \end{equation}
 Now, among all the $\betavec$s, we consider the ones such that $\norm{\betavec} = 1/M$, \ie, $M = 1/\norm{\betavec}$. Therefore, the equivalent optimization problem is:
 \begin{equation}
     \begin{aligned}
-         & \max_{\beta_0, \betavec, \epsilonvec} \frac{1}{\norm{\betavec}}                             \\
+         & \argmax_{\beta_0, \betavec, \epsilonvec}\,\frac{1}{\norm{\betavec}}                          \\
          & \text{s.t.}\; y_i(\beta_0 + \betavec^\t\xvec_i) \geq 1 - \epsilon_i, \quad i = 1, \dots, n, \\
          & \phantom{s.t.} \epsilon_i \geq 0, \quad i = 1, \dots, n,                                    \\
          & \phantom{s.t.} \sum_{i=1}^n \epsilon_i \leq C                                               \\
          & \quad\Big\Updownarrow                                                                       \\
-         & \min_{\beta_0, \betavec, \epsilonvec} \norm{\betavec}^2                                     \\
+         & \argmin_{\beta_0, \betavec, \epsilonvec}\,\norm{\betavec}^2                                  \\
          & \text{s.t.}\; y_i(\beta_0 + \betavec^\t\xvec_i) \geq 1 - \epsilon_i, \quad i = 1, \dots, n, \\
          & \phantom{s.t.} \epsilon_i \geq 0, \quad i = 1, \dots, n,                                    \\
          & \phantom{s.t.} \sum_{i=1}^n \epsilon_i \leq C.
@@ -39,8 +40,8 @@ In both cases, obviously, we have $n$ constraints coming from the second line, $
 \begin{equation}
     \begin{aligned}
          & \min_{\alphavec} f(\alphavec)                                \\
-         & \text{s.t.}\; g_i(\alphavec) = 0, \quad i = 1, \dots, d,     \\
-         & \phantom{s.t.} h_j(\alphavec) \leq 0, \quad j = 1, \dots, m.
+         & \text{s.t.}\; h_i(\alphavec) = 0, \quad i = 1, \dots, d,     \\
+         & \phantom{s.t.} g_j(\alphavec) \leq 0, \quad j = 1, \dots, m.
     \end{aligned}
 \end{equation}
 The solution to this problem comes from the \emph{generalized Lagrangian}, which is defined as:
@@ -99,7 +100,7 @@ The $p$ in $\theta_\textsc{p}$ stands for \emph{primal}, since we are still cons
 \begin{equation}
     \begin{aligned}
         y_i(\beta_0 + \betavec^\t\xvec_i) \geq 1 - \epsilon_i & \iff -y_i(\beta_0 + \betavec^\t\xvec_i) + 1 - \epsilon_i \leq 0, \quad i = 1, \dots, n, \\
-        \epsilon_i \geq 0                                     & \iff -\epsilon_i \leq 0, \quad i = 1, \dots, n,                                        \\
+        \epsilon_i \geq 0                                     & \iff -\epsilon_i \leq 0, \quad i = 1, \dots, n,                                         \\
         \sum_{i=1}^n \epsilon_i \leq C                        & \iff \sum_{i=1}^n \epsilon_i - C \leq 0.
     \end{aligned}
 \end{equation}
@@ -130,7 +131,7 @@ If we plug these values back into the Lagrangian, we get:
 \begin{equation}
     \begin{aligned}
         \theta_\textsc{d}(\gammavec, \deltavec, \mu) & = \frac{1}{2}\betavec^\t\betavec - \sum_{i=1}^n (\underbracket{\gamma_i y_i}_{0}\beta_0 + \gamma_iy_i\betavec^\t\xvec_i - \gamma_i + \underbracket{\epsilon_i\gamma_i) - \sum_{i=1}^n \delta_i\epsilon_i - \mu\sum_{i=1}^n \epsilon_i}_{-\gamma_i - \delta_i + \mu = 0} - \mu C \\
-                                                     & = \frac{1}{2} \betavec^\t\betavec - \betavec^\t \underbracket{\sum_{i=1}^n \gamma_i y_i \xvec_i}_{\betavec} + \sum_{i = 1}^n \gamma_i - \mu C                                                                                                                \\
+                                                     & = \frac{1}{2} \betavec^\t\betavec - \betavec^\t \underbracket{\sum_{i=1}^n \gamma_i y_i \xvec_i}_{\betavec} + \sum_{i = 1}^n \gamma_i - \mu C                                                                                                                                   \\
                                                      & = \sum_{i=1}^n \gamma_i - \frac{1}{2}\sum_{i,j} \gamma_i\gamma_j y_i y_j \xvec_i\cdot\xvec_j - \mu C.
     \end{aligned}
 \end{equation}

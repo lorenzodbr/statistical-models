@@ -29,7 +29,7 @@ Let $T$ be:
 \end{equation}
 There are different ways to describe $T$ probabilistically:
 \begin{equation}
-    \underset{\textsc{pdf}}{f(t) = \P(T = t)},\quad\qquad\underset{\textsc{cdf}}{F(t)} = \P(T \leq t),\quad\qquad\underset{\vspace{2pt}\mathclap{\substack{\textsc{survival}\\\textsc{curve}}}}{S(t)} = \P(T > t) = 1 - F(t).
+    \underset{\textsc{pdf}}{f(t)} = \P(T = t),\quad\qquad\underset{\textsc{cdf}}{F(t)} = \P(T \leq t),\quad\qquad\underset{\mathclap{\substack{\\\textsc{survival}\\\textsc{curve}}}}{S(t)} = \P(T > t) = 1 - F(t).
 \end{equation}
 
 \paragraph{Hazard function}
@@ -93,11 +93,11 @@ So, a dataset is given by $\set{\tuple{Y_i, \delta_i}}_{i=1}^n$.
         \draw[->] (0, -0.5) -- (0, 3.5) node[above] {Subject};
 
         % Horizontal lines
-        \draw[line width=1pt] (0, .5) -- (1, .5);
-        \draw[line width=1pt] (0, 1) -- (2, 1);
-        \draw[line width=1pt] (0, 1.5) -- (3, 1.5);
-        \draw[line width=1pt] (0, 2) -- (4, 2);
-        \draw[line width=1pt] (0, 2.5) -- (5, 2.5);
+        \draw[line width=.7pt] (0, .5) -- (1, .5);
+        \draw[line width=.7pt] (0, 1) -- (2, 1);
+        \draw[line width=.7pt] (0, 1.5) -- (3, 1.5);
+        \draw[line width=.7pt] (0, 2) -- (4, 2);
+        \draw[line width=.7pt] (0, 2.5) -- (5, 2.5);
 
         % Circles at the end of lines
         % Bottom line (y=1) - black circle
