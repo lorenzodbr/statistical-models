@@ -107,8 +107,23 @@ The best solution is to use a large, designated test set, left aside to select t
 \paragraph{Hyperparameter tuning vs. Model comparison} Cross-validation can be used both for hyperparameter tuning (\ie, the choice of $d$, $k$, \ldots) and for model comparison.
 
 \begin{example}
-    Let's compare $k$-NN and logistic regression in a setting with $X_1, \ldots, X_p$ predictors. If we perform \acs{cv} on full data and vary the parameter $k$ we obtain two curves, one for $k$-NN and one for logistic regression (the latter will be constant as it doesn't depend on $k$). However, this comparison could be a bit unfair towards logistic regression since the \acs{cv} procedure to select $k$ has seen the full data.
+    Let's compare $k$-NN and logistic regression in a setting with $X_1, \ldots, X_p$ predictors. If we perform \acs{cv} on full data and vary the parameter $k$ we obtain two curves, one for $k$-NN and one for logistic regression (the latter will be constant as it doesn't depend on $k$, as shown in~\cref{fig:cv_comparison}). Since we chose the optimal $k$ for $k$-NN, and at $\hat{k}$ the error for $k$-NN is lower than the error for logistic regression, we might chose the former. This comparison, however, is a bit unfair towards logistic regression since the \acs{cv} procedure to select $k$ has seen the full data.
 \end{example}
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+        \draw[->] (0, 0) -- (5, 0) node[right] {$k$};
+        \draw[->] (0, 0) -- (0, 3) node[above] {\acs{cv} error};
+        \draw[thick, densely dashed] (0, 1.5) -- (5, 1.5) node[right] {\small\acs{lr}};
+        \draw[thick] (.25, 2.5) parabola bend (2.5, 0.5) (4.75, 2.5) node[above right] {\small $k$-NN};
+        \draw[semithick, dotted] (2.5, 0) node[below] {$\hat{k}$} -- (2.5, 1.5);
+        \fill (2.5, 0.5) circle (0.07);
+        \fill (2.5, 1.5) circle (0.07);
+    \end{tikzpicture}
+    \caption{Comparison of $k$-NN and logistic regression.}
+    \label{fig:cv_comparison}
+\end{figure}
 
 \paragraph{Nested cross-validation} To overcome the problem of unfair comparison, we can use \emph{nested cross-validation}:
 \begin{enumerate}
