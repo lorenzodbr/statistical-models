@@ -41,7 +41,7 @@ The choice of $k$ is crucial for the performance of the method. This is connecte
     \item With \emph{small values of $k$} the surface is more local, more flexible/jiggly and may not generalize well to new data. The bias-variance relationship is reversed, with low bias and high variance.
 \end{itemize}
 
-\paragraph{Error rate on test data}
+\paragraph{Choice of $\bm{k}$}
 
 In order to find the optimal trade-off between bias and variance, the simplest approach is to calculate the error rate on unseen test data, \ie:
 \begin{enumerate}
@@ -164,18 +164,18 @@ To find the $\betavec$ that maximizes the log-likelihood, \ie, solving:
 \end{equation}
 there is no closed-form solution, unlike for linear regression, for which we have:
 \begin{equation}
-    \betavech = (X^\t X)^{-1} X^\t Y,
+    \betavech = (X^\t X)^{-1} X^\t Y\negthinspace,
 \end{equation}
 so the equations can only be solved numerically (for example, using an adaptation of the Newton-Raphson method). 
 
 At the end of the estimation we get different quantities of interest:
 \begin{enumerate}
-    \item The estimated coefficients of the model: $\betavech_0, \betavech_1, \ldots, \betavech_p$.
+    \item The estimated coefficients of the model: $\hat{\beta}_0, \hat{\beta}_1, \ldots, \hat{\beta}_p$.
     \item The $p$-values and $H_0$ hypothesis tests for the significance of each coefficient:
     \begin{equation}
         H_0 = \begin{cases}
-            \beta_j = 0,\\
-            \beta_j \neq 0,
+            \hat{\beta}_j = 0,\\
+            \hat{\beta}_j \neq 0,
         \end{cases}\quad \text{for } j = 0, \ldots, p.
     \end{equation}
     \item The prediction:

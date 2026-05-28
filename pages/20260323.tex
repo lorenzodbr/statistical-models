@@ -40,7 +40,7 @@ The various discriminant analysis methods distinguish themselves in the assumpti
 
 \subsection{\texorpdfstring{\acs{lda} with $p = 1$}{LDA with p = 1}}
 
-\acl{lda} assumes:
+\acl{lda} assumes that:
 \begin{enumerate}
     \item $f_j(x)$ is Gaussian (conditional on $Y = j$):
           \begin{equation}
@@ -55,7 +55,7 @@ To summarize those assumptions, we can say:
 
 \paragraph{What about linearity?}
 
-Plugging $f_j(x)$ in the Bayes formula, we obtain:
+Plugging $f_j(x)$ in the Bayes' formula, we obtain:
 \begin{equation}
     P(Y = j \given X = x) = \frac{\frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{1}{2}\left(\frac{x-\mu_j}{\sigma}\right)^2} \pi_j}{\sum_{k=1}^K \frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{1}{2}\left(\frac{x-\mu_k}{\sigma}\right)^2} \pi_k},\quad j = 1, \ldots, K.
 \end{equation}

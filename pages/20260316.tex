@@ -7,13 +7,13 @@ We have already discussed two types of models:
           \end{equation}
           In doing this, we are assuming three things:
           \begin{enumerate}
-              \item Normality of the response variable $Y$.
+              \item Normality of the response variable $Y\negthinspace$.
               \item Linearity over $\betavec$.
               \item Homoscedasticity, \ie, constant variance $\sigma^2$ for all $\xvec$.
           \end{enumerate}
     \item \emph{Logistic regression}, to predict binary responses. In this case we assume that:
           \begin{equation}
-              Y \given \Xvec = \xvec \sim \bernoulli\underbracket{\left(\frac{e^{\xvec^\t\betavec}}{1 + e^{\xvec^\t\betavec}}\right)}_{\P(1\given \xvec)}.
+              Y \given \Xvec = \xvec \sim \bernoulli\underbracket{\left(\frac{e^{\xvec^\t\betavec}}{1 + e^{\xvec^\t\betavec}}\right)}_{\P(1\given \xvec)}\negmedspace.
           \end{equation}
 \end{itemize}
 
@@ -21,7 +21,6 @@ Let's denote with $Y_i$ the response variable conditioned on the $i$-th observat
 \begin{equation}
     Y_i \coloneq Y \given \Xvec = \xvec_i.
 \end{equation}
-
 Now we compare two types of models, namely the \emph{linear model} and the \textit{\acs{glm}}.
 
 \begin{multicols}{2}
@@ -43,7 +42,6 @@ Now we compare two types of models, namely the \emph{linear model} and the \text
         \item $g(\mu_i) = \eta_i = \xvec_i^\t\betavec$, where $g$ is called \emph{link function}.
     \end{itemize}
 \end{multicols}
-
 Different choices of $f$ and $g$ give rise to different types of \acsp{glm}.
 
 \begin{example}
@@ -52,15 +50,15 @@ Different choices of $f$ and $g$ give rise to different types of \acsp{glm}.
 
 \paragraph{Exponential Dispersion family}
 
-\begin{definition}[Exponential Dispersion family]
+\begin{definition*}[Exponential Dispersion family]
     A density function belongs to the \emph{exponential dispersion family} if it can be written in the form:
     \begin{equation}\label{eq:edf}
         f(y_i; \theta_i, \phi) = \exp\left(\frac{y_i\theta_i - b(\theta_i)}{a_i(\phi)} + c(y_i, \phi)\right)
     \end{equation}
     for some parameters $\theta_i$ and $\phi$, and some functions $a_i(\blank)$, $b(\blank)$ and $c(\blank, \blank)$.
-\end{definition}
+\end{definition*}
 
-In~\ref{eq:edf}:
+In~\eqref{eq:edf}:
 \begin{itemize}
     \item $\theta_i$ is called \emph{canonical parameter}.
     \item $\phi$ is called \emph{dispersion parameter}.
@@ -110,7 +108,7 @@ and then:
 \begin{equation}
     \mu_i = n_i\pi_i = n_i \frac{e^{\theta_i}}{1 + e^{\theta_i}}.
 \end{equation}
-Also in the variance:
+Also for the variance:
 \begin{equation}
     \Var(Y_i) = n_i\pi_i(1 - \pi_i) = n_i \frac{\mu_i}{n_i}\left(1 - \frac{\mu_i}{n_i}\right) = \mu_i\left(1 - \frac{\mu_i}{n_i}\right).
 \end{equation}
@@ -199,7 +197,7 @@ We also remember that $\theta_i$ and $\mu_i$ are connected as $\mu_i = b'(\theta
 \begin{equation}
     g(\mu_i) = \eta_i = \xvec_i^\t\betavec.
 \end{equation}
-The \texttt{glm} function in \texttt{R} tries to optimize the function with respect to $\betavec$ using:
+The \texttt{glm} function in \texttt{R} tries to optimize the log-likelihood function with respect to $\betavec$ using:
 \begin{itemize}
     \item \emph{Fisher scoring} (a variant of the Newton-Raphson method).
     \item \emph{Iteratively Reweighted Least-Squares} algorithm.

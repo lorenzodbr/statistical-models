@@ -25,9 +25,9 @@ This loss function is used in the \acf{epe}:
 
 Then, we choose the $f$ that minimizes the \acf{epe}.
 
-\begin{theorem}
+\begin{theorem*}
     The quantity $\E[(Y - f(\Xvec))^2]$ is minimized by $f(\xvec) = \E[Y \given \Xvec = \xvec]$.
-\end{theorem}
+\end{theorem*}
 
 \begin{proof}
     We can write:
@@ -237,4 +237,4 @@ Therefore, the Bayes classifier assigns $\xvec$ to class $1$ if $c_0 \P(0 \given
     \caption{\acs{roc} curve for two classifiers}\label{fig:roc}
 \end{figure}
 
-If we don't know where to put the threshold to distinguish between classes, we can plot the \acf{roc} curve (\Cref{fig:roc}), which, for varying threshold values, shows the relation between $\TPR$ and $\FPR$. Each point on the curve is associated with a specific pair of $\TPR$ and $\FPR$ values and is derived from a different threshold $t \in [0,1]$. Having the curve, the closer we get to the optimal point ($\TPR = 1$ and $\FPR = 0$), the better the classifier is. In general, one choses the classifier with the largest \acf{auc} or with a curve that is the closes to the optimal point for the range of values of the threshold $\tuple{c_0, c_1}$ that one is interested in.
+If we don't know where to put the threshold to distinguish between classes, we can plot the \acf{roc} curve (\Cref{fig:roc}), which, for varying threshold values, shows the relation between $\TPR$ and $\FPR$. Each point on the curve is associated with a specific pair of $\TPR$ and $\FPR$ values and is derived from a different threshold $t = \frac{c_0}{c_0 + c_1}\in [0,1]$. Having the curve, the closer we get to the optimal point ($\TPR = 1$ and $\FPR = 0$), the better the classifier is. In general, one choses the classifier with the largest \acf{auc} or with a curve that is the closes to the optimal point for the range of values of the threshold $\tuple{c_0, c_1}$ that one is interested in.

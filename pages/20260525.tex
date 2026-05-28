@@ -1,6 +1,6 @@
 \chapter{Unsupervised learning}
 
-Up to now we only discussed \emph{supervised learning} methods, for which we have data related both to $\Xvec$ and $Y$. Our goal was to learn a rule to predict $Y$ from $\Xvec$. In \emph{unsupervised learning} methods, instead, we only have data on $\Xvec$. Here, the objective is to find latent structures and patterns in the data through a form of exploratory data analysis. These methods are also more subjective than supervised learning methods and can in fact lead to a supervised learning procedure.
+Up to now we only discussed \emph{supervised learning} methods, for which we have data related both to $\Xvec$ and $Y\negthinspace$. Our goal was to learn a rule to predict $Y$ from $\Xvec$. In \emph{unsupervised learning} methods, instead, we only have data on $\Xvec$. Here, the objective is to find latent structures and patterns in the data through a form of exploratory data analysis. These methods are also more subjective than supervised learning methods and can in fact lead to a supervised learning procedure.
 
 Some examples of unsupervised learning methods are:
 \begin{itemize}
@@ -52,7 +52,7 @@ This is also referred to as \emph{within-cluster variation}, since the $W$ is eq
 The $\bar{\xvec}_\mathit{il}$ is the sample mean of predictor $l$ in cluster $\Gamma_i$.
 
 \begin{proof}
-    Let's consider the case $p = 1$. From \ref{eq:within_cluster_variation} we have:
+    Let's consider the case $p = 1$. From \eqref{eq:within_cluster_variation} we have:
     \begin{equation}
         \begin{aligned}
             2W(\Gamma_i) & = \frac{1}{\abs{\Gamma_i}} \sum_{x, y \in \Gamma_i} (x - y)^2                                                                                                                                                   \\

@@ -19,8 +19,8 @@ First, let's describe what parameters we have and what we expect. For a variable
             \multicolumn{1}{c}{}                         & 1      & \cdots & \multicolumn{1}{c}{p} &                      & \multicolumn{1}{c}{} & \multicolumn{1}{c}{}  & \\
             \cline{2-4} \cline{7-7}
             1                                            & x_{11} & \cdots & x_{1p}                &                      &                      & y_1                   & \\
-            \vdots                                       & \vdots & \ddots & \vdots                &                      &                      & \vdots                & \\[-3pt]
-            n                                            & x_{n1} & \cdots & x_{np}                &                      &                      & y_n                   & \\
+            \vdots                                       & \vdots & \ddots & \vdots                &                      &                      & \vdots                & \\[-4pt]
+            n                                            & x_{n1} & \cdots & x_\mathit{np}                &                      &                      & y_n                   & \\
             \cline{2-4} \cline{7-7} \multicolumn{1}{c}{} &        & X      & \multicolumn{1}{c}{}  & \multicolumn{1}{c}{} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{Y}
         \end{array}
     }
@@ -57,7 +57,7 @@ For a \acs{glm}, we can define the residuals as \emph{pseudo-residuals}:
 
 A common way to standardize the residuals is to calculate the \emph{Pearson residuals}:
 \begin{equation}
-    r_i^\text{P} = \frac{y_i - \hat{\mu}_i}{\sqrt{\frac{\widehat{\Var(y_i)}}{\hat{\phi}}}}, \quad i = 1, \ldots, n.
+    r_i^\textsc{p} = \frac{y_i - \hat{\mu}_i}{\sqrt{\frac{\widehat{\Var(y_i)}}{\hat{\phi}}}}, \quad i = 1, \ldots, n.
 \end{equation}
 For the Poisson regression pseudo-residuals are actually:
 \begin{equation}
@@ -65,7 +65,7 @@ For the Poisson regression pseudo-residuals are actually:
 \end{equation}
 and the Pearson residuals are:
 \begin{equation}
-    r_i^\text{P} = \frac{y_i - e^{\xvec_i^\t\hat{\betavec}}}{\sqrt{e^{\xvec_i^\t\hat{\betavec}}}}, \quad i = 1, \ldots, n.
+    r_i^\textsc{p} = \frac{y_i - e^{\xvec_i^\t\hat{\betavec}}}{\sqrt{e^{\xvec_i^\t\hat{\betavec}}}}, \quad i = 1, \ldots, n.
 \end{equation}
 Asymptotically, the Pearson residuals are distributed as a standard normal distribution, but they could be skewed if $\hat{\mu}_i$ is small.
 

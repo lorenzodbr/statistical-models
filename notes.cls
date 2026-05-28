@@ -28,11 +28,16 @@
 
 % Fonts
 \RequirePackage[full]{textcomp}
+\RequirePackage{iwona}
+\makeatletter
+\edef\iwonafamily{\rmdefault}
+\makeatother
 \RequirePackage[vvarbb,scosf,ebgaramond,scale=0.953]{newtx}
 \RequirePackage{setspace}
 \RequirePackage{fnpct}
 \RequirePackage{textgreek}
 \RequirePackage{bm}
+\RequirePackage{lccaps}
 
 % Symbols
 \RequirePackage{latexsym}
@@ -107,8 +112,6 @@
 % ---------------------------------
 
 % General stylings
-
-\renewcommand{\LettrineFontHook}{\color[gray]{0.15}}
 \setfnpct{ add-trailing-token = :[.05em]{bang} }
 
 % ---------------------------------
@@ -131,21 +134,24 @@
 % Title stylings
 
 \newfont{\bigNumber}{eurb10 scaled 5000}
-\definecolor{halfgray}{gray}{0.65}
+\definecolor{halfgray}{gray}{0.6}
 
 % \renewcommand\thepart{\arabic{part}}
 
-\titleformat{\chapter}[block]{\normalfont\Huge\scshape}{{\textcolor{halfgray}{\raisebox{-.3pt}{\bigNumber\thechapter}}\hspace{10pt}\vline}~}{10pt}{\setstretch{.8}\begin{minipage}[c]{\linewidth - \widthof{\raisebox{-.3pt}{\bigNumber\thechapter}\hspace{10pt}\vline} + 8pt}}[\end{minipage}]
-\titleformat{\section}{\normalfont\Large\scshape}{\thesection}{1em}{}
-\titleformat{\subsection}{\normalfont\large\scshape}{\thesubsection}{1em}{}
-\titleformat{\part}[display]{\normalfont\HUGE\scshape\centering}{\textcolor{halfgray}{\bigNumber\thepart}}{8pt}{}
+\newcommand{\sffont}{\fontfamily{\iwonafamily}\selectfont}
+
+\titleformat{\chapter}[block]{\sffont\HUGE\scshape}{{\textcolor{halfgray}{\raisebox{-.3pt}{\bigNumber\thechapter}}\hspace{10pt}\vline}~}{10pt}{\setstretch{.8}\begin{minipage}[c]{\linewidth - \widthof{\raisebox{-.3pt}{\bigNumber\thechapter}\hspace{10pt}\vline} + 8pt}}[\end{minipage}]
+\titleformat{\section}{\sffont\Large\scshape}{\thesection}{1em}{}
+\titleformat{\subsection}{\sffont\large\scshape}{\thesubsection}{1em}{}
+\titleformat{\part}[display]{\sffont\HUGE\scshape\centering}{\textcolor{halfgray}{\bigNumber\thepart}}{8pt}{}
+\titleformat{\paragraph}[runin]{\sffont\bfseries\scshape}{}{0em}{}
 
 \newdateformat{monthyeardate}{%
     \monthname[\THEMONTH] \THEYEAR}
 
-\renewcommand{\cfttoctitlefont}{\Huge\scshape}
-\renewcommand{\cftchapfont}{\large\scshape}
-\renewcommand{\cftpartfont}{\Large\scshape}
+\renewcommand{\cfttoctitlefont}{\Huge\sffont\scshape}
+\renewcommand{\cftchapfont}{\large\sffont\scshape}
+\renewcommand{\cftpartfont}{\Large\sffont\scshape}
 
 % ---------------------------------
 
@@ -193,9 +199,9 @@
 \newtheoremstyle{cursivewithname}
 {9pt}{9pt}{\normalshape}{}{\itshape}{.}{.5em}{#1\thmnote{\;\,\textup{(#3)}}}
 \newtheoremstyle{smallcaps}
-{9pt}{9pt}{\itshape}{}{\scshape}{.}{.5em}{#1\ifthenelse{\equal{#2}{}}{}{~}#2\thmnote{\;\,\textup{(#3)}}}
+{9pt}{9pt}{\itshape}{}{\sffont\scshape}{.}{.5em}{#1\ifthenelse{\equal{#2}{}}{}{~}#2\thmnote{\;\,\normalfont\textup{(#3)}}}
 \newtheoremstyle{smallcapswithname}
-{9pt}{9pt}{\itshape}{}{\scshape}{.}{.5em}{#1\thmnote{~#3}}
+{9pt}{9pt}{\itshape}{}{\sffont\scshape}{.}{.5em}{#1\thmnote{~#3}}
 
 \theoremstyle{cursive}
 \newtheorem*{plainnote}{Note}
@@ -206,6 +212,7 @@
 
 \theoremstyle{smallcaps}
 \newtheorem{definition}{Definition}
+\newtheorem*{definition*}{Definition}
 \newtheorem*{proposition*}{Proposition}
 \newtheorem{proposition}{Proposition}
 \newtheorem{corollary}{Corollary}
@@ -555,13 +562,13 @@
 \fancypagestyle{notes}{%
     \fancyhf{}
     \fancyhead[LE,RO]{\thepage}
-    \fancyhead[RE]{\scshape\nouppercase{\leftmark}}
-    \fancyhead[LO]{\scshape\nouppercase{\rightmark}}
+    \fancyhead[RE]{\sffont\scshape\nouppercase{\leftmark}}
+    \fancyhead[LO]{\sffont\scshape\nouppercase{\rightmark}}
     \setlength{\headheight}{13.6pt}
 }
 \renewcommand{\headrulewidth}{0pt}
-\renewcommand{\chaptermark}[1]{\markboth{\thechapter\quad #1}{}}
-\renewcommand{\sectionmark}[1]{\markright{\thesection\quad #1}}
+\renewcommand{\chaptermark}[1]{\markboth{\thechapter\color{halfgray}\quad #1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection\color{halfgray}\quad #1}}
 
 \let\oldfootnote\footnote
 \renewcommand{\footnote}[1]{\oldfootnote{\maybeaddperiod{#1}}}
@@ -599,7 +606,7 @@
             {University of Trento}
             
             \vfill
-            {\coursefontsize\bitbig{\textsc{\course}}}
+            {\coursefontsize\sffont\bitbig{\textsc{\course}}}
             \vspace{.3cm}
 
             \edef\repourl{https://github.com/lorenzodbr/\repo}
