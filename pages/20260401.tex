@@ -62,31 +62,31 @@ The best solution is to use a large, designated test set, left aside to select t
               \item Use the model to make predictions on the left-out fold.
               \item Repeat across $k$ folds and combine the results.
           \end{enumerate}
-
-          Formally:
-          \begin{enumerate}
-              \item Fix a model (\ie, set parameters $k$, $d$, \etc).
-              \item Let $C_1, \dots, C_k$ be the indices of the observations in each fold.
-              \item For each fold $C_i$, calculate the error:
-                    \begin{equation}
-                        E_i = \begin{dcases}
-                            \acs{mse}_i\colon \frac{1}{\abs{C_i}}\sum_{j \in C_i} (y_j - \hat{y}_j)^2      & \text{if regression},     \\
-                            \acs{er}_i\colon \frac{1}{\abs{C_i}}\sum_{j \in C_i} \oone(\hat{y}_j \neq y_j) & \text{if classification},
-                        \end{dcases} \quad i = 1,\ldots,k.
-                    \end{equation}
-              \item Then combine the results across folds:
-                    \begin{equation}
-                        \acs{cv} = \frac{1}{k}\sum_{i = 1}^k E_i.
-                    \end{equation}
-          \end{enumerate}
-
-          With $k$-fold \acs{cv} we can benefit from the following advantages:
-          \begin{itemize}
-              \item Both fitting and testing see the entire dataset.
-              \item Low variability of \acs{cv} error.
-          \end{itemize}
-          However, performing this is computationally more expensive than a single train-validation split.
 \end{enumerate}
+
+Formally:
+\begin{enumerate}
+    \item Fix a model (\ie, set parameters $k$, $d$, \etc).
+    \item Let $C_1, \dots, C_k$ be the indices of the observations in each fold.
+    \item For each fold $C_i$, calculate the error:
+          \begin{equation}
+              E_i = \begin{dcases}
+                  \acs{mse}_i\colon \frac{1}{\abs{C_i}}\sum_{j \in C_i} (y_j - \hat{y}_j)^2      & \text{if regression},     \\
+                  \acs{er}_i\colon \frac{1}{\abs{C_i}}\sum_{j \in C_i} \oone(\hat{y}_j \neq y_j) & \text{if classification},
+              \end{dcases} \quad i = 1,\ldots,k.
+          \end{equation}
+    \item Then combine the results across folds:
+          \begin{equation}
+              \acs{cv} = \frac{1}{k}\sum_{i = 1}^k E_i.
+          \end{equation}
+\end{enumerate}
+
+With $k$-fold \acs{cv} we can benefit from the following advantages:
+\begin{itemize}
+    \item Both fitting and testing see the entire dataset.
+    \item Low variability of \acs{cv} error.
+\end{itemize}
+However, performing this is computationally more expensive than a single train-validation split.
 
 \paragraph{Choice of $\bm{k}$} Some key points to consider when choosing $k$ are:
 \begin{itemize}
@@ -107,7 +107,7 @@ The best solution is to use a large, designated test set, left aside to select t
 \paragraph{Hyperparameter tuning vs. Model comparison} Cross-validation can be used both for hyperparameter tuning (\ie, the choice of $d$, $k$, \ldots) and for model comparison.
 
 \begin{example}
-    Let's compare $k$-NN and logistic regression in a setting with $X_1, \ldots, X_p$ predictors. If we perform \acs{cv} on full data and vary the parameter $k$ we obtain two curves, one for $k$-NN and one for logistic regression (the latter will be constant as it doesn't depend on $k$, as shown in~\cref{fig:cv_comparison}). Since we chose the optimal $k$ for $k$-NN, and at $\hat{k}$ the error for $k$-NN is lower than the error for logistic regression, we might chose the former. This comparison, however, is a bit unfair towards logistic regression since the \acs{cv} procedure to select $k$ has seen the full data.
+    Let's compare $k$-NN and logistic regression in a setting with $X_1, \ldots, X_p$ predictors. If we perform \acs{cv} on full data and vary the parameter $k$ we obtain two curves, one for $k$-NN and one for logistic regression (the latter will be constant as it doesn't depend on $k$, as shown in~\Cref{fig:cv_comparison}). Since we chose the optimal $k$ for $k$-NN, and at $\hat{k}$ the error for $k$-NN is lower than the error for logistic regression, we might chose the former. This comparison, however, is a bit unfair towards logistic regression since the \acs{cv} procedure to select $k$ has seen the full data.
 \end{example}
 
 \begin{figure}

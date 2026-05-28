@@ -73,7 +73,7 @@ The larger the $\lambda$, the smaller the $c$ and the more shrunk the estimates.
                                    & = (R + \lambda\oone)^{-1} R \underbracket{(X^\t X)^{-1} X^\t \Yvec}_{\betavech_{\textrm{LS}}} \\
                                    & = (R(\oone + \lambda R^{-1}))^{-1} R \betavech_{\textrm{LS}}                                        \\
                                    & = (\oone + \lambda R^{-1})^{-1} \underbracket{R^{-1} R}_{\oone}\betavech_{\textrm{LS}}         \\
-                                   & = {\underbracket{(\oone + \lambda(X^\t X)^{-1})}_{A}}^{-1} \betavech_{\textrm{LS}}.
+                                   & = {\underbracket{(\oone + \lambda(X^\t X)^{-1})}_{A}}^{\!-1\,} \betavech_{\textrm{LS}}.
     \end{aligned}
 \end{equation}
 Therefore, $\betavech_{\textsc{Ridge}} = A \betavech_{\textrm{LS}}$ where $A$ is a matrix that depends on $\lambda$ and $X$.
@@ -135,11 +135,11 @@ The two additional terms in Ridge and Lasso regression are different when interp
 \begin{example}
     Let's assume that we have only one predictor ($p = 1$), then:
     \begin{equation}
-        \betavech_{\textsc{Lasso}} = \argmin_{\beta} (\Yvec - \Xvec\beta)^\t (\Yvec - \Xvec\beta) + \lambda |\beta|.
+        \betavech_{\textsc{Lasso}} = \argmin_{\beta} (\Yvec - X\beta)^\t (\Yvec - X\beta) + \lambda |\beta|.
     \end{equation}
     If we take the derivative with respect to $\beta$ and set it to zero, we get:
     \begin{equation}
-        -2 \Xvec^\t(\Yvec - \Xvec\beta) + \lambda\sgn(\beta) = 0,
+        -2 X^\t(\Yvec - X\beta) + \lambda\sgn(\beta) = 0,
     \end{equation}
     where $\sgn(\beta)$ is a variant of the sign function defined as:
     \begin{equation}
@@ -156,24 +156,24 @@ The two additional terms in Ridge and Lasso regression are different when interp
 
 Consider the least squares estimator $\hat{\beta}_\textrm{LS}$ for one predictor, which is the solution of the optimization problem:
 \begin{equation}
-    \Xvec^\t(\Yvec - \Xvec\beta) = 0.
+    X^\t(\Yvec - X\beta) = 0.
 \end{equation}
 
 We distinguish three cases:
 \begin{itemize}
     \item $\begin{aligned}[t]
-                  \beta_{\textsc{Lasso}} > 0 & \iff \Xvec^\t(\Yvec - \Xvec\beta_\textsc{Lasso}) = \frac{\lambda}{2}                                                              \\
-                                                   & \iff \Xvec^\t \Yvec = \Xvec^\t \Xvec\beta_\textsc{Lasso} + \frac{\lambda}{2}                                        \\
-                                                   & \iff \beta_{\textsc{Lasso}} = (\Xvec^\t \Xvec)^{-1} \Xvec^\t \Yvec - \frac{\lambda}{2} (\Xvec^\t \Xvec)^{-1} \\
-                                                   & \iff \beta_{\textsc{Lasso}} = \beta_\textrm{LS} - \frac{\lambda}{2} (\Xvec^\t \Xvec)^{-1}\negthinspace.
+                  \beta_{\textsc{Lasso}} > 0 & \iff X^\t(\Yvec - X\beta_\textsc{Lasso}) = \frac{\lambda}{2}                                                              \\
+                                                   & \iff X^\t \Yvec = X^\t X\beta_\textsc{Lasso} + \frac{\lambda}{2}                                        \\
+                                                   & \iff \beta_{\textsc{Lasso}} = (X^\t X)^{-1} X^\t \Yvec - \frac{\lambda}{2} (X^\t X)^{-1} \\
+                                                   & \iff \beta_{\textsc{Lasso}} = \beta_\textrm{LS} - \frac{\lambda}{2} (X^\t X)^{-1}\negthinspace.
               \end{aligned}$
     \item $\begin{aligned}
-                  \beta_{\textsc{Lasso}} < 0 & \iff \Xvec^\t(\Yvec - \Xvec\beta_{\textsc{Lasso}}) = -\frac{\lambda}{2} \iff \beta_{\textsc{Lasso}} = \beta_\textrm{LS} + \frac{\lambda}{2} (\Xvec^\t \Xvec)^{-1}\negthinspace.
+                  \beta_{\textsc{Lasso}} < 0 & \iff X^\t(\Yvec - X\beta_{\textsc{Lasso}}) = -\frac{\lambda}{2} \iff \beta_{\textsc{Lasso}} = \beta_\textrm{LS} + \frac{\lambda}{2} (X^\t X)^{-1}\negthinspace.
               \end{aligned}$
     \item $\begin{aligned}[t]
-                  \beta_{\textsc{Lasso}} = 0 & \iff \Xvec^\t(\Yvec - \Xvec\beta_{\textsc{Lasso}}) \in \left[-\frac{\lambda}{2}, \frac{\lambda}{2}\right]                                                              \\
-                                                   & \iff \Xvec^\t \Yvec - \underbracket{(\Xvec^\t \Xvec) \beta_{\textsc{Lasso}}}_{0} \in \left[-\frac{\lambda}{2}, \frac{\lambda}{2}\right]                   \\
-                                                   & \iff \beta_\textrm{LS} = (\Xvec^\t \Xvec)^{-1} \Xvec^\t \Yvec \in \left[-\frac{\lambda}{2} (\Xvec^\t \Xvec)^{-1}, \frac{\lambda}{2} (\Xvec^\t \Xvec)^{-1}\right].
+                  \beta_{\textsc{Lasso}} = 0 & \iff X^\t(\Yvec - X\beta_{\textsc{Lasso}}) \in \left[-\frac{\lambda}{2}, \frac{\lambda}{2}\right]                                                              \\
+                                                   & \iff X^\t \Yvec - \underbracket{(X^\t X) \beta_{\textsc{Lasso}}}_{0} \in \left[-\frac{\lambda}{2}, \frac{\lambda}{2}\right]                   \\
+                                                   & \iff \beta_\textrm{LS} = (X^\t X)^{-1} X^\t \Yvec \in \left[-\frac{\lambda}{2} (X^\t X)^{-1}, \frac{\lambda}{2} (X^\t X)^{-1}\right].
               \end{aligned}$
 \end{itemize}
 

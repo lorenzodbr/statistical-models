@@ -60,12 +60,16 @@ Different choices of $f$ and $g$ give rise to different types of \acsp{glm}.
     for some parameters $\theta_i$ and $\phi$, and some functions $a_i(\blank)$, $b(\blank)$ and $c(\blank, \blank)$.
 \end{definition}
 
-In~\cref{eq:edf}:
+In~\ref{eq:edf}:
 \begin{itemize}
     \item $\theta_i$ is called \emph{canonical parameter}.
     \item $\phi$ is called \emph{dispersion parameter}.
     \item $b$ is called \emph{cumulant generator}.
 \end{itemize}
+
+\begin{proposition*}
+    Gaussian and binomial distributions belong to the exponential dispersion family.  
+\end{proposition*}
 
 Let's focus on the binomial distribution. If we write $Y_i \sim \binomial(n_i, \pi_i)$, we can connect $\theta_i$ and $\mu_i$ as follows:
 \begin{equation}
@@ -124,7 +128,7 @@ Then $\mu_i = \pi_i \in (0,1)$ and $\eta_i = \xvec_i^\t\betavec \in (-\infty, \i
           \end{equation}
           and this can be inverted to get:
           \begin{equation}
-              \eta_i = g(\mu_i) = f^-1(\mu_i) = \log\left(\frac{\mu_i}{1 - \mu_i}\right),
+              \eta_i = g(\mu_i) = f^{-1}(\mu_i) = \log\left(\frac{\mu_i}{1 - \mu_i}\right),
           \end{equation}
           which is called \emph{logit link}.
 \end{enumerate}

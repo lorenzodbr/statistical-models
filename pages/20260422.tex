@@ -2,7 +2,7 @@
 
 Decision trees are easily interpretable but they tend to have a high variance. Bagging and boosting are two techniques that reduce the variance of a statistical learning method without increasing the bias. The main disadvantage is the loss of interpretability, but there are various techniques to overcome this problem.
 
-The term stands for \emph{Bootstrap aggregation}. The motivation behind this method is the following: assume we have $n$ independent random variables $Z_1, \dots, Z_n$ with all the same variance $\sigma^2$ and mean $\mu$. Consider $\overbar{Z} = \frac{1}{n} \sum_{i=1}^n Z_i$. Then:
+The term stands for \emph{bootstrap aggregation}. The motivation behind this method is the following: assume we have $n$ independent random variables $Z_1, \dots, Z_n$ with all the same variance $\sigma^2$ and mean $\mu$. Consider $\overbar{Z} = \frac{1}{n} \sum_{i=1}^n Z_i$. Then:
 \begin{equation}
     \begin{aligned}
         \Var(\overbar{Z}) &= \Var\left( \frac{1}{n} \sum_{i=1}^n Z_i \right) = \frac{1}{n^2} \sum_{i=1}^n \Var(Z_i) = \frac{\sigma^2}{n},\\
@@ -53,7 +53,7 @@ Random forests provide a way to ``decorrelate'' trees.
 
 Question: why would the trees grown in bagging be correlated? Strong predictors will tend to appear at the first splits of the trees and the trees will then look quite similar. The idea is, before each split in each tree, draw $m$ features at random from the $p$ predictors and look for splits among these variables only.
 
-If there is a strong predictor, it will now appear at first split only on $m/p$ trees out of the $B$ that are grown. Therefore, $m$ has now a role in the bias-variance tradeoff: 
+If there is a strong predictor, it will now appear at first split only on $m/p$ trees out of the $B$ that are grown. Therefore, $m$ has now a role in the bias-variance trade-off: 
 \begin{itemize}
     \item Strong predictors not included will lead to higher bias;
     \item Strong predictors always included will lead to higher variance.
@@ -99,7 +99,7 @@ An algorithm for boosting is called \emph{Gradient Boosting}:
 Some remarks:
 \begin{enumerate}[beginpenalty=10000]
     \item $J_m$ is typically small ($2$, $3$).
-    \item $M$ is related to the bias-variance tradeoff, so it needs to be tuned by cross-validation or similar.
+    \item $M$ is related to the bias-variance trade-off, so it needs to be tuned by cross-validation or similar.
     \item A common version of boosting has an additional parameter, called \emph{learning rate}, $0 < \nu \leq 1$, that is inserted in the update step:
     \begin{equation}
         f_m(\xvec_i) = f_{m-1}(\xvec_i) + \nu \sum_{j=1}^{J_m} \gamma_{\mathit{jm}} \oone(\xvec_i \in R_{\mathit{jm}}).

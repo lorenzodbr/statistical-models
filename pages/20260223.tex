@@ -86,7 +86,7 @@ The estimation of $f$ is important for two reasons:
 
 \section{Bias-Variance Trade-off}
 
-The bias-variance tradeoff is a fundamental concept in statistical learning, which describes the relationship between the bias and variance of an estimator. Suppose that we compute the mean squared error (MSE) of an estimator $\hat{f}$ at a point $\xvec$:
+The bias-variance trade-off is a fundamental concept in statistical learning, which describes the relationship between the bias and variance of an estimator. Suppose that we compute the mean squared error (MSE) of an estimator $\hat{f}$ at a point $\xvec$:
 \begin{equation}\label{eq:bias-variance-tradeoff}
     \begin{aligned}
         \E[(Y - \hat{f}(\Xvec))^2 \given \Xvec = \xvec] & = \E[(f(\Xvec) + \epsilon - \hat{f}(\Xvec) + \E[\hat{f}(\Xvec)] - \E[\hat{f}(\Xvec)])^2\given \Xvec = \xvec]                                                    \\
@@ -113,4 +113,4 @@ Therefore, we have:
     {\underbracket{(f(\xvec) - \E[\hat{f}(\xvec)])}_{\text{Bias}}}^2 + \Var(\epsilon) + \Var(\hat{f}(\xvec)).
 \end{equation}
 
-Simple models tend to have high bias and low variance, meaning that on new data, $\hat{f}$ does not change much. With a $n$-degree polynomial we can always pass through $n+1$ points, so it has low bias and high variance. However, the resulting curve will be wiggly. High degree polynomials (complex models) are more flexible but they are the opposite of simple models, since they have low bias and high variance. The accuracy of the model depends on the $a$, $b$ and $c$ terms of the \cref{eq:bias-variance-tradeoff}, but $b$ is not reducible, while $a$ and $c$ are inversely proportional. In conclusion, for a given dataset, we need to find a good trade-off between bias and variance.
+Simple models tend to have high bias and low variance, meaning that on new data, $\hat{f}$ does not change much. With a $n$-degree polynomial we can always pass through $n+1$ points, so it has low bias and high variance. However, the resulting curve will be wiggly. High degree polynomials (complex models) are more flexible but they are the opposite of simple models, since they have low bias and high variance. The accuracy of the model depends on the $a$, $b$ and $c$ terms of the \Cref{eq:bias-variance-tradeoff}, but $b$ is not reducible, while $a$ and $c$ are inversely proportional. In conclusion, for a given dataset, we need to find a good trade-off between bias and variance.

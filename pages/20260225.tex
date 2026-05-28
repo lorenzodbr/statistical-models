@@ -64,7 +64,7 @@ Then, we choose the $f$ that minimizes the \acf{epe}.
     \end{equation}
 \end{note}
 
-It is worth noting that other choices of the loss function $L$ lead to different optimal regression functions. For example, if we choose $\L(Y\negthinspace, f(\Xvec)) = \abs{Y - f(\Xvec)}$, then the optimal regression function is the conditional median of $Y$ given $\Xvec$:
+It is worth noting that other choices of the loss function $\L$ lead to different optimal regression functions. For example, if we choose $\L(Y\negthinspace, f(\Xvec)) = \abs{Y - f(\Xvec)}$, then the optimal regression function is the conditional median of $Y$ given $\Xvec$:
 \begin{equation}
     f(\xvec) = \text{Median}(Y \given \Xvec = \xvec).
 \end{equation}
@@ -87,7 +87,7 @@ Under the squared error loss, different regression methods make different assump
 
           The function $f(\xvec)$ can be written as:
           \begin{equation}
-              f(\xvec) = \E[Y \given \Xvec = \xvec] = \beta_0 + \beta_1 x_1 + \ldots + \beta_p x_p.
+              f(\xvec) = \E[Y \given \Xvec = \xvec] = \beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p.
           \end{equation}
     \item \emph{$k$-nearest neighbors} (non-parametric), makes no assumptions on $Y$ and $f(\xvec)$ is estimated as the average of the $k$ nearest neighbors of $\xvec$:
           \begin{equation}
@@ -138,16 +138,16 @@ Therefore, the optimal classifier under a $0$-$1$ loss assigns $\xvec$ to the cl
         \P(0 \given \xvec) & \leq \P(1 \given \xvec) \iff 1 - \P(1 \given \xvec) \leq \P(1 \given \xvec) \iff \P(1 \given \xvec) \geq 0.5.
     \end{aligned}
 \end{equation}
-In general, with more than two classes, the Bayes Classifier assigns $\xvec$ to the class:
+In general, with more than two classes, the Bayes classifier assigns $\xvec$ to the class:
 \begin{equation}
     j = \argmax_{i \in \text{Classes}}\P(i\given \xvec).
 \end{equation}
 
-\subsection{Bayes decision boundary}
+\paragraph{Bayes decision boundary}
 
-A \emph{Bayes decision boundary} is the set of points $\xvec$ in the space of predictors where $\P(1 \given \xvec) = 0.5$ and is represented by a $(p-1)$-d manifold in a $p$-dimensional space. Our goal is to approximate the surface with a classifier $\hat{\operatorname{Y}}(\xvec)$ that is as close as possible to the Bayes Classifier $\operatorname{Y}(\xvec)$.
+A \emph{Bayes decision boundary} is the set of points $\xvec$ in the space of predictors where $\P(1 \given \xvec) = 0.5$ and is represented by a $(p-1)$-d manifold in a $p$-dimensional space. Our goal is to approximate the surface with a classifier $\hat{\operatorname{Y}}(\xvec)$ that is as close as possible to the Bayes classifier $\operatorname{Y}(\xvec)$.
 
-There is a similar concept with the irreducible error in regression but with Bayes Classifier which is called \emph{Bayes Error Rate} and is defined as:
+There is a similar concept with the irreducible error in regression but with Bayes classifier which is called \emph{Bayes Error Rate} and is defined as:
 \begin{equation}
     \BER = 1 - \E_{\Xvec}[\max_{j}\P(j \given \Xvec)].
 \end{equation}
@@ -209,7 +209,7 @@ with $c_0 \neq c_1$. If $c_0 = c_1$, then we are back to the $0$-$1$ loss. Using
         \E[\L(Y\negthinspace, 1) \given \xvec] & = c_0 \P(0 \given \xvec).
     \end{aligned}
 \end{equation}
-Therefore, the Bayes Classifier assigns $\xvec$ to class $1$ if $c_0 \P(0 \given \xvec) \leq c_1 \P(1 \given \xvec)$, which leads to:
+Therefore, the Bayes classifier assigns $\xvec$ to class $1$ if $c_0 \P(0 \given \xvec) \leq c_1 \P(1 \given \xvec)$, which leads to:
 \begin{equation}
     \P(1\given \xvec) \geq \frac{c_0}{c_0 + c_1}.
 \end{equation}
@@ -237,4 +237,4 @@ Therefore, the Bayes Classifier assigns $\xvec$ to class $1$ if $c_0 \P(0 \given
     \caption{\acs{roc} curve for two classifiers}\label{fig:roc}
 \end{figure}
 
-If we don't know where to put the threshold to distinguish between classes, we can plot the \acf{roc} curve (\Cref{fig:roc}), which, for varying threshold values, shows the relation between $\TPR$ and $\FPR$. Each point on the curve is associated with a specific pair of $\TPR$ and $\FPR$ values and is derived from a different threshold $t \in [0,1]$. Having the curve, the closer we get to the optimal point ($\TPR = 1$ and $\FPR = 0$), the better the classifier is. In general, one choses the classifier with the largest \acf{auc} or with a curve that is the closes to the optimal point for the range of values of the threshold $(c_0)$ that one is interested in.
+If we don't know where to put the threshold to distinguish between classes, we can plot the \acf{roc} curve (\Cref{fig:roc}), which, for varying threshold values, shows the relation between $\TPR$ and $\FPR$. Each point on the curve is associated with a specific pair of $\TPR$ and $\FPR$ values and is derived from a different threshold $t \in [0,1]$. Having the curve, the closer we get to the optimal point ($\TPR = 1$ and $\FPR = 0$), the better the classifier is. In general, one choses the classifier with the largest \acf{auc} or with a curve that is the closes to the optimal point for the range of values of the threshold $\tuple{c_0, c_1}$ that one is interested in.

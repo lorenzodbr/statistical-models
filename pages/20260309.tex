@@ -41,7 +41,7 @@ The choice of $k$ is crucial for the performance of the method. This is connecte
     \item With \emph{small values of $k$} the surface is more local, more flexible/jiggly and may not generalize well to new data. The bias-variance relationship is reversed, with low bias and high variance.
 \end{itemize}
 
-\subsection{Error rate on test data}
+\paragraph{Error rate on test data}
 
 In order to find the optimal trade-off between bias and variance, the simplest approach is to calculate the error rate on unseen test data, \ie:
 \begin{enumerate}
@@ -122,6 +122,7 @@ This function is called \emph{logistic function} or \emph{sigmoid}.
             ]
             \addplot[domain=-10:10, samples=100, thick] {exp(x) / (1 + exp(x))};
             \addplot[domain=-10:10, samples=100, thick, dashed] {exp(-x) / (1 + exp(-x))};
+            
             \legend{\text{$\beta_0 = 0, \beta_1 = 1$}, \text{$\beta_0 = 0, \beta_1 = -1$}}
         \end{axis}
     \end{tikzpicture}

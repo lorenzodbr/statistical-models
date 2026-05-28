@@ -2,7 +2,7 @@
 
 The main idea behind these methods is to divide the space into simple regions. The predicted outcome, $\hat{y}$ or class, depends on the region of the space an observation falls into. The partitioning is the result of some sequential splitting rules, and this is the reason why this method is called \emph{decision tree}.
 
-\section{Regression trees}
+\section{Decision trees}
 
 Given a tree with $J$ regions $R_1, R_2, \dots, R_J$, then:
 \begin{description}
@@ -135,4 +135,5 @@ We cannot select $\alpha$ by looking at the training error, but rather on some u
     \item For each $\alpha$, we fit the tree on $k-1$ folds and we prune it.
     \item We then use $T_\alpha$ to make predictions on the left-out fold.
     \item We compute the \acs{cv} error.
+    \item We choose the value of $\alpha$ that achieves the lowest \acs{cv} error.
 \end{enumerate}

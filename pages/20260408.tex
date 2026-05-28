@@ -39,7 +39,7 @@ Consider a linear model consisting of:
 
 Formally we can write:
 \begin{equation}
-    Y = \beta_1\xvec_1 + \dots + \beta_p\xvec_p + \epsilon = \xvec^\t\betavec + \epsilon,
+    Y = \beta_1x_1 + \dots + \beta_px_p + \epsilon = \xvec^\t\betavec + \epsilon,
 \end{equation}
 
 We also have a dataset $\tuple{\xvec_i, y_i},\;i = 1, \dots, n$. Our aim is to estimate $\betavec = \tuple{\beta_1 \cdots \beta_p}^\t$ from data. We proceed with a least squares approach. In matrix form we can write:
@@ -101,7 +101,7 @@ Under the assumption that the linear model generated the data:
                   \Var(\betavech) & = \Var((X^\t X)^{-1} X^\t\yvec)                                                                                  \\
                                   & = (X^\t X)^{-1} X^\t \sigma^2 \oone_n X((X^\t X)^{-1})^\t      \qquad \expl{[$\Var(A\xvec) = A\Var(\xvec)A^\t$]} \\
                                   & = (X^\t X)^{-1} X^\t \sigma^2 \oone_n X(X^\t X)^{-1}    \qquad \expl{$[((X^\t X)^{-1})^\t = (X^\t X)^{-1}]$}     \\
-                                  & = \sigma^2 (X^\t X)^{-1}{\underbracket{(X^\t X)(X^\t X)}_{\oone_p}}^{-1}                                         \\
+                                  & = \sigma^2 (X^\t X)^{-1}{\underbracket{(X^\t X)(X^\t X)}_{\oone_p}}^{\!-1\,}                                         \\
                                   & = \sigma^2 {\underbracket{(X^\t X)}_{p \times p}}^{-1}\negmedspace.
               \end{aligned}$
 \end{itemize}

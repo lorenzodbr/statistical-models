@@ -35,7 +35,7 @@ Now we want to simulate data from this model. First, we set $p = 1$ and $n = 100
 \begin{enumerate}[beginpenalty=10000]
     \item Generate $x_1, \ldots, x_{100}$ from any distribution.
     \item We set $\eta_i = \beta_0 + \beta_1 x_i$, $i = 1, \ldots, 100$. For example, we can fix $\beta_0 = 1$ and $\beta_1 = 2$.
-    \item We sample $y_i \sim \poisson(e^{\eta_i})$, $i = 1, \ldots, 100$.
+    \item We sample $y_i$ from $\poisson(e^{\eta_i})$, $i = 1, \ldots, 100$.
 \end{enumerate}
 
 \paragraph{Residuals}
@@ -57,7 +57,7 @@ For a \acs{glm}, we can define the residuals as \emph{pseudo-residuals}:
 
 A common way to standardize the residuals is to calculate the \emph{Pearson residuals}:
 \begin{equation}
-    r_i^P = \frac{y_i - \hat{\mu}_i}{\sqrt{\frac{\widehat{\Var(y_i)}}{\hat{\phi}}}}, \quad i = 1, \ldots, n.
+    r_i^\text{P} = \frac{y_i - \hat{\mu}_i}{\sqrt{\frac{\widehat{\Var(y_i)}}{\hat{\phi}}}}, \quad i = 1, \ldots, n.
 \end{equation}
 For the Poisson regression pseudo-residuals are actually:
 \begin{equation}
@@ -65,7 +65,7 @@ For the Poisson regression pseudo-residuals are actually:
 \end{equation}
 and the Pearson residuals are:
 \begin{equation}
-    r_i^P = \frac{y_i - e^{\xvec_i^\t\hat{\betavec}}}{\sqrt{e^{\xvec_i^\t\hat{\betavec}}}}, \quad i = 1, \ldots, n.
+    r_i^\text{P} = \frac{y_i - e^{\xvec_i^\t\hat{\betavec}}}{\sqrt{e^{\xvec_i^\t\hat{\betavec}}}}, \quad i = 1, \ldots, n.
 \end{equation}
 Asymptotically, the Pearson residuals are distributed as a standard normal distribution, but they could be skewed if $\hat{\mu}_i$ is small.
 

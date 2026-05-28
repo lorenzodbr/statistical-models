@@ -87,7 +87,7 @@ Then assign $x$ to class $j$ that maximizes:
     \hat{\delta}_j(x) = \log(\hat{\pi}_j) - \frac{1}{2}\frac{\hat{\mu}_j^2}{\hat{\sigma}^2} + x\frac{\hat{\mu}_j}{\hat{\sigma}^2},\quad j = 1, \ldots, K.
 \end{equation}
 
-\subsection{\texorpdfstring{\acs{lda} with $p \geq 1$}{LDA with p >= 1}}
+\subsection{\texorpdfstring{\acs{lda} with $p > 1$}{LDA with p > 1}}
 
 Here we consider a multivariate extension of \acs{lda}. Therefore, the variables are now $\Xvec = \tuple{x_1, \ldots, x_p}$. In this case, \acs{lda} assumes:
 \begin{enumerate}
@@ -133,7 +133,7 @@ which is indeed linear. So the $\xvec$s such that $\delta_1(\xvec) = \delta_2(\x
 \begin{equation}
     \Xvec \given Y = j \sim \normal_p(\muvec_j, \Sigma_j),\quad j = 1, \ldots, K.
 \end{equation}
-The model is more complex, so it is more flexible, but at the expense of many more parameters (relates to the bias-variance tradeoff).
+The model is more complex, so it is more flexible, but at the expense of many more parameters (relates to the bias-variance trade-off).
 
 \paragraph{Quadratic decision surface}
 
