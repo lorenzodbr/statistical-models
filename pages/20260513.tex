@@ -245,9 +245,7 @@ and the survival curve is estimated as:
 
 \paragraph{Regression approaches}
 
-Here we want to predict $T$ from a number of covariates $X_1, \ldots, X_p$. Non-parametric approaches can be used in this case as well, but they require some stratification of the observations into groups, which is not really feasible for a large number of predictors. With one predictor, \eg $X = \text{``Gender''}\negthinspace$, one could split data into males and females and compute a Kaplan-Meier curve for each group.
-
-After having computed the curves, we can conduct a \emph{log-rank test} to determine if differences between the two are statistically significant.
+Here we want to predict $T$ from a number of covariates $X_1, \ldots, X_p$. {Non-parametric} approaches can be used in this case as well, but they require some stratification of the observations into groups, which is not really feasible for a large number of predictors. With one predictor, \eg $X = \text{``Gender''}\negthinspace$, one could split data into males and females and compute a Kaplan-Meier curve for each group. After having computed the curves, we can conduct a \emph{log-rank test} to determine if differences between the two are statistically significant.
 
 It is easier to account for covariates under a parametric approach. For example, is one assume an exponential distribution, we could make this assumption conditional on $\xvec$, like in \acsp{glm}:
 \begin{equation}

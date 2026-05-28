@@ -50,7 +50,7 @@ We notice that the optimization depends on the data only through the inner produ
 
 Suppose we have a function $\Phi\colon \rr^p \to \rr^N$ with $N > p$, that maps the original feature space to a higher-dimensional space. Therefore, we can rewrite $f(\xvec)$ in this space as:
 \begin{equation}
-    f(\xvec) = \beta_0 + {\underbracket{\betavec}_{\mathclap{\betavec \in \rr^N}}}^\t \underbracket{\Phi(\xvec)}_z = \beta_0 + \sum_{i = 1}^n \underbracket{\gamma_i}_{\gamma \in \rr^n} \negthickspace y_i \Phi(\xvec_i) \cdot \Phi(\xvec).
+    f(\xvec) = \beta_0 + {\underbracket{\betavec}_{\mathclap{\betavec \in \rr^N}}}^\t \underbracket{\Phi(\xvec)}_{\zvec} = \beta_0 + \sum_{i = 1}^n \underbracket{\gamma_i}_{\gamma \in \rr^n} \negthickspace y_i \Phi(\xvec_i) \cdot \Phi(\xvec).
 \end{equation}
 So, $\beta_0$ and $\gammavec$ get estimated by:
 \begin{equation}
@@ -110,7 +110,7 @@ If there are more than two classes (namely $K > 2$), we can proceed with mainly 
 
 \paragraph{\acsp{svc} vs Logistic Regression}
 
-The primal optimization problem of \acs{svc} is, as said before:
+The primal optimization problem of \acsp{svc} is, as said before:
 \begin{equation}
     \begin{aligned}
          & \min_{\beta_0, \betavec, \epsilonvec} \frac{1}{2}\norm{\betavec}^2                                     \\
@@ -151,7 +151,7 @@ Compared with Ridge:
     \min_{\beta_0, \betavec} \sum_{i=1}^n (y_i - \beta_0 - \betavec^\t\xvec_i)^2 + \frac{\lambda}{2}\norm{\betavec}^2\negthinspace.
 \end{equation}
 
-The loss function of \acs{svc} is called \emph{hinge loss}, while the one of logistic regression is just the \emph{squared error loss}. So, \acs{svm} uses a different loss function:
+The loss function of \acsp{svc} is called \emph{hinge loss}, while the one of logistic regression is just the \emph{squared error loss}. So, \acsp{svm} use a different loss function:
 \begin{equation}
     \L(y, f(\xvec)) = \begin{cases}
         0              & \text{if } 1 - y f(\xvec) < 0 \iff yf(\xvec) \geq 1, \\

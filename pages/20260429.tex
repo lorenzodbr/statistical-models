@@ -2,8 +2,8 @@
 
 All the methods analyzed so far try to approximate the quantity $\P(1 \given \xvec)$. \acsp{svm} concentrate their effects on finding a function $g(\xvec)$ that best separate the two classes. We can identify three versions of \acsp{svm}:
 \begin{enumerate}
-    \item \emph{Maximal Margin Classifiers}, used when the data are linearly separable;
-    \item \emph{Support Vector Classifiers}, used when the data are not linearly separable;
+    \item \emph{Maximal Margin Classifiers}, used when the data are linearly separable.
+    \item \emph{Support Vector Classifiers}, used when the data are not linearly separable.
     \item \emph{Support Vector Machines}, an extension to non-linear classifiers.
 \end{enumerate}
 
@@ -34,7 +34,7 @@ Given the data:
 \end{equation}
 the goal is to produce the response variables $y_i \in \set{-1,1}$. We map $y_i$ to $1$ if $\beta_0 + \betavec^\t\xvec_i > 0$ and to $-1$ if $\beta_0 + \betavec^\t\xvec_i < 0$. We can also write this in a more compact way as:
 \begin{equation}
-    y_i(\beta_0 + \betavec^\t\xvec_i) > 0, \quad i = 1, \ldots, n.
+    y_i(\beta_0 + \betavec^\t\xvec_i) \geq 0, \quad i = 1, \ldots, n.
 \end{equation}
 Such a hyperplane can be used for classification for a new $\xvec^*$:
 \begin{equation}
@@ -98,7 +98,7 @@ where $\epsilon_i$ are called \emph{slack variables} and $C$ is a tuning paramet
 Based on where a point is with respect to the hyperplane, we can identify three cases:
 \begin{itemize}
     \item $\epsilon_i = 0$ for observations on the correct side of the hyperplane and at least $M$ away from it;
-    \item $0 < \epsilon_i < 1$ for observations on the correct side of the hyperplane but less than $M$ away from it;
+    \item $0 < \epsilon_i \geq 1$ for observations on the correct side of the hyperplane but less than $M$ away from it;
     \item $\epsilon_i > 1$ for observations on the wrong side of the hyperplane.
 \end{itemize}
 

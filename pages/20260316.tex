@@ -68,14 +68,49 @@ In~\ref{eq:edf}:
 \end{itemize}
 
 \begin{proposition*}
-    Gaussian and binomial distributions belong to the exponential dispersion family.  
+    Gaussian and binomial distributions belong to the exponential dispersion family.
 \end{proposition*}
+
+\begin{proof}\leavevmode
+    \begin{description}
+        \item[Gaussian]
+              \begin{equation}
+                  \begin{aligned}
+                      f(y_i, \mu_i, \sigma^2) & = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{(y_i - \mu_i)^2}{2\sigma^2}\right)                                          \\
+                                              & = \exp\left(-\frac{1}{2}\frac{(y_i - \mu_i)^2}{\sigma^2} - \frac{1}{2}\log(2\pi\sigma^2)\right)                              \\
+                                              & = \exp\left(-\frac{1}{2}\frac{y_i^2 - 2\mu_i y_i + \mu_i^2}{\sigma^2} - \frac{1}{2}\log(2\pi\sigma^2)\right)                 \\
+                                              & = \exp\left(\frac{y_i\mu_i - \mu_i^2/2}{\sigma^2} - \frac{1}{2}\frac{y_i^2}{\sigma^2} - \frac{1}{2}\log(2\pi\sigma^2)\right)
+                  \end{aligned}
+              \end{equation}
+              and therefore:
+              \begin{equation}
+                  \theta_i = \mu_i\quad b(\theta_i) = \frac{\theta_i^2}{2}\quad \phi = \sigma^2\quad a_i(\phi) = \phi\quad c(y_i, \phi) = -\frac{1}{2}\frac{y_i^2}{\sigma^2} - \frac{1}{2}\log(2\pi\sigma^2).
+              \end{equation}
+        \item[Binomial]
+              \begin{equation}
+                  \begin{aligned}
+                      f(y_i; n_i, \pi_i) & = \binom{n_i}{y_i} \pi_i^{y_i} (1 - \pi_i)^{n_i - y_i}                                                       \\
+                                         & = \exp\left(\log\binom{n_i}{y_i} + y_i \log\pi_i + (n_i - y_i)\log(1 - \pi_i)\right)                         \\
+                                         & = \exp\left(\log\binom{n_i}{y_i} + y_i \log\pi_i + (n_i - y_i)\log(1-\pi_i)\right)                           \\
+                                         & = \exp\left(y_i \log\left(\frac{\pi_i}{1 - \pi_i}\right) + n_i \log(1 - \pi_i) + \log\binom{n_i}{y_i}\right)
+                  \end{aligned}
+              \end{equation}
+              and therefore:
+              \begin{equation}
+                  \theta_i = \log\left(\frac{\pi_i}{1 - \pi_i}\right)\quad b(\theta_i) = -n_i \log(1 - \pi_i)\quad \phi = 1\quad a_i(\phi) = \phi\quad c(y_i, \phi) = \log\binom{n_i}{y_i}.
+              \end{equation}
+    \end{description}
+\end{proof}
 
 Let's focus on the binomial distribution. If we write $Y_i \sim \binomial(n_i, \pi_i)$, we can connect $\theta_i$ and $\mu_i$ as follows:
 \begin{equation}
-    \mu_i = n_i\pi_i = n_i \frac{e^{\theta_i}}{1 + e^{\theta_i}}
+    \theta_i = \log\left(\frac{\pi_i}{1 - \pi_i}\right) \implies \pi_i = \frac{e^{\theta_i}}{1 + e^{\theta_i}}.
 \end{equation}
-and also in the variance:
+and then:
+\begin{equation}
+    \mu_i = n_i\pi_i = n_i \frac{e^{\theta_i}}{1 + e^{\theta_i}}.
+\end{equation}
+Also in the variance:
 \begin{equation}
     \Var(Y_i) = n_i\pi_i(1 - \pi_i) = n_i \frac{\mu_i}{n_i}\left(1 - \frac{\mu_i}{n_i}\right) = \mu_i\left(1 - \frac{\mu_i}{n_i}\right).
 \end{equation}
@@ -95,9 +130,9 @@ In general, one can show that $\mu_i = b'(\theta_i)$.
 
 The variance also can be expressed in terms of $b$:
 \begin{equation}
-    \Var(Y_i) = b''(\theta_i)a_i(\phi) = V(\mu_i)a_i(\phi),
+    \Var(Y_i) = b''(\theta_i)a_i(\phi) = \operatorname{V}(\mu_i)a_i(\phi),
 \end{equation}
-where $V(\mu_i)$ is called \emph{variance function}.
+where $\operatorname{V}(\mu_i)$ is called \emph{variance function}.
 
 \begin{example}
     With the Gaussian distribution we have that the variance computed with $b$ is constant, as expected for the linear model.
@@ -120,15 +155,15 @@ Then $\mu_i = \pi_i \in (0,1)$ and $\eta_i = \xvec_i^\t\betavec \in (-\infty, \i
           \end{equation}
           with $z \in (-\infty, \infty)$. Setting $\mu = 0$ and $s = 1$, we get:
           \begin{equation}
-              f(z; 0, 1) = \frac{\exp(z)}{1 + \exp(z)}.
+              F(z) = \frac{\exp(z)}{1 + \exp(z)}.
           \end{equation}
-          We conclude that choosing $f = \bernoulli$ and $g = f^{-1}(z; 0, 1)$, we obtain the logistic regression. To write explicitly the link function, we have:
+          We conclude that choosing $f = \bernoulli$ and $g = F^{-1}(z)$, we obtain the logistic regression. To write explicitly the link function, we have:
           \begin{equation}
-              \mu_i = f(\eta_i; 1, 0) = \frac{e^{\eta_i}}{1 + e^{\eta_i}}
+              \mu_i = F(\eta_i) = \frac{e^{\eta_i}}{1 + e^{\eta_i}}
           \end{equation}
           and this can be inverted to get:
           \begin{equation}
-              \eta_i = g(\mu_i) = f^{-1}(\mu_i) = \log\left(\frac{\mu_i}{1 - \mu_i}\right),
+              \eta_i = g(\mu_i) = F^{-1}(\mu_i) = \log\left(\frac{\mu_i}{1 - \mu_i}\right),
           \end{equation}
           which is called \emph{logit link}.
 \end{enumerate}
@@ -156,7 +191,7 @@ We know that the $\log$-likelihood is of the form:
 In the case of a \acs{glm} with a canonical link function, we can write:
 \begin{equation}
     \begin{aligned}
-        \l(\betavec, \phi) & = \sum_{i = 1}^n \log f(y_i; \theta_i, \phi)                                             \\
+        \l(\betavec, \phi) & = \sum_{i = 1}^n \log f(y_i; \theta_i, \phi)                                              \\
                            & = \sum_{i = 1}^n \left(\frac{y_i\theta_i - b(\theta_i)}{a_i(\phi)} + c(y_i, \phi)\right).
     \end{aligned}
 \end{equation}

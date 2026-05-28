@@ -20,7 +20,7 @@ Here, $\hat{f}$ is an approximation of some true $f$. Statistical Decision Theor
 \end{equation}
 This loss function is used in the \acf{epe}:
 \begin{equation}
-    \EPE(f) = \E_{\Xvec, Y}[\L(Y\negthinspace, f(\Xvec))] = \int(y - f(\xvec))^2 g(\xvec, y) \odif{\xvec} \odif{y}.
+    \EPE(f) = \E_{\Xvec, Y}[\L(Y\negthinspace, f(\Xvec))] = \iint(y - f(\xvec))^2 g(\xvec, y) \odif{\xvec} \odif{y}.
 \end{equation}
 
 Then, we choose the $f$ that minimizes the \acf{epe}.
@@ -33,8 +33,8 @@ Then, we choose the $f$ that minimizes the \acf{epe}.
     We can write:
     \begin{equation}
         \begin{aligned}
-            \E_{\Xvec, Y}[(Y - f(\Xvec))^2] & = \int (y - f(\xvec))^2 g(\xvec, y) \odif{\xvec} \odif{y}                                                                                                   \\
-                                            & = \int \underbrace{(y - f(\xvec))^2 g_{Y\negthinspace,\,\Xvec}(y \given \xvec) \odif{y}}_{\E_{Y\given \Xvec}[(Y - f(\Xvec))^2]} g_{\Xvec}(\xvec) \odif{\xvec} \\
+            \E_{\Xvec, Y}[(Y - f(\Xvec))^2] & = \iint (y - f(\xvec))^2 g(\xvec, y) \odif{\xvec} \odif{y}                                                                                                   \\
+                                            & = \iint \underbrace{(y - f(\xvec))^2 g_{Y\negthinspace,\,\Xvec}(y \given \xvec) \odif{y}}_{\E_{Y\given \Xvec}[(Y - f(\Xvec))^2]} g_{\Xvec}(\xvec) \odif{\xvec} \\
                                             & = \E_{\Xvec}[\E_{Y\given \Xvec}[(Y - f(\Xvec))^2]].
         \end{aligned}
     \end{equation}
@@ -178,10 +178,10 @@ A criterion to choose the loss function is to determine how the model performs o
           From this, we can compute different statistics:
           \begin{itemize}
               \item \emph{True Positive Rate}: \begin{equation}
-                        \TPR = \frac{\textrm{TP}}{\textrm{TP} + \textrm{FN}},
+                        \TPR = \frac{\textrm{TP}}{\textrm{TP} + \textrm{FN}},\qquad\expl{(Sensitivity)}
                     \end{equation}
               \item \emph{False Positive Rate}: \begin{equation}
-                        \FPR = \frac{\textrm{FP}}{\textrm{FP} + \textrm{TN}},
+                        \FPR = \frac{\textrm{FP}}{\textrm{FP} + \textrm{TN}},\qquad\expl{($1 - \text{Specificity}$)}
                     \end{equation}
           \end{itemize}
           and many other, such as \emph{False Discovery Rate}, \emph{Precision}, \emph{Recall}, etc. Another important statistic is the \emph{Error Rate}:

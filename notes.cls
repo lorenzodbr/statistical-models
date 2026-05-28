@@ -161,7 +161,7 @@
 \setlength{\afterepigraphskip}{15pt}
 
 \setlength{\textfloatsep}{1.75\baselineskip plus 0.2\baselineskip minus 0.2\baselineskip}
-\setlength{\multicolsep}{6.0pt plus 2.0pt minus 1.5pt}
+% \setlength{\multicolsep}{6.0pt plus 2.0pt minus 1.5pt}
 
 \DeclareCaptionLabelSeparator{midspace}{\;\;\,}
 \DeclareCaptionTextFormat{addpunct}{\maybeaddperiod{#1}}

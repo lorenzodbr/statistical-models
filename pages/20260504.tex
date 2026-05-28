@@ -15,8 +15,8 @@ is not very good to have, since it is not convex.
 We can get rid of this constraint by replacing the second constraint, \ie:
 \begin{equation}
     \begin{gathered}
-        \tilde{C}_2\colon \frac{1}{\norm{\betavec}}y_i(\beta_0 + \betavec^\t\xvec_i) \geq M(1 - \epsilon_i), \quad i = 1, \dots, n, \\[-2pt]
-        \Big\Updownarrow                                                                                                            \\[1pt]
+        \tilde{C}_2\colon \frac{1}{\norm{\betavec}}y_i(\beta_0 + \betavec^\t\xvec_i) \geq M(1 - \epsilon_i), \quad i = 1, \dots, n, \\[-3pt]
+        \Big\Updownarrow                                                                                                            \\[2pt]
         \tilde{C}_2\colon y_i(\beta_0 + \betavec^\t\xvec_i) \geq \norm{\betavec}M(1 - \epsilon_i), \quad i = 1, \dots, n.
     \end{gathered}
 \end{equation}
@@ -55,7 +55,7 @@ where $\gammavec = (\gamma_1, \dots, \gamma_d)$ and $\deltavec = (\delta_1, \dot
 Now we can link:
 \begin{equation}
     \begin{aligned}
-        \min_{\alphavec} f(\alphavec) & = \min_{\alphavec} \theta_\textsc{p}(\alphavec)         \\
+        \min_{\alphavec} f(\alphavec) \text{ s.t. }\ldots & = \min_{\alphavec} \theta_\textsc{p}(\alphavec)         \\
                                       & = \min_{\alphavec} \max_{\substack{\gammavec, \deltavec \\\deltavec \geq 0}} \lagr(\alphavec, \gammavec, \deltavec).
     \end{aligned}
 \end{equation}
@@ -64,7 +64,7 @@ Now we can link:
     Why this? Consider an $\alphavec$ that does not satisfy the constraints, \ie, an $\alphavec$ such that $h_i(\alphavec) \neq 0$ or $g_j(\alphavec) > 0$. Then, $\max_{\gammavec, \deltavec} \lagr(\alphavec, \gammavec, \deltavec) = +\infty$, since we can make $\gamma_i$ or $\delta_j$ arbitrarily large. We conclude that $\alphavec$ will not be the solution to the optimization problem.
 \end{note}
 
-The $p$ in $\theta_\textsc{p}$ stands for \emph{primal}, since we are still considering the original optimization problem. We can also define the \emph{dual} version of the problem as:
+The \textsc{p} in $\theta_\textsc{p}$ stands for \emph{primal}, since we are still considering the original optimization problem. We can also define the \emph{dual} version of the problem as:
 \begin{equation}
     \max_{\substack{\gammavec, \deltavec\\\deltavec \geq 0}} \theta_\textsc{d}(\gammavec, \deltavec) = \max_{\substack{\gammavec, \deltavec\\\deltavec \geq 0}} \min_{\alphavec} \lagr(\alphavec, \gammavec, \deltavec).
 \end{equation}
@@ -162,7 +162,7 @@ where $\betavec$ is a $p$-dimensional vector and $\gammavec$ is an $n$-dimension
     \item if $n \gg p$, then the primal problem has fewer parameters, so it is better to solve it rather than the dual problem;
     \item if $p \gg n$, then the dual problem has fewer parameters, so it is better to solve it rather than the primal problem.
 \end{itemize}
-On top of that, many $\gamma_i$ will be zero. In fact, using the KKT conditions, $\delta_i^*g_i(\alphavec^*) = 0$:
+On top of that, many $\gamma_i$ will be zero. In fact, using the KKT conditions:
 \begin{equation}\label{eq:gamma_i}
     \hat{\gamma}_i[y_i(\hat{\beta}_0 + \betavech^\t\xvec_i) - 1 + \hat{\epsilon}_i] = 0, \quad i = 1, \dots, n.
 \end{equation}
