@@ -16,21 +16,21 @@ In this course we will talk about \emph{statistical learning}, which includes bo
 
 \begin{example}
     Suppose we have a dataset containing wage data related to workers in the US. Our goal is to predict the wage from a number of factors (predictors), such as education, age, etc.
-\end{example}
 
-We could formalize the problem as follows:
-\begin{itemize}
-    \item Let $Y$ be the response (dependent variable),
-    \item Let $\Xvec$ be the predictor (independent variable), a vector composed of $p$ predictors, \ie:
-          \begin{equation}
-              \Xvec = (X_1, X_2, \dots, X_p)^\t \negmedspace.
-          \end{equation}
-    \item Then, $Y = f(\Xvec) + \epsilon$ is our prediction. The $f$ is a fixed but unknown function of $X_1, \dots, X_p$ (systematic component) and $\epsilon$ is a stochastic component such that:
-          \begin{equation}
-              \E[\epsilon] = 0 \quad\text{and}\quad\epsilon\perp\Xvec.
-          \end{equation}
-          The perpendicular symbol means that $\epsilon$ is independent of $\Xvec$, so the error does not depend on the predictors.
-\end{itemize}
+    We could formalize the problem as follows:
+    \begin{itemize}
+        \item Let $Y$ be the response (dependent variable),
+        \item Let $\Xvec$ be the predictor (independent variable), a vector composed of $p$ predictors, \ie:
+            \begin{equation}
+                \Xvec = (X_1, X_2, \dots, X_p)^\t \negmedspace.
+            \end{equation}
+        \item Then, $Y = f(\Xvec) + \epsilon$ is our prediction. The $f$ is a fixed but unknown function of $X_1, \dots, X_p$ (systematic component) and $\epsilon$ is a stochastic component such that:
+            \begin{equation}
+                \E[\epsilon] = 0 \quad\text{and}\quad\epsilon\perp\Xvec.
+            \end{equation}
+            The perpendicular symbol means that $\epsilon$ is independent of $\Xvec$, so the error does not depend on the predictors.
+    \end{itemize}
+\end{example}
 
 The estimation of $f$ is important for two reasons:
 \begin{description}

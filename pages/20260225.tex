@@ -169,24 +169,24 @@ A criterion to choose the loss function is to determine how the model performs o
                   \cline{2-3}
                   \multicolumn{1}{c|}{} & \hat{Y} = 0 & \hat{Y} = 1 \\
                   \hline
-                  Y = 0                 & \textrm{TN} & \textrm{FP} \\
+                  Y = 0                 & \text{TN} & \text{FP} \\
                   \hline
-                  Y = 1                 & \textrm{FN} & \textrm{TP} \\
+                  Y = 1                 & \text{FN} & \text{TP} \\
                   \hline
               \end{array}
           \end{equation}
           From this, we can compute different statistics:
           \begin{itemize}
               \item \emph{True Positive Rate}: \begin{equation}
-                        \TPR = \frac{\textrm{TP}}{\textrm{TP} + \textrm{FN}},\qquad\expl{(Sensitivity)}
+                        \TPR = \frac{\text{TP}}{\text{TP} + \text{FN}},\qquad\expl{(Sensitivity)}
                     \end{equation}
               \item \emph{False Positive Rate}: \begin{equation}
-                        \FPR = \frac{\textrm{FP}}{\textrm{FP} + \textrm{TN}},\qquad\expl{($1 - \text{Specificity}$)}
+                        \FPR = \frac{\text{FP}}{\text{FP} + \text{TN}},\qquad\expl{($1 - \text{Specificity}$)}
                     \end{equation}
           \end{itemize}
           and many other, such as \emph{False Discovery Rate}, \emph{Precision}, \emph{Recall}, etc. Another important statistic is the \emph{Error Rate}:
           \begin{equation}
-              \ER = \frac{\textrm{FP} + \textrm{FN}}{\textrm{TP} + \textrm{TN} + \textrm{FP} + \textrm{FN}}.
+              \ER = \frac{\text{FP} + \text{FN}}{\text{TP} + \text{TN} + \text{FP} + \text{FN}}.
           \end{equation}
 \end{enumerate}
 
