@@ -140,10 +140,10 @@
 
 \newcommand{\sffont}{\fontfamily{\iwonafamily}\selectfont}
 
-\titleformat{\chapter}[block]{\sffont\HUGE\scshape}{{\textcolor{halfgray}{\raisebox{-.3pt}\bigNumber\textslcc{\thechapter}}\hspace{10pt}\vline}~}{10pt}{\setstretch{.8}\begin{minipage}[c]{\linewidth - \widthof{\raisebox{-.3pt}{\bigNumber\textslcc{\thechapter}}\hspace{10pt}\vline} + 8pt}}[\end{minipage}]
-\titleformat{\section}{\sffont\Large\scshape}{\textslcc{\thesection}}{1em}{}
-\titleformat{\subsection}{\sffont\large\scshape}{\textslcc{\thesubsection}}{1em}{}
-\titleformat{\part}[display]{\sffont\HUGE\centering\scshape}{\textcolor{halfgray}{\bigNumber\textslcc{\thepart}}}{8pt}{}
+\titleformat{\chapter}[block]{\sffont\HUGE\scshape}{{\textcolor{halfgray}{\raisebox{-.3pt}{\bigNumber\thechapter}}\hspace{10pt}\vline}~}{10pt}{\setstretch{.8}\begin{minipage}[c]{\linewidth - \widthof{\raisebox{-.3pt}{\bigNumber\thechapter}\hspace{10pt}\vline} + 8pt}}[\end{minipage}]
+\titleformat{\section}{\sffont\Large\scshape}{\thesection}{1em}{}
+\titleformat{\subsection}{\sffont\large\scshape}{\thesubsection}{1em}{}
+\titleformat{\part}[display]{\sffont\HUGE\scshape\centering}{\textcolor{halfgray}{\bigNumber\thepart}}{8pt}{}
 \titleformat{\paragraph}[runin]{\sffont\bfseries\scshape}{}{0em}{}
 
 \newdateformat{monthyeardate}{%
