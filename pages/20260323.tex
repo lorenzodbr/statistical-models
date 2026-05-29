@@ -24,7 +24,7 @@ that is ``assign $\xvec$ to class $j$ that maximizes'':
     f_j(\xvec) \pi_j,\quad j = 1, \ldots, K.
 \end{equation}
 
-\paragraph{Estimation of $\pi_j$}
+\paragraph{Estimation of $\bm{\pi_j}$}
 
 There are two ways of estimating $\pi_j$ from data:
 \begin{enumerate}
@@ -78,7 +78,7 @@ We see that this expression is linear in $x$.
 Parameters are estimated via maximum likelihood:
 \begin{equation}
     \begin{aligned}
-        \hat{\mu}_j    & = \frac{\sum_{i \text{ s.t. } y_i = j} x_i}{n_j},\quad j = 1, \ldots, K, \expl{(Sample mean of $X$ in class $j$)}                                                           \\
+        \hat{\mu}_j    & = \frac{\sum_{i \text{ s.t. } y_i = j} x_i}{n_j},\quad j = 1, \ldots, K, \expl{(Sample mean of $x$ in class $j$)}                                                           \\
         \hat{\sigma}^2 & = \frac{\sum_{i=1}^K (n_i - 1) s_i^2}{\sum_{i=1}^K (n_i - 1)} = \frac{\sum_{i = 1}^K \sum_{j\text{ s.t. } y_j = i} (x_j - \hat{\mu}_i)^2}{n - K}. \expl{(Pooled variance)}
     \end{aligned}
 \end{equation}
@@ -125,7 +125,7 @@ So assigning $\xvec$ to class $j$ that maximizes the numerator is equivalent to 
                         & \propto -\underbracket{\frac{1}{2}\muvec_j^\t \Sigma^{-1} \muvec_j + \log(\pi_j)}_{(\beta_0)_j} + \xvec^\t \underbracket{\Sigma^{-1} \muvec_j}_{(\betavec)_j},
     \end{aligned}
 \end{equation}
-which is indeed linear. So the $\xvec$s such that $\delta_1(\xvec) = \delta_2(\xvec)$ correspond to a \emph{linear decision surface}.
+which is indeed linear. Therefore, the $\xvec$s such that $\delta_1(\xvec) = \delta_2(\xvec)$ correspond to a \emph{linear decision surface}.
 
 \subsection{Quadratic discriminant analysis}
 

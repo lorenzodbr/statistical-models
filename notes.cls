@@ -140,10 +140,10 @@
 
 \newcommand{\sffont}{\fontfamily{\iwonafamily}\selectfont}
 
-\titleformat{\chapter}[block]{\sffont\HUGE\scshape}{{\textcolor{halfgray}{\raisebox{-.3pt}{\bigNumber\thechapter}}\hspace{10pt}\vline}~}{10pt}{\setstretch{.8}\begin{minipage}[c]{\linewidth - \widthof{\raisebox{-.3pt}{\bigNumber\thechapter}\hspace{10pt}\vline} + 8pt}}[\end{minipage}]
-\titleformat{\section}{\sffont\Large\scshape}{\thesection}{1em}{}
-\titleformat{\subsection}{\sffont\large\scshape}{\thesubsection}{1em}{}
-\titleformat{\part}[display]{\sffont\HUGE\scshape\centering}{\textcolor{halfgray}{\bigNumber\thepart}}{8pt}{}
+\titleformat{\chapter}[block]{\sffont\HUGE\scshape}{{\textcolor{halfgray}{\raisebox{-.3pt}\bigNumber\textslcc{\thechapter}}\hspace{10pt}\vline}~}{10pt}{\setstretch{.8}\begin{minipage}[c]{\linewidth - \widthof{\raisebox{-.3pt}{\bigNumber\textslcc{\thechapter}}\hspace{10pt}\vline} + 8pt}}[\end{minipage}]
+\titleformat{\section}{\sffont\Large\scshape}{\textslcc{\thesection}}{1em}{}
+\titleformat{\subsection}{\sffont\large\scshape}{\textslcc{\thesubsection}}{1em}{}
+\titleformat{\part}[display]{\sffont\HUGE\centering\scshape}{\textcolor{halfgray}{\bigNumber\textslcc{\thepart}}}{8pt}{}
 \titleformat{\paragraph}[runin]{\sffont\bfseries\scshape}{}{0em}{}
 
 \newdateformat{monthyeardate}{%
@@ -562,13 +562,13 @@
 \fancypagestyle{notes}{%
     \fancyhf{}
     \fancyhead[LE,RO]{\thepage}
-    \fancyhead[RE]{\sffont\scshape\nouppercase{\leftmark}}
-    \fancyhead[LO]{\sffont\scshape\nouppercase{\rightmark}}
+    \fancyhead[RE]{\sffont\nouppercase{\leftmark}}
+    \fancyhead[LO]{\sffont\nouppercase{\rightmark}}
     \setlength{\headheight}{13.6pt}
 }
 \renewcommand{\headrulewidth}{0pt}
-\renewcommand{\chaptermark}[1]{\markboth{\thechapter\color{halfgray}\quad #1}{}}
-\renewcommand{\sectionmark}[1]{\markright{\thesection\color{halfgray}\quad #1}}
+\renewcommand{\chaptermark}[1]{\markboth{\textssc{\thechapter\color{halfgray}\quad\vline\quad#1}}{}}
+\renewcommand{\sectionmark}[1]{\markright{\textssc{\thesection\color{halfgray}\quad\vline\quad#1}}}
 
 \let\oldfootnote\footnote
 \renewcommand{\footnote}[1]{\oldfootnote{\maybeaddperiod{#1}}}
@@ -606,7 +606,7 @@
             {University of Trento}
             
             \vfill
-            {\coursefontsize\sffont\bitbig{\textsc{\course}}}
+            {\coursefontsize\sffont\bitbig{\textssc{\course}}}
             \vspace{.3cm}
 
             \edef\repourl{https://github.com/lorenzodbr/\repo}
