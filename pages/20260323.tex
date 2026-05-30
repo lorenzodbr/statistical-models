@@ -35,7 +35,7 @@ The various discriminant analysis methods distinguish themselves in the assumpti
 \begin{enumerate}
     \item \acf{lda}.
     \item \acf{qda}.
-    \item Naive Bayes.
+    \item Na\"ive Bayes.
 \end{enumerate}
 
 \subsection{\texorpdfstring{\acs{lda} with $p = 1$}{LDA with p = 1}}
@@ -129,7 +129,7 @@ which is indeed linear. Therefore, the $\xvec$s such that $\delta_1(\xvec) = \de
 
 \subsection{Quadratic discriminant analysis}
 
-\acl{qda} relaxes the second assumption. Therefore, the assumption is now only:
+Quadratic Discriminant Analysis relaxes the second assumption. Therefore, the assumption is now only:
 \begin{equation}
     \Xvec \given Y = j \sim \normal_p(\muvec_j, \Sigma_j),\quad j = 1, \ldots, K.
 \end{equation}
@@ -165,7 +165,7 @@ and estimated probabilities:
     \widehat{\P(Y = 1 \given \Xvec = \xvec)} = \frac{e^{\hat{\delta}_1(\xvec)}}{e^{\hat{\delta}_1(\xvec)} + e^{\hat{\delta}_2(\xvec)}}.\expl{(For two classes)}
 \end{equation}
 
-\paragraph{\acs{lda} vs \acs{qda}}
+\paragraph{\acs{lda} vs.\@ \acs{qda}}
 
 \acs{qda} has many more parameters:
 \begin{itemize}
@@ -177,7 +177,7 @@ and estimated probabilities:
     For example, with $K = 2, p = 50$, \acs{lda} has $1375$ parameters, while \acs{qda} has $2650$ parameters. Any choice between the two models needs to involve that data.
 \end{example}
 
-\paragraph{\acs{lda} vs \acs{lr}}
+\paragraph{\acs{lda} vs.\@ \acs{lr}}
 
 Let's compare \acl{lda} and \acl{lr}.
 \begin{itemize}

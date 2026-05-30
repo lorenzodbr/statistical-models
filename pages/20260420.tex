@@ -69,9 +69,11 @@ The goal here is to divide the space into ``boxes''\negthinspace. Two key aspect
                 xlabel style={right},
                 ylabel={$E_j$},
                 xtick={0,0.5,1},
-                ytick={0,0.5,1},
-                ymin=0, ymax=1,
-                xmin=0, xmax=1,
+                ytick={0,0.5},
+                ymin=0, ymax=0.75,
+                xmin=0, xmax=1.25,
+                height=4cm,
+                width=8cm,
             ]
             \addplot[domain=0:1, thick] {(1 - abs(2*x - 1))/2};
         \end{axis}
@@ -127,9 +129,7 @@ The algorithm consists of the following steps:
           If $\alpha = 0$, then $T_\alpha = T_0$, while as $\alpha$ increases, $T_\alpha$ gets smaller and smaller, in a nested fashion (pruning).
 \end{enumerate}
 
-\subsection{Cross-validation}
-
-We cannot select $\alpha$ by looking at the training error, but rather on some unseen data (test-set or cross-validation). In practice, doing cross-validation:
+\paragraph{Cross-validation for $\bm{\alpha}$ selection} We cannot select $\alpha$ by looking at the training error, but rather on some unseen data (test-set or cross-validation). In practice, doing cross-validation:
 \begin{enumerate}[beginpenalty=10000]
     \item We choose a sequence of values of $\alpha$.
     \item For each $\alpha$, we fit the tree on $k-1$ folds and we prune it.

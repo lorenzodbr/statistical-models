@@ -49,9 +49,7 @@ The functions are all equivalent and can be used for modelling $T$:
     f(t) \longleftrightarrow F(t) \longleftrightarrow S(t) \longleftrightarrow h(t).
 \end{equation}
 
-\section{Different models}
-
-There are different ways of modelling survival data:
+\paragraph{Different models} There are different ways of modelling survival data:
 \begin{enumerate}
     \item Non-parametric.
     \item Parametric (assuming a specific shape for the distribution of $T$).
@@ -67,7 +65,7 @@ Now we set:
 \end{equation}
 What we observe is:
 \begin{equation}
-    Y\colon \min(T, C) = \begin{cases}
+    Y\negthinspace\colon \min(T\negthinspace, C) = \begin{cases}
         T & \text{if } T \leq C, \\
         C & \text{if } T > C.
     \end{cases}
@@ -122,8 +120,8 @@ We want to compute, for example:
     \hat{S}(y_3) = \hat{\P}(T > y_3).
 \end{equation}
 
-Some naive options:
-\begin{itemize}
+Some na\"ive options:
+\begin{itemize}[beginpenalty=10000]
     \item Throw away missing observations:
           \begin{equation}
               \hat{S}(y_3) = \frac{1}{3},
@@ -157,9 +155,9 @@ since there is no data point greater than $y_5$. The survival curve is, therefor
 \begin{figure}
     \centering
     \begin{tikzpicture}
-        \draw[->] (-0.5, 0) -- (5.5, 0) node[right] {Time};
+        \draw[->] (-0.5, 0) -- (6, 0) node[right] {Time};
         \draw[->] (0, -0.5) -- (0, 2.5) node[above] {Survival probability};
-        \draw[thick] (0, 2) -- (1, 2) -- (1, 1.5) -- (3, 1.5) -- (3, .9) -- (5, .9) -- (5, 0);
+        \draw[thick] (0, 2) -- (1, 2) -- (1, 1.5) -- (3, 1.5) -- (3, .9) -- (5, .9) -- (5, 0) -- (5.5, 0);
 
         \node[left] at (-0.5, 2) {$1$};
         \node[left] at (-0.5, 1.5) {$4/5$};
@@ -220,7 +218,7 @@ We can assume that the distribution of $T$ has a certain parametric form. Then, 
 Given $n$ observations of the form $\tuple{y_i, \delta_i}$, we compute the likelihood as:
 \begin{equation}
     \begin{aligned}
-        \L & = \prod_{i=1}^n f(y_i)^{\delta_i} S(y_i)^{1 - \delta_i}              \\
+        \L(\thetavec) & = \prod_{i=1}^n f(y_i)^{\delta_i} S(y_i)^{1 - \delta_i}              \\
            & = \prod_{i=1}^n \left(\frac{f(y_i)}{S(y_i)}\right)^{\delta_i} S(y_i) \\
            & = \prod_{i=1}^n h(y_i)^{\delta_i} S(y_i).
     \end{aligned}
@@ -236,7 +234,7 @@ If we assume that $T$ is exponentially distributed, then:
 \end{equation}
 Then, $\lambda$ is estimated via maximum likelihood:
 \begin{equation}
-    \L = \prod_{i=1}^n \lambda^{\delta_i} e^{-\lambda y_i} \implies \hat{\lambda} = \argmax_{\lambda} \L
+    \L(\lambda) = \prod_{i=1}^n \lambda^{\delta_i} e^{-\lambda y_i} \implies \hat{\lambda} = \argmax_{\lambda} \L
 \end{equation}
 and the survival curve is estimated as:
 \begin{equation}
@@ -266,5 +264,5 @@ and we have a survival curve for each realization $\xvec$ of the covariates:
 The curve is, therefore, typically plotted by fixing all covariates to a level (for example, mean, mode, etc.) and changing one variable only ($x_j$) to see how the curve changes with respect to it.
 
 \begin{note}
-    The exponential may be too restrictive in many applications. Weibull distribution (two parameters) is quite common in engineering (reliability modelling).
+    The exponential may be too restrictive in many applications. Weibull distribution (with two parameters) is quite common in engineering (reliability modelling).
 \end{note}

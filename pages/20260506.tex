@@ -60,7 +60,7 @@ So, $\beta_0$ and $\gammavec$ get estimated by:
     We notice that while the $\beta$s are $N$, the $\gamma$s stay in number $n$.
 \end{note}
 
-Since $\Phi$ is generally not known, we would not want to compute $\Phi(\xvec_i) \cdot \Phi(\xvec_j)$ directly. However, we can rely on the so called \emph{kernel trick}, which consists in finding a function $K\colon \rr^p \times \rr^p \to \rr$ such that it acts as a dot product in some higher dimensional space for some function $\Phi$. Mercer's theorem states the properties that such function needs to have.
+Since $\Phi$ is generally not known, we would not want to compute $\Phi(\xvec_i) \cdot \Phi(\xvec_j)$ directly. However, we can rely on the so called \emph{kernel trick}, which consists in finding a function $K\negthinspace\colon \rr^p \times \rr^p \to \rr$ such that it acts as a dot product in some higher dimensional space for some function $\Phi$. Mercer's theorem states the properties that such function needs to have.
 
 Using such kernel in $f(\xvec)$:
 \begin{equation}
@@ -96,19 +96,19 @@ In conclusion, for an \acs{svm} we need:
 
 If there are more than two classes (namely $K > 2$), we can proceed with mainly two approaches:
 \begin{enumerate}
-    \item \emph{One vs All}: train $K$ classifiers where the labels are ``class $c$'' vs ``not class $c$''\negthinspace, for $c = 1, \dots, K$. One can then combine these classifiers by assigning $\xvec$ to the class $c$ for which $\abs{f_c(\xvec)}$ is maximal.
+    \item \emph{One vs.\@ All}: train $K$ classifiers where the labels are ``class $c$'' vs.\@ ``not class $c$''\negthinspace, for $c = 1, \dots, K$. One can then combine these classifiers by assigning $\xvec$ to the class $c$ for which $\abs{f_c(\xvec)}$ is maximal.
 
           However, two problems arise with this approach:
           \begin{itemize}
               \item \emph{Potential ambiguity}: if for a given $\xvec$ we have $f_c(\xvec) > 0$ for more than one class, we cannot assign $\xvec$ to a single class.
               \item \emph{Unbalanced data}: if one class is much more represented than the others, the classifier for that class will be more accurate than the others, and it will be more likely to assign $\xvec$ to that class.
           \end{itemize}
-    \item \emph{One vs One}: train $\binom{K}{2} = K(K-1)/2$ classifiers, one for each pair of classes. Then, classify $\xvec$ to the class with the higher number of votes.
+    \item \emph{One vs.\@ One}: train $\binom{K}{2} = K(K-1)/2$ classifiers, one for each pair of classes. Then, classify $\xvec$ to the class with the higher number of votes.
 
           This approach is computationally more expensive, and there could still be potentially ambiguity. However, if $K$ is not too large, this is what is usually done.
 \end{enumerate}
 
-\paragraph{\acsp{svc} vs Logistic Regression}
+\paragraph{\acsp{svc} vs.\@ Logistic Regression}
 
 The primal optimization problem of \acsp{svc} is, as said before:
 \begin{equation}
@@ -146,12 +146,11 @@ with $\gamma \geq 0$ as a tuning parameter, and the equivalent unconstrained opt
 \begin{equation}
     \min_{\beta_0, \betavec} \sum_{i=1}^n [1 - y_i(\beta_0 + \betavec^\t\xvec_i)]_+ + \frac{\lambda}{2}\norm{\betavec}^2\negthinspace.
 \end{equation}
-Compared with Ridge:
+Compared with Ridge regression:
 \begin{equation}
-    \min_{\beta_0, \betavec} \sum_{i=1}^n (y_i - \beta_0 - \betavec^\t\xvec_i)^2 + \frac{\lambda}{2}\norm{\betavec}^2\negthinspace.
+    \min_{\beta_0, \betavec} \sum_{i=1}^n (y_i - \beta_0 - \betavec^\t\xvec_i)^2 + \frac{\lambda}{2}\norm{\betavec}^2\negthinspace,
 \end{equation}
-
-The loss function of \acsp{svc} is called \emph{hinge loss}, while the one of logistic regression is just the \emph{squared error loss}. So, \acsp{svm} use a different loss function:
+the only difference is the loss function. The loss function of \acsp{svc} is called \emph{hinge loss}, while the one of logistic regression is just the \emph{squared error loss}. So, \acsp{svm} use a different loss function:
 \begin{equation}
     \L(y, f(\xvec)) = \begin{cases}
         0              & \text{if } 1 - y f(\xvec) < 0 \iff yf(\xvec) \geq 1, \\

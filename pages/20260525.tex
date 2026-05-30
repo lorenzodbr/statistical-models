@@ -10,7 +10,7 @@ Some examples of unsupervised learning methods are:
 
 The two main types of unsupervised learning methods are:
 \begin{enumerate}
-    \item Clustering,
+    \item Clustering.
     \item \acf{pca}.
 \end{enumerate}
 
@@ -37,7 +37,7 @@ The two main ingredients for this method are:
 
 It is typically defined based on a \emph{distance measure}, \ie, observations in one cluster should be closer to each other according to this measure. A popular choice is the \emph{Euclidean distance}.
 
-In general:
+In general we want:
 \begin{equation}
     C_1, \ldots, C_K = \argmin_{\substack{\Gamma_1, \ldots, \Gamma_K \\ \text{partition of } D}} \sum_{i=1}^K W(\Gamma_i),
 \end{equation}
@@ -52,7 +52,7 @@ This is also referred to as \emph{within-cluster variation}, since the $W$ is eq
 The $\bar{\xvec}_\mathit{il}$ is the sample mean of predictor $l$ in cluster $\Gamma_i$.
 
 \begin{proof}
-    Let's consider the case $p = 1$. From \eqref{eq:within_cluster_variation} we have:
+    Let's consider the case $p = 1$. Using \eqref{eq:within_cluster_variation} we have:
     \begin{equation}
         \begin{aligned}
             2W(\Gamma_i) & = \frac{1}{\abs{\Gamma_i}} \sum_{x, y \in \Gamma_i} (x - y)^2                                                                                                                                                   \\

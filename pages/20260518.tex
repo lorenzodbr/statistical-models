@@ -55,9 +55,7 @@ is the global relative risk for patient $i$. Individual $\beta$s capture the eff
     \item $\beta_j < 0 \implies e^{\beta_j} < 1$: decreased hazard of dying at any time $t$ given that you have survived up to time $t$ as $x_j$ increases by one unit.
 \end{itemize}
 
-\section{Partial likelihood}
-
-We said that $h_0(t)$ is arbitrary, in the sense that it is unknown. Therefore, the likelihood function cannot be evaluated and then optimized. David Cox developed a novel inference procedure by approximating the full likelihood via a partial likelihood that does not depend on $h_0(t)$.
+\paragraph{Partial likelihood} We said that $h_0(t)$ is arbitrary, in the sense that it is unknown. Therefore, the likelihood function cannot be evaluated and then optimized. David Cox developed a novel inference procedure by approximating the full likelihood via a partial likelihood that does not depend on $h_0(t)$.
 
 We can look at the data generative process in a different way:
 \begin{equation}
@@ -124,7 +122,7 @@ with $\text{sender} \in S$ and $\text{receiver} \in R$. We have two cases for $S
 
 \paragraph{Relational event model}
 
-Modelling hazard of interactions:
+The hazard function of interactions is modeled as:
 \begin{equation}
     h(t \given \xvec_{s,r}) = h_0(t) \exp(\betavec^\t\xvec_{s,r}(t)),
 \end{equation}
@@ -150,6 +148,6 @@ where $\xvec_{s,r}$ is a vector of covariates associated to the pair $(s,r)$ at 
 
 Let's analyze the partial likelihood in this context. We end up with a similar expression as before:
 \begin{equation}
-    \PL(\betavec) = \prod_{k = 1}^K \frac{\exp(\betavec^\t\xvec_{s_k,r_k}(t_k))}{\sum_{(s_{k^*}, r_{k^*}) \in R(t_k)} \exp(\betavec^\t\xvec_{s_{k^*},r_{k^*}}(t_k))}.
+    \PL(\betavec) = \prod_{k = 1}^K \frac{\exp(\betavec^\t\xvec_{s_k,r_k}(t_k))}{\sum_{(s_{k^*}, r_{k^*}) \in R(t_k)} \exp(\betavec^\t\xvec_{s_{k^*}\negthinspace,\,r_{k^*}}(t_k))}.
 \end{equation}
-$R(t_k)$ has about $p^2$ elements with $p$ as the number of units. Computationally more efficient methods are developed considering this new partial likelihood.
+The set $R(t_k)$ has about $p^2$ elements with $p$ as the number of units. Computationally more efficient methods are developed considering this new partial likelihood.

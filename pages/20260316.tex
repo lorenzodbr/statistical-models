@@ -2,7 +2,7 @@
 
 We have already discussed two types of models:
 \begin{itemize}
-    \item \emph{Linear regression}, to predict continuous responses. In this case we want to find the distribution of: \begin{equation}
+    \item \emph{Linear regression}, to predict continuous responses, \ie, we want to find the distribution of: \begin{equation}
               Y \given \Xvec = \xvec \sim \normal(\xvec^\t\betavec, \sigma^2).
           \end{equation}
           In doing this, we are assuming three things:
@@ -11,7 +11,7 @@ We have already discussed two types of models:
               \item Linearity over $\betavec$.
               \item Homoscedasticity, \ie, constant variance $\sigma^2$ for all $\xvec$.
           \end{enumerate}
-    \item \emph{Logistic regression}, to predict binary responses. In this case we assume that:
+    \item \emph{Logistic regression}, to predict binary responses, \ie, we assume that:
           \begin{equation}
               Y \given \Xvec = \xvec \sim \bernoulli\underbracket{\left(\frac{e^{\xvec^\t\betavec}}{1 + e^{\xvec^\t\betavec}}\right)}_{\P(1\given \xvec)}\negmedspace.
           \end{equation}

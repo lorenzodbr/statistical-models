@@ -2,7 +2,7 @@
 
 \section{Resampling methods}
 
-We have seen a number of classifiers, such as \acs{lr}, \acs{lda}, \acs{qda}, Naive Bayes, $k$-NN. In this chapter, we will see how to choose the optimal model among a set of candidate models. We will also see how to estimate the test error rate of a model.
+We have seen a number of classifiers, such as \acs{lr}, \acs{lda}, \acs{qda}, Na\"ive Bayes, $k$-NN. In this chapter, we will see how to choose the optimal model among a set of candidate models. We will also see how to estimate the test error rate of a model.
 
 Different models are associated to a different level of complexity (\eg, number of parameters, $k$, etc.) and, therefore, a different trade-off between bias and variance. We recall that we can have different degrees of complexity of decision surfaces in the classification setting:
 \begin{itemize}
@@ -27,7 +27,7 @@ The best solution is to use a large, designated test set, left aside to select t
 \end{enumerate}
 
 \paragraph{Different strategies}
-\begin{enumerate}
+\begin{enumerate}[beginpenalty=10000]
     \item \emph{Validation set approach.} We randomly divide the dataset into two parts: training set and validation set. Typical split proportions are $50$-$50$ and $70$-$30$. Then, the model is fitted on training data and tested on validation data.
           \begin{examples}\leavevmode
               \begin{itemize}
@@ -65,8 +65,7 @@ The best solution is to use a large, designated test set, left aside to select t
           Formally:
           \begin{enumerate}
               \item Fix a model (\ie, set parameters, $d$, \etc).
-              \item Let $C_1, \dots, C_k$ be the indices of the observations in each fold.
-              \item For each fold $C_i$, calculate the error:
+              \item Let $C_1, \dots, C_k$ be the indices of the observations in each fold. For each fold $C_i$, calculate the error:
                     \begin{equation}
                         E_i = \begin{dcases}
                             \acs{mse}_i\colon \frac{1}{\abs{C_i}}\sum_{j \in C_i} (y_j - \hat{y}_j)^2      & \text{if regression},     \\
@@ -103,7 +102,7 @@ However, performing this is computationally more expensive than a single train-v
           A problem related to \acs{loocv} is that it has higher variability compared to lower-valued $k$-fold \acs{cv}, because the training sets are very similar to each other (differing by only one observation produces highly correlated subsets).
 \end{itemize}
 
-\paragraph{Hyperparameter tuning vs. Model comparison} Cross-validation can be used both for hyperparameter tuning (\ie, the choice of $d$, $k$, \ldots) and for model comparison.
+\paragraph{Hyperparameter tuning vs.\@ Model comparison} Cross-validation can be used both for hyperparameter tuning (\ie, the choice of $d$, $k$, \ldots) and for model comparison.
 
 \begin{example}
     Let's compare $k$-NN and logistic regression in a setting with $X_1, \ldots, X_p$ predictors. If we perform \acs{cv} on full data and vary the parameter $k$ we obtain two curves, one for $k$-NN and one for logistic regression (the latter will be constant as it doesn't depend on $k$, as shown in~\Cref{fig:cv_comparison}). Since we chose the optimal $k$ for $k$-NN, and at $\hat{k}$ the error for $k$-NN is lower than the error for logistic regression, we might chose the former. This comparison, however, is a bit unfair towards logistic regression since the \acs{cv} procedure to select $k$ has seen the full data.

@@ -1,6 +1,6 @@
-\subsection{Naive Bayes classifier}
+\subsection{Na\"ive Bayes classifier}
 
-In this setting we are dealing with a categorical variable $Y$ and $K$ classes. Naive Bayes belongs to the family of discriminant analysis methods. We recall how to estimate $\P(Y = j \given \Xvec = \xvec)$:
+In this setting we are dealing with a categorical variable $Y$ and $K$ classes. Na\"ive Bayes belongs to the family of discriminant analysis methods. We recall how to estimate $\P(Y = j \given \Xvec = \xvec)$:
 \begin{equation}
     \P(Y = j \given \Xvec = \xvec) = \frac{\pi_j f_j(\xvec)}{\sum_{i = 1}^K \pi_i f_i(\xvec)}, j = 1, \dots, K.
 \end{equation}
@@ -11,7 +11,7 @@ We also recall that discriminant analysis methods make assumptions on $f_j(\xvec
     \item \acs{qda}, $f_i(\xvec) = \normal_p(\muvec_j, \Sigma_j)$. Normality and heteroscedasticity give rise to quadratic decision surfaces.
 \end{enumerate}
 
-A third possible model is the Naive Bayes classifier. The main assumption on $f_i(\xvec)$ is:
+A third possible model is the Na\"ive Bayes classifier. The main assumption on $f_i(\xvec)$ is:
 \begin{equation}
     f_j(\xvec) = \prod_{l = 1}^p f_{\mathit{jl}}(x_l),
 \end{equation}
@@ -20,7 +20,7 @@ with $f_{\mathit{jl}}(x_l)$ the distribution of $X_l$ conditional on $Y = j$. In
     \P(X_1 = x_1, \ldots, X_p = x_p \given Y = j) = \underbracket{\P(X_1 = x_1 \given Y = j)}_{f_{j1}(x_1)} \cdots \underbracket{\P(X_p = x_p \given Y = j)}_{f_{\mathit{jp}}(x_p)}.
 \end{equation}
 
-\paragraph{Gaussian Naive Bayes}
+\paragraph{Gaussian Na\"ive Bayes}
 
 We assume:
 \begin{enumerate}
@@ -51,13 +51,13 @@ Therefore, \eqref{assumption:gaussian} and \eqref{assumption:naive} together mea
 \end{equation}
 The covariance matrix is diagonal and depends on $j$, with $\sigma_{\mathit{jl}}^2 = \Var(X_l \given Y = j)$.
 
-Compared to Naive Bayes:
+Compared to Na\"ive Bayes:
 \begin{enumerate}[beginpenalty=10000]
     \item \acs{lda} has variances that do not depend on $j$ (\ie, values along the diagonal are the same across classes), but non-zero values off-diagonal.
     \item \acs{qda} has non-zero class-specific off-diagonal values.
 \end{enumerate}
 
-\paragraph{Naive Bayes decision surface}
+\paragraph{Na\"ive Bayes decision surface}
 
 We know from the previous section that:
 \begin{equation}
@@ -73,7 +73,7 @@ Therefore, the decision surface is built from:
 \end{equation}
 We can see that we have a simpler quadratic form compared to \acs{qda} ($\xvec^\t\Sigma_j^{-1}\xvec$), since it does not require the inversion of $\Sigma_j$.
 
-\paragraph{Multinomial Naive Bayes classifier}
+\paragraph{Multinomial Na\"ive Bayes classifier}
 
 Consider $X_1,\ldots, X_p$ categorical variables. We also consider $f_j(\xvec) = \P(\Xvec = \xvec \given Y = j)$ in this case. How many parameters are involved?
 
@@ -141,7 +141,7 @@ There are simple cases where the shape of $g(\thetavec \given \text{data})$ is k
     \end{equation}
     In Bayesian inference, we need to set a prior distribution:
     \begin{equation}
-        h(\theta) = \frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha)\Gamma(\beta)}\theta^{\alpha - 1}(1 - \theta)^{\beta - 1},
+        h(\theta) = \frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha)\Gamma(\beta)}\theta^{\alpha - 1}(1 - \theta)^{\beta - 1}\negthinspace,
     \end{equation}
     with $\alpha$ and $\beta$ fixed according to prior knowledge. Then:
     \begin{equation}
@@ -153,10 +153,7 @@ There are simple cases where the shape of $g(\thetavec \given \text{data})$ is k
     \end{equation}
     We recognize $g(\theta\given \text{data})$ as a Beta distribution with:
     \begin{equation}
-        \begin{aligned}
-            \alpha^* & = \alpha + \sum_{i = 1}^n z_i    \\
-            \beta^*  & = \beta + n - \sum_{i = 1}^n z_i
-        \end{aligned}
+            \alpha^* = \alpha + \sum_{i = 1}^n z_i,\qquad\beta^* = \beta + n - \sum_{i = 1}^n z_i.
     \end{equation}
     Technically, we say that the Beta prior is \emph{conjugate} to the binomial likelihood.
 \end{example}

@@ -1,4 +1,4 @@
-\LoadClass[a4paper,11pt]{book}
+\LoadClass[a4paper,10pt]{book}
 
 % Global options
 \newcommand{\revision}{false}
@@ -32,7 +32,8 @@
 \makeatletter
 \edef\iwonafamily{\rmdefault}
 \makeatother
-\RequirePackage[vvarbb,scosf,ebgaramond,scale=0.953]{newtx}
+% \RequirePackage[vvarbb,scosf,ebgaramond,scale=0.953]{newtx}
+\RequirePackage{newpxtext,newpxmath}
 \RequirePackage{setspace}
 \RequirePackage{fnpct}
 \RequirePackage{textgreek}
@@ -113,6 +114,19 @@
 
 % General stylings
 \setfnpct{ add-trailing-token = :[.05em]{bang} }
+\renewcommand{\cftchapleader}{\quad}
+\renewcommand{\cftchapafterpnum}{\cftparfillskip}
+\renewcommand{\cftpnumalign}{l}
+\renewcommand{\cftsecleader}{\quad}
+\renewcommand{\cftsecafterpnum}{\cftparfillskip}
+\renewcommand{\cftsubsecleader}{\quad}
+\renewcommand{\cftsubsecafterpnum}{\cftparfillskip}
+\renewcommand{\cftchappagefont}{\color{quartergray}}
+\renewcommand{\cftsecpagefont}{\color{quartergray}}
+\renewcommand{\cftsubsecpagefont}{\color{quartergray}}
+\renewcommand{\cftsubsubsecpagefont}{\color{quartergray}}
+\renewcommand{\cftparapagefont}{\color{quartergray}}
+\hypersetup{linktoc=page}
 
 % ---------------------------------
 
@@ -134,7 +148,8 @@
 % Title stylings
 
 \newfont{\bigNumber}{eurb10 scaled 5000}
-\definecolor{halfgray}{gray}{0.6}
+\definecolor{halfgray}{gray}{0.7}
+\definecolor{quartergray}{gray}{0.4}
 
 % \renewcommand\thepart{\arabic{part}}
 
@@ -186,8 +201,8 @@
 \ExplSyntaxOff
 
 \captionsetup{textfont=it}
-\captionsetup[table]{labelfont=sc}
-\captionsetup[figure]{labelfont=sc}
+% \captionsetup[table]{labelfont=it}
+% \captionsetup[figure]{labelfont=it}
 \captionsetup[subfigure]{labelfont={large,sc}}
 
 % ---------------------------------
@@ -281,7 +296,7 @@
 \setlist[enumerate]{topsep=4pt,itemsep=3pt,parsep=3pt,}
 \setlist[itemize]{topsep=4pt,itemsep=2pt,parsep=3pt,}
 \setlist[description]{topsep=4pt,itemsep=3pt,parsep=3.5pt,leftmargin=\parindent,labelindent=0.5\parindent,}
-\renewcommand*\descriptionlabel[1]{\hspace\labelsep\normalfont\scshape #1}
+\renewcommand*\descriptionlabel[1]{\hspace\labelsep\sffont\scshape\color{quartergray} #1}
 \renewcommand\labelitemi{\color{halfgray}\(\bullet\)}
 
 % ---------------------------------
@@ -356,7 +371,7 @@
 \newcommand{\zzz}{\mathcal{Z}}
 \newcommand{\ncal}{\mathcal{N}}
 \newcommand{\hh}{\mathcal{H}}
-\newcommand{\oone}{\mathbb{1}}
+\newcommand{\oone}{\mathbb{I}}
 \newcommand{\normal}{\mathcal{N}}
 \newcommand{\lagr}{\mathcal{L}}
 \newcommand{\indep}{\mathrel{\bot}}
@@ -567,8 +582,8 @@
     \setlength{\headheight}{13.6pt}
 }
 \renewcommand{\headrulewidth}{0pt}
-\renewcommand{\chaptermark}[1]{\markboth{\textssc{\thechapter\color{halfgray}\quad\vline\quad#1}}{}}
-\renewcommand{\sectionmark}[1]{\markright{\textssc{\thesection\color{halfgray}\quad\vline\quad#1}}}
+\renewcommand{\chaptermark}[1]{\markboth{\textssc{\thechapter\color{quartergray}\quad\vline\quad#1}}{}}
+\renewcommand{\sectionmark}[1]{\markright{\textssc{\thesection\color{quartergray}\quad\vline\quad#1}}}
 
 \let\oldfootnote\footnote
 \renewcommand{\footnote}[1]{\oldfootnote{\maybeaddperiod{#1}}}

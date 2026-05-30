@@ -124,7 +124,7 @@ In the case of linear models, we can write:
               \begin{aligned}[t]
                   \Var(\xvec_0^\t\betavech) & = \xvec_0^\t\Var(\betavech)\xvec_0                                                                                                    \\
                                             & = \sigma^2\operatorname{Trace}(\xvec_0^\t(X^\t X)^{-1}\xvec_0)                                                                        \\
-                                            & = \sigma^2\operatorname{Trace}((X^\t X)^{-1}\xvec_0\xvec_0^\t)  \qquad \expl{[$\operatorname{Trace}(ABc) = \operatorname{Trace}(BCA)$]} \\
+                                            & = \sigma^2\operatorname{Trace}((X^\t X)^{-1}\xvec_0\xvec_0^\t)  \qquad \expl{[$\operatorname{Trace}(ABC) = \operatorname{Trace}(BC\negthinspace{}A)$]} \\
                                             & = \sigma^2\operatorname{Trace}\left(\left(\frac{X^\t X}{n}n\right)^{-1}\xvec_0\xvec_0^\t\right).                                      \\
               \end{aligned}
           \end{equation}
@@ -160,7 +160,7 @@ The idea here is to identify a subset of important predictors among $X_1, \ldots
 \begin{enumerate}
     \item Let $M_0$ be the null model (only intercept).
     \item For $k = 1, \ldots, p$:
-          \begin{enumerate}[a.]
+          \begin{enumerate}[a., beginpenalty=10000]
               \item Fit all $\binom{p}{k}$ models with $k$ predictors.
               \item Pick the best among them, and call it $M_k$.
           \end{enumerate}

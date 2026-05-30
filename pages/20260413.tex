@@ -8,7 +8,7 @@ Some facts:
 \end{itemize}
 
 Two popular approaches are:
-\begin{enumerate}
+\begin{enumerate}[beginpenalty=10000]
     \item Ridge regression,
     \item Lasso regression.
 \end{enumerate}
@@ -152,7 +152,7 @@ The two additional terms in Ridge and Lasso regression are different when interp
     Here we used the concept of \emph{subdifferential}, which is a generalization of the derivative for functions that are not differentiable.
 \end{example}
 
-\paragraph{$\bm{\hat{\beta}_{\textsc{Lasso}}}$ vs $\bm{\hat{\beta}_\text{LS}}$}
+\paragraph{$\bm{\hat{\beta}_{\textsc{Lasso}}}$ vs.\@ $\bm{\hat{\beta}_\text{LS}}$}
 
 Consider the least squares estimator $\hat{\beta}_\text{LS}$ for one predictor obtained from:
 \begin{equation}
@@ -177,21 +177,21 @@ We distinguish three cases:
               \end{aligned}$
 \end{itemize}
 
+\paragraph{Soft-thresholding operator}
+
 \begin{figure}[tb]
     \centering
     \begin{tikzpicture}
         \draw[->] (-3.5,0) -- (3.5,0) node[right] {$\beta_{\text{LS}}$};
         \draw[->] (0,-2.5) -- (0,2.5) node[above] {$\beta_{\textsc{Lasso}}$};
-        \draw[thick] (-3.25,-2.5) -- (-.75,0);
-        \draw[thick] (.75,0) -- (3.25,2.5);
-        \draw[thick] (-.75,0) -- (.75,0);
+        \draw[thick] (-3.25,-2.5) -- (-.75,0) -- (.75,0) -- (3.25,2.5);
 
         \draw[dashed] (-2.5,-2.5) -- (2.5,2.5);
 
-        \node at (-1.25,0) [above] {\scriptsize $-\frac{\lambda}{2} (X^\t X)^{-1}$};
-        \node at (1.25,0) [below] {\scriptsize $\frac{\lambda}{2} (X^\t X)^{-1}$};
+        \node at (-1.1,0) [above] {\scriptsize $-\frac{\lambda}{2} (X^\t X)^{-1}$};
+        \node at (1.1,0) [below] {\scriptsize $\frac{\lambda}{2} (X^\t X)^{-1}$};
 
-        \draw[latex-latex] (1.5,.76) -- (1.5,1.49);
+        \draw[latex-latex] (1.5,.85) -- (1.5,1.45);
         \node[pin=130:{Bias}, font=\small] at (1.5,1.05) {};
 
         \node[pin=340:{Shrinkage}, font=\small] at (2,1.25) {};
@@ -199,8 +199,6 @@ We distinguish three cases:
     \end{tikzpicture}
     \caption{Soft-thresholding operator.}\label{fig:soft-thresholding-operator}
 \end{figure}
-
-\paragraph{Soft-thresholding operator}
 
 Having derived the relation between $\beta_{\textsc{Lasso}}$ and $\beta_\text{LS}$, we can compute $\beta_{\text{LS}}$ (using the closed-form solution) and then add the correction term $\pm \frac{\lambda}{2} (X^\t X)^{-1}$ to get $\beta_{\textsc{Lasso}}$. To do this, we can define the \emph{soft-thresholding operator}, that, for a given $\lambda$, takes $\beta_\text{LS}$ as input and gives $\beta_{\textsc{Lasso}}$ as output.
  In~\Cref{fig:soft-thresholding-operator}, we see that the larger the $\lambda$, the larger the bias; if $\lambda = 0$ there is no bias, and in fact we obtain $\beta_{\textsc{Lasso}} = \beta_\text{LS}$, which is unbiased. Another observation is that for each estimated $\beta_\text{LS}$, if it is smaller than $\frac{\lambda}{2} (X^\t X)^{-1}$ in absolute value, then $\beta_{\textsc{Lasso}}$ is zero, \ie, the Lasso estimator performs variable selection by shrinking some coefficients to zero.
