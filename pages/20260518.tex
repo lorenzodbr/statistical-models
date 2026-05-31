@@ -71,8 +71,8 @@ The idea behind the partial likelihood is to ignore the $g(t_k)$ term and to foc
 \begin{equation}
     \begin{aligned}
         \PL(\betavec) & = \prod_{k = 1}^K f(\text{patient}_k \given t_k)                                                                \\
-                      & = \prod_{k = 1}^K \frac{h_0(t_k)\exp(\betavec^\t\xvec_k)}{\sum_{j \in R(t_k)} h_0(t_k)\exp(\betavec^\t\xvec_j)} \\
-                      & = \prod_{k = 1}^K \frac{\exp(\betavec^\t\xvec_k)}{\sum_{j \in R(t_k)} \exp(\betavec^\t\xvec_j)} = f(\betavec),
+                      & = \prod_{k = 1}^K \frac{h_0(t_k)\exp(\betavec^\t\xvec_k)}{\sum_{j\,\in\,R(t_k)} h_0(t_k)\exp(\betavec^\t\xvec_j)} \\
+                      & = \prod_{k = 1}^K \frac{\exp(\betavec^\t\xvec_k)}{\sum_{j\,\in\,R(t_k)} \exp(\betavec^\t\xvec_j)} = f(\betavec),
     \end{aligned}
 \end{equation}
 where $R(t_k)$ is the risk set at time $t_k$, \ie the set of patients that are still alive at time $t_k$. This is a multinomial likelihood. We notice some facts:
@@ -86,7 +86,7 @@ where $R(t_k)$ is the risk set at time $t_k$, \ie the set of patients that are s
 
 Relative risk can be calculated for any individual on some test set:
 \begin{equation}
-    \hat{\eta}_i = \hat{\beta}_1 x_{i1} + \dots + \hat{\beta}_p x_\mathit{ip}, \quad i = 1, \dots, n.
+    \hat{\eta}_i = \hat{\beta}_1 x_{i1} + \dots + \hat{\beta}_p x_{\mathit{ip}}, \quad i = 1, \dots, n.
 \end{equation}
 We also need to stratify the patients into risk groups, for example, \texttt{low}, \texttt{medium} and \texttt{high} risk. Then, we can check for covariates that are particularly prevalent in each group.
 
@@ -148,6 +148,6 @@ where $\xvec_{s,r}$ is a vector of covariates associated to the pair $(s,r)$ at 
 
 Let's analyze the partial likelihood in this context. We end up with a similar expression as before:
 \begin{equation}
-    \PL(\betavec) = \prod_{k = 1}^K \frac{\exp(\betavec^\t\xvec_{s_k,r_k}(t_k))}{\sum_{(s_{k^*}, r_{k^*}) \in R(t_k)} \exp(\betavec^\t\xvec_{s_{k^*}\negthinspace,\,r_{k^*}}(t_k))}.
+    \PL(\betavec) = \prod_{k = 1}^K \frac{\exp(\betavec^\t\xvec_{s_k,r_k}(t_k))}{\sum_{(s_{k^*}, r_{k^*})\,\in\,R(t_k)} \exp(\betavec^\t\xvec_{s_{k^*}\negthinspace,\,r_{k^*}}(t_k))}.
 \end{equation}
 The set $R(t_k)$ has about $p^2$ elements with $p$ as the number of units. Computationally more efficient methods are developed considering this new partial likelihood.

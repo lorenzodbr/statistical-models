@@ -11,15 +11,15 @@ Given a tree with $J$ regions $R_1, R_2, \dots, R_J$, then:
           \begin{equation}
               \hat{\P}(c\given\xvec) = \hat{\P}(c\given R_j),
           \end{equation}
-          \ie, the proportion of training observations in the region $R_j$ that belong to class $c$, $\;c=1,2,\dots,K$. Then, we set a threshold on these probabilities as before.
+          \ie, the proportion of training observations in the region $R_j$ that belong to class $c$, for $c=1,2,\dots,K$. Then, we set a threshold on these probabilities as before.
 \end{description}
 
 \paragraph{How to build a tree}
 
 The goal here is to divide the space into ``boxes''\negthinspace. Two key aspects to keep in mind are:
 \begin{itemize}
-    \item The choice of optimality criterion to decide the best split at each step.
-    \item Devising a computationally efficient procedure, since it is infeasible to look at all possible partitions.
+    \item The choice of an \emph{optimality criterion} to decide the best split at each step.
+    \item Devising a \emph{computationally efficient procedure}, since it is infeasible to look at all possible partitions.
 \end{itemize}
 
 \paragraph{Choice of optimality criterion}
@@ -27,9 +27,9 @@ The goal here is to divide the space into ``boxes''\negthinspace. Two key aspect
 \begin{description}
     \item[Regression] In the case of regression, the natural choice under a squared error loss is to find regions $R_1, \ldots, R_j$ that minimize:
           \begin{equation}
-              \acs{rss} = \sum_{j=1}^J \sum_{i\in R_j} (y_i - \hat{y}_{R_j})^2
+              \acs{rss} = \sum_{j=1}^J \sum_{i\,\in\,R_j} (y_i - \hat{y}_{R_j})^2\negthinspace,
           \end{equation}
-          (\acl{rss}), where $\hat{y}_{R_j}$ is the average of the response values for the training observations in $R_j$.
+          called \emph{\acl{rss}}, where $\hat{y}_{R_j}$ is the average of the response values for the training observations in $R_j$.
 
     \item[Classification] The most natural one in this setting is the following:
           \begin{equation}
@@ -71,7 +71,7 @@ The goal here is to divide the space into ``boxes''\negthinspace. Two key aspect
                 xtick={0,0.5,1},
                 ytick={0,0.5},
                 ymin=0, ymax=0.75,
-                xmin=0, xmax=1.25,
+                xmin=0, xmax=1.15,
                 height=4cm,
                 width=8cm,
             ]
@@ -101,8 +101,8 @@ The algorithm consists of the following steps:
           \end{equation}
           In practice, the cutpoints are chosen:
           \begin{itemize}
-              \item For continuous predictors, as a discrete sequence.
-              \item For categorical variables, as all the possible splits of the categories into two groups.
+              \item For \emph{continuous} predictors, as a discrete sequence.
+              \item For \emph{categorical} variables, as all the possible splits of the categories into two groups.
           \end{itemize}
     \item Calculate the optimality criterion for each $\tuple{k, s}$ partitioning and choose optimal partition. This gives us two initial regions $R_1$ and $R_2$.
     \item Repeat the procedure in each region and choose the best partitioning according to the optimality criterion.
@@ -129,7 +129,7 @@ The algorithm consists of the following steps:
           If $\alpha = 0$, then $T_\alpha = T_0$, while as $\alpha$ increases, $T_\alpha$ gets smaller and smaller, in a nested fashion (pruning).
 \end{enumerate}
 
-\paragraph{Cross-validation for $\bm{\alpha}$ selection} We cannot select $\alpha$ by looking at the training error, but rather on some unseen data (test-set or cross-validation). In practice, doing cross-validation:
+\paragraph{Cross-validation for $\bm{\alpha}$ selection} We cannot select $\alpha$ by looking at the training error, but rather on some unseen data (test set or cross-validation). In practice, doing cross-validation:
 \begin{enumerate}[beginpenalty=10000]
     \item We choose a sequence of values of $\alpha$.
     \item For each $\alpha$, we fit the tree on $k-1$ folds and we prune it.

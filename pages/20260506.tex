@@ -22,11 +22,11 @@ The \acs{svc} problem on the augmented space becomes:
 
 In the augmented feature space $\rr^{2p}$ we obtain, therefore, a linear decision surface:
 \begin{equation}
-    \zvec \in \rr^{2p}\colon \beta_0 + \betavec^\t\zvec = 0.
+    \zvec \in \rr^{2p}\negthinspace\colon \beta_0 + \betavec^\t\zvec = 0.
 \end{equation}
 In the original feature space $\rr^p$ we obtain a quadratic decision surface:
 \begin{equation}
-    \xvec \in \rr^p\colon \beta_0 + \sum_{j = 1}^{p}\beta_{j1}x_{j} + \sum_{j = 1}^{p}\beta_{j2}x_{j}^2 = 0.
+    \xvec \in \rr^p\negthinspace\colon \beta_0 + \sum_{j = 1}^{p}\beta_{j1}x_{j} + \sum_{j = 1}^{p}\beta_{j2}x_{j}^2 = 0.
 \end{equation}
 The space can be extended considering interaction terms $x_i x_j$ or even higher degrees, but it becomes computationally expensive.
 
@@ -41,7 +41,7 @@ Recall that in an \acs{svc} the decision surface is linear and defined by:
 \end{equation}
 In the optimization (estimation of $\gammavec$), we solve:
 \begin{equation}
-    \max_\gammavec \sum_{i = 1}^n \gamma_i - \frac{1}{2}\sum_{i,j = 1}^{n} \gamma_i\gamma_j y_i y_j \xvec_i \cdot \xvec_j.
+    \max_{\gammavec} \sum_{i = 1}^n \gamma_i - \frac{1}{2}\sum_{i,j = 1}^{n} \gamma_i\gamma_j y_i y_j \xvec_i \cdot \xvec_j.
 \end{equation}
 
 We notice that the optimization depends on the data only through the inner products $\xvec_i \cdot \xvec_j$. Therefore, it would make sense to replace the inner product with a more general function $K(\xvec_i, \xvec_j)$, called \emph{kernel}.
@@ -50,11 +50,11 @@ We notice that the optimization depends on the data only through the inner produ
 
 Suppose we have a function $\Phi\colon \rr^p \to \rr^N$ with $N > p$, that maps the original feature space to a higher-dimensional space. Therefore, we can rewrite $f(\xvec)$ in this space as:
 \begin{equation}
-    f(\xvec) = \beta_0 + {\underbracket{\betavec}_{\mathclap{\betavec \in \rr^N}}}^\t \underbracket{\Phi(\xvec)}_{\zvec} = \beta_0 + \sum_{i = 1}^n \underbracket{\gamma_i}_{\gamma \in \rr^n} \negthickspace y_i \Phi(\xvec_i) \cdot \Phi(\xvec).
+    f(\xvec) = \beta_0 + {\underbracket{\betavec}_{\mathclap{\betavec\,\in\,\rr^N}}}^\t \underbracket{\Phi(\xvec)}_{\zvec} = \beta_0 + \sum_{i = 1}^n \underbracket{\gamma_i}_{\gamma\,\in\,\rr^n} \negthickspace y_i \Phi(\xvec_i) \cdot \Phi(\xvec).
 \end{equation}
 So, $\beta_0$ and $\gammavec$ get estimated by:
 \begin{equation}
-    \max_\gammavec \sum_{i = 1}^n \gamma_i - \frac{1}{2}\sum_{i,j = 1}^{n} \gamma_i\gamma_j y_i y_j \Phi(\xvec_i) \cdot \Phi(\xvec_j).
+    \max_{\gammavec} \sum_{i = 1}^n \gamma_i - \frac{1}{2}\sum_{i,j = 1}^{n} \gamma_i\gamma_j y_i y_j \Phi(\xvec_i) \cdot \Phi(\xvec_j).
 \end{equation}
 \begin{note}
     We notice that while the $\beta$s are $N$, the $\gamma$s stay in number $n$.
@@ -68,7 +68,7 @@ Using such kernel in $f(\xvec)$:
 \end{equation}
 and the optimization becomes:
 \begin{equation}
-    \max_\gammavec \sum_{i = 1}^n \gamma_i - \frac{1}{2}\sum_{i,j = 1}^{n} \gamma_i\gamma_j y_i y_j K(\xvec_i, \xvec_j).
+    \max_{\gammavec} \sum_{i = 1}^n \gamma_i - \frac{1}{2}\sum_{i,j = 1}^{n} \gamma_i\gamma_j y_i y_j K(\xvec_i, \xvec_j).
 \end{equation}
 The decision surface is, therefore, defined by:
 \begin{equation}
@@ -77,7 +77,7 @@ The decision surface is, therefore, defined by:
 and it is non-linear, with the shape influenced by the choice of the kernel.
 
 The most common choices for the kernel are:
-\begin{description}
+\begin{description}[beginpenalty=10000]
     \item[Linear Kernel] $\hfill K(\xvec, \zvec) = \xvec \cdot \zvec. \inlineeqno$
     \item[Polynomial Kernel] $\hfill K(\xvec, \zvec) = \bigl(1 + \sum_{j=1}^p \xvec_j \zvec_j\bigr)^n \text{ of degree } n. \hfill \inlineeqno$
     \item[Radial Kernel] $\hfill K(\xvec, \zvec) = \exp\bigl(- \gamma \sum_{j=1}^p (\xvec_j - \zvec_j)^2\bigr) \text{ with } \gamma > 0. \hfill \inlineeqno$

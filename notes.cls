@@ -33,7 +33,8 @@
 \edef\iwonafamily{\rmdefault}
 \makeatother
 % \RequirePackage[vvarbb,scosf,ebgaramond,scale=0.953]{newtx}
-\RequirePackage{newpxtext,newpxmath}
+\RequirePackage{newpxtext}
+\RequirePackage[vvarbb,subscriptcorrection]{newpxmath}
 \RequirePackage{setspace}
 \RequirePackage{fnpct}
 \RequirePackage{textgreek}
@@ -126,7 +127,7 @@
 \renewcommand{\cftsubsecpagefont}{\color{quartergray}}
 \renewcommand{\cftsubsubsecpagefont}{\color{quartergray}}
 \renewcommand{\cftparapagefont}{\color{quartergray}}
-\hypersetup{linktoc=page}
+\hypersetup{linktoc=none}
 
 % ---------------------------------
 
@@ -141,7 +142,7 @@
 \newcommand\semilarge{\@setfontsize\semilarge{11.46}{13.80}}
 \newcommand\seminormal{\@setfontsize\seminormal{10.46}{12.77}}
 \makeatother
-\renewcommand{\ttdefault}{lmtt}
+% \renewcommand{\ttdefault}{lmtt}
 
 % ---------------------------------
 
@@ -285,9 +286,9 @@
 \crefname{table}{table}{tables}
 
 \let\oldCref\Cref%
-\renewcommand{\Cref}[1]{\textsc{\oldCref{#1}}}
+\renewcommand{\Cref}[1]{\textsc{\sffont\oldCref{#1}}}
 \let\oldcref\cref%
-\renewcommand{\cref}[1]{\textsc{\oldcref{#1}}}
+\renewcommand{\cref}[1]{\textsc{\sffont\oldcref{#1}}}
 
 % ---------------------------------
 
@@ -371,11 +372,11 @@
 \newcommand{\zzz}{\mathcal{Z}}
 \newcommand{\ncal}{\mathcal{N}}
 \newcommand{\hh}{\mathcal{H}}
-\newcommand{\oone}{\mathbb{I}}
+\newcommand{\oone}{\mathbb{1}}
 \newcommand{\normal}{\mathcal{N}}
 \newcommand{\lagr}{\mathcal{L}}
 \newcommand{\indep}{\mathrel{\bot}}
-\newcommand{\bitsmall}[1]{{\fontsize{0.875\fontdimen6\font}{0.8\baselineskip}\selectfont #1}}
+\newcommand{\bitsmall}[1]{{\fontsize{0.9\fontdimen6\font}{0.9\baselineskip}\selectfont #1}}
 \newcommand{\bitbig}[1]{{\fontsize{1.1\fontdimen6\font}{1.1\baselineskip}\selectfont #1}}
 \newcommand{\zzs}[1]{\ensuremath{\zz_{#1}^*}}
 \newcommand{\zzsn}{\ensuremath{\zzs{n}}}
@@ -504,7 +505,7 @@
   \raisebox{\depth}{$\m@th#1\intercal$}%
 }
 \makeatother
-\renewcommand{\t}{\transpose}
+\renewcommand{\t}{\transp}
 
 \makeatletter
 \DeclareRobustCommand\onedot{\futurelet\@let@token\@onedot}
@@ -582,8 +583,8 @@
     \setlength{\headheight}{13.6pt}
 }
 \renewcommand{\headrulewidth}{0pt}
-\renewcommand{\chaptermark}[1]{\markboth{\textssc{\thechapter\color{quartergray}\quad\vline\quad#1}}{}}
-\renewcommand{\sectionmark}[1]{\markright{\textssc{\thesection\color{quartergray}\quad\vline\quad#1}}}
+\renewcommand{\chaptermark}[1]{\markboth{\textssc{\thechapter\color{halfgray}\quad\vline\quad\color{quartergray}#1}}{}}
+\renewcommand{\sectionmark}[1]{\markright{\textssc{\thesection\color{halfgray}\quad\vline\quad\color{quartergray}#1}}}
 
 \let\oldfootnote\footnote
 \renewcommand{\footnote}[1]{\oldfootnote{\maybeaddperiod{#1}}}

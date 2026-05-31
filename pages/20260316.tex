@@ -48,9 +48,9 @@ Different choices of $f$ and $g$ give rise to different types of \acsp{glm}.
     A \acs{glm} with $f$ normal and $g$ identity is just a linear model.
 \end{example}
 
-\paragraph{Exponential Dispersion family}
+\paragraph{Exponential dispersion family}
 
-\begin{definition*}[Exponential Dispersion family]
+\begin{definition*}[Exponential dispersion family]
     A density function belongs to the \emph{exponential dispersion family} if it can be written in the form:
     \begin{equation}\label{eq:edf}
         f(y_i; \theta_i, \phi) = \exp\left(\frac{y_i\theta_i - b(\theta_i)}{a_i(\phi)} + c(y_i, \phi)\right)
@@ -82,7 +82,10 @@ In~\eqref{eq:edf}:
               \end{equation}
               and therefore:
               \begin{equation}
-                  \theta_i = \mu_i\quad b(\theta_i) = \frac{\theta_i^2}{2}\quad \phi = \sigma^2\quad a_i(\phi) = \phi\quad c(y_i, \phi) = -\frac{1}{2}\frac{y_i^2}{\sigma^2} - \frac{1}{2}\log(2\pi\sigma^2).
+                \begin{gathered}
+                    \theta_i = \mu_i\quad b(\theta_i) = \frac{\theta_i^2}{2}\quad \phi = \sigma^2\negthinspace,\\
+                     a_i(\phi) = \phi\quad c(y_i, \phi) = -\frac{1}{2}\frac{y_i^2}{\sigma^2} - \frac{1}{2}\log(2\pi\sigma^2).
+                \end{gathered}
               \end{equation}
         \item[Binomial]
               \begin{equation}
@@ -95,8 +98,12 @@ In~\eqref{eq:edf}:
               \end{equation}
               and therefore:
               \begin{equation}
-                  \theta_i = \log\left(\frac{\pi_i}{1 - \pi_i}\right)\quad b(\theta_i) = -n_i \log(1 - \pi_i)\quad \phi = 1\quad a_i(\phi) = \phi\quad c(y_i, \phi) = \log\binom{n_i}{y_i}.
+                \begin{gathered}
+                    \theta_i = \log\left(\frac{\pi_i}{1 - \pi_i}\right)\quad b(\theta_i) = -n_i \log(1 - \pi_i),\\ 
+                    \phi = 1\quad a_i(\phi) = \phi\quad c(y_i, \phi) = \log\binom{n_i}{y_i}.
+                \end{gathered}\vspace{-1em}
               \end{equation}
+              \qedhere
     \end{description}
 \end{proof}
 

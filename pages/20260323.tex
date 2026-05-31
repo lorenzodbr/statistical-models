@@ -24,7 +24,7 @@ that is ``assign $\xvec$ to class $j$ that maximizes'':
     f_j(\xvec) \pi_j,\quad j = 1, \ldots, K.
 \end{equation}
 
-\paragraph{Estimation of $\bm{\pi_j}$}
+\paragraph{Estimation of prior probabilities}
 
 There are two ways of estimating $\pi_j$ from data:
 \begin{enumerate}
@@ -95,13 +95,13 @@ Here we consider a multivariate extension of \acs{lda}. Therefore, the variables
           \begin{equation}
               f_j(\xvec) = \frac{1}{(2\pi)^{p/2} \abs{\Sigma_j}^{1/2}}\exp\left(-\frac{1}{2}(\xvec - \muvec_j)^\t \Sigma_j^{-1} (\xvec - \muvec_j)\right), \quad j = 1, \ldots, K,
           \end{equation}
-          with $\muvec_j = \tuple{\mu_{j1}, \ldots, \mu_\mathit{jp}}^\t$ vector of means and $\Sigma_j$ $p\times p$ covariance matrix.
+          with $\muvec_j = \tuple{\mu_{j1}, \ldots, \mu_{\mathit{jp}}}^\t$ vector of means and $\Sigma_j$ $p\times p$ covariance matrix.
     \item $\Sigma_1 = \Sigma_2 = \ldots = \Sigma_K = \Sigma = \begin{pmatrix}
                   \sigma^2_{1} & \sigma_{12}  & \cdots & \sigma_{1p}  \\
                   \sigma_{21}  & \sigma^2_{2} & \cdots & \sigma_{2p}  \\
                   \vdots       & \vdots       & \ddots & \vdots       \\
                 \sigma_{p1}  & \sigma_{p2}  & \cdots & \sigma^2_{p}
-              \end{pmatrix},$ where $\sigma_\mathit{jl} = \Cov(X_j, X_l\given Y = k)$ and $\sigma^2_j = \Var(X_j\given Y = k)$.
+              \end{pmatrix},$ where $\sigma_{\mathit{jl}} = \Cov(X_j, X_l\given Y = k)$ and $\sigma^2_j = \Var(X_j\given Y = k)$.
 \end{enumerate}
 
 \paragraph{Linear decision surface}
@@ -127,9 +127,9 @@ So assigning $\xvec$ to class $j$ that maximizes the numerator is equivalent to 
 \end{equation}
 which is indeed linear. Therefore, the $\xvec$s such that $\delta_1(\xvec) = \delta_2(\xvec)$ correspond to a \emph{linear decision surface}.
 
-\subsection{Quadratic discriminant analysis}
+\subsection{\acs{qda}}
 
-Quadratic Discriminant Analysis relaxes the second assumption. Therefore, the assumption is now only:
+Quadratic discriminant analysis relaxes the second assumption. Therefore, the assumption is now only:
 \begin{equation}
     \Xvec \given Y = j \sim \normal_p(\muvec_j, \Sigma_j),\quad j = 1, \ldots, K.
 \end{equation}

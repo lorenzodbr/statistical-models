@@ -43,8 +43,8 @@ For each observation $\xvec$, make a prediction based on the trees that have bee
 \paragraph{Cost of Bagging}
 
 \begin{enumerate}
-    \item Loss of interpretability: an average of a tree is not a tree. However, one can calculate various measures of variable importance. For each predictor, add up the total amount that the \acs{rss}/Gini/Entropy is decreased by splits on that predictor across the $B$ trees.
-    \item Bootstrap samples are correlated and not independent: the variance of the sum of correlated variables is higher than the variance of a sum of independent variables. 
+    \item \emph{Loss of interpretability}: an average of a tree is not a tree. However, one can calculate various measures of variable importance. For each predictor, add up the total amount that the \acs{rss}/Gini/Entropy is decreased by splits on that predictor across the $B$ trees.
+    \item \emph{Bootstrap samples are correlated and not independent}: the variance of the sum of correlated variables is higher than the variance of a sum of independent variables. 
 \end{enumerate}
 
 Random forests provide a way to ``decorrelate'' trees.
@@ -75,7 +75,7 @@ If there is a strong predictor, it will now appear at first split only on $m/p$ 
 
 It is based on the idea of aggregating trees that are sequentially grown from the same data. Each tree is fitted on the ``residuals'' of the previous model. We use \emph{weak learners} (simple models) and update these slowly by fitting a tree to the residuals of the previous model.
 
-An algorithm for boosting is called \emph{Gradient Boosting}:
+An algorithm for boosting is called \emph{gradient boosting}:
 \begin{enumerate}
     \item Let $\L(y_i, \hat{y}_i) = (y_i - \hat{y}_i)^2$ be the loss function.
     \item Initialize the model with $f_0(\xvec) = \argmin_\gamma \sum_{i=1}^n \L(y_i, \gamma)$. For the squared error loss, this is just the mean of the $y_i$, $\overbar{y}$.
@@ -85,7 +85,7 @@ An algorithm for boosting is called \emph{Gradient Boosting}:
         \item Fit a tree to the residuals, giving terminal regions $R_{\mathit{jm}}$, $j = 1, \dots, J_m$.
         \item For $j = 1, \dots, J_m$, compute:
         \begin{equation}
-            \gamma_{\mathit{jm}} = \argmin_\gamma \sum_{\xvec_i \in R_{\mathit{jm}}} \L(y_i - f_{m-1}(\xvec_i), \gamma),
+            \gamma_{\mathit{jm}} = \argmin_\gamma \sum_{\xvec_i\,\in\,R_{\mathit{jm}}} \L(y_i - f_{m-1}(\xvec_i), \gamma),
         \end{equation}
         which can be interpreted as the average of the residuals in the $j$-th region of the $m$-th tree.
         \item Update:
@@ -105,5 +105,5 @@ Some remarks:
         f_m(\xvec_i) = f_{m-1}(\xvec_i) + \nu \sum_{j=1}^{J_m} \gamma_{\mathit{jm}} \oone(\xvec_i \in R_{\mathit{jm}}).
     \end{equation}
     Usually, $\nu$ is set to a small value and $M$ is tuned.
-    \item An extension of the algorithm is \emph{Stochastic Gradient Boosting}, where it fits a tree on a random sample of the data. Therefore, one can evaluate the performance of the method during the learning.
+    \item An extension of the algorithm is the \emph{stochastic gradient boosting}, where it fits a tree on a random sample of the data. Therefore, one can evaluate the performance of the method during the learning.
 \end{enumerate}

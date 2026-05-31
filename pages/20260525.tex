@@ -43,25 +43,26 @@ In general we want:
 \end{equation}
 with $W(\Gamma_i)$ the sum of distances of any two objects in $\Gamma_i$. In the case of the Euclidean distance, we have:
 \begin{equation}\label{eq:within_cluster_variation}
-    W(\Gamma_i) = \frac{1}{2\abs{\Gamma_i}} \sum_{\xvec, \yvec \in \Gamma_i} \sum_{l = 1}^p (x_l - y_l)^2\negthinspace.
+    W(\Gamma_i) = \frac{1}{2\abs{\Gamma_i}} \sum_{\xvec, \yvec\,\in\,\Gamma_i} \sum_{l = 1}^p (x_l - y_l)^2\negthinspace.
 \end{equation}
 This is also referred to as \emph{within-cluster variation}, since the $W$ is equivalent to:
 \begin{equation}
-    W(\Gamma_i) = \sum_{\xvec \in \Gamma_i} \sum_{l = 1}^p (x_l - \bar{x}_\mathit{il})^2\negthinspace, \quad \text{with } \bar{x}_\mathit{il} = \frac{1}{\abs{\Gamma_i}} \sum_{\xvec \in \Gamma_i} x_l.
+    W(\Gamma_i) = \sum_{\xvec\,\in\,\Gamma_i} \sum_{l = 1}^p (x_l - \bar{x}_{\mathit{il}})^2\negthinspace, \quad \text{with } \bar{x}_{\mathit{il}} = \frac{1}{\abs{\Gamma_i}} \sum_{\xvec\,\in\,\Gamma_i} x_l.
 \end{equation}
-The $\bar{\xvec}_\mathit{il}$ is the sample mean of predictor $l$ in cluster $\Gamma_i$.
+The $\bar{\xvec}_{\mathit{il}}$ is the sample mean of predictor $l$ in cluster $\Gamma_i$.
 
 \begin{proof}
     Let's consider the case $p = 1$. Using \eqref{eq:within_cluster_variation} we have:
     \begin{equation}
         \begin{aligned}
-            2W(\Gamma_i) & = \frac{1}{\abs{\Gamma_i}} \sum_{x, y \in \Gamma_i} (x - y)^2                                                                                                                                                   \\
-                         & = \frac{1}{\abs{\Gamma_i}} \sum_{x, y \in \Gamma_i} (x^2 + y^2 - 2xy)                                                                                                                                           \\
-                         & = \frac{1}{\abs{\Gamma_i}} \left( 2\abs{\Gamma_i} \sum_{x \in \Gamma_i} x^2 - 2\sum_{x, y \in \Gamma_i} xy \right)                                                                                              \\
-                         & = 2\left(\sum_{x \in \Gamma_i} x^2 - \bar{x}_i\sum_{x \in \Gamma_i} x\right)                                                                                                                                    \\
-                         & = 2\left(\sum_{x \in \Gamma_i} x^2 -2 \bar{x}_i\sum_{x \in \Gamma_i} x + \bar{x}_i\sum_{x \in \Gamma_i} x \right)                                                                                               \\
-                         & = 2\left(\sum_{x \in \Gamma_i} x^2 - 2\bar{x}_i\sum_{x \in \Gamma_i} x + \abs{\Gamma_i}\bar{x}_i^2\right)              \qquad \expl{[$\textstyle\bar{x}_i\sum_{x \in \Gamma_i} x = \abs{\Gamma_i}\bar{x}_i^2$]} \\
-                         & = 2\left(\sum_{x \in \Gamma_i} x^2 - \sum_{x \in \Gamma_i}2\bar{x}_i x + \sum_{x \in \Gamma_i}\bar{x}_i^2\right) = 2\sum_{x \in \Gamma_i} (x - \bar{x}_i)^2\negthinspace.
+            2W(\Gamma_i) & = \frac{1}{\abs{\Gamma_i}} \sum_{x, y\,\in\,\Gamma_i} (x - y)^2                                                                                                                                                   \\
+                         & = \frac{1}{\abs{\Gamma_i}} \sum_{x, y\,\in\,\Gamma_i} (x^2 + y^2 - 2xy)                                                                                                                                           \\
+                         & = \frac{1}{\abs{\Gamma_i}} \left( 2\abs{\Gamma_i} \sum_{x\,\in\,\Gamma_i} x^2 - 2\sum_{x, y\,\in\,\Gamma_i} xy \right)                                                                                              \\
+                         & = 2\left(\sum_{x\,\in\,\Gamma_i} x^2 - \bar{x}_i\sum_{x\,\in\,\Gamma_i} x\right)                                                                                                                                    \\
+                         & = 2\left(\sum_{x\,\in\,\Gamma_i} x^2 -2 \bar{x}_i\sum_{x\,\in\,\Gamma_i} x + \bar{x}_i\sum_{x\,\in\,\Gamma_i} x \right)                                                                                               \\
+                         & = 2\left(\sum_{x\,\in\,\Gamma_i} x^2 - 2\bar{x}_i\sum_{x\,\in\,\Gamma_i} x + \abs{\Gamma_i}\bar{x}_i^2\right) \qquad \expl{[$\textstyle\bar{x}_i\sum_{x\,\in\,\Gamma_i} x = \abs{\Gamma_i}\bar{x}_i^2$]} \\
+                         & = 2\left(\sum_{x\,\in\,\Gamma_i} x^2 - \sum_{x\,\in\,\Gamma_i}2\bar{x}_i x + \sum_{x\,\in\,\Gamma_i}\bar{x}_i^2\right)\\
+                         & = 2\sum_{x\,\in\,\Gamma_i} (x - \bar{x}_i)^2\negthinspace.
         \end{aligned}
         \vspace{-1.5em}
     \end{equation}
@@ -142,13 +143,13 @@ The optimal problem is actually NP-hard, since there are approximately $K^n$ way
 
           In addition to the distance between the observations, the method needs a distance between clusters. This is called \emph{linkage criterion} and a common choice for it is the \emph{average linkage}:
           \begin{equation}
-              d_{\textsc{al}}(C_i, C_j) = \frac{1}{\abs{C_i}\abs{C_j}} \sum_{\substack{\xvec \in C_i\\\yvec \in C_j}} d(\xvec, \yvec),
+              d_{\textsc{al}}(C_i, C_j) = \frac{1}{\abs{C_i}\abs{C_j}} \sum_{\substack{\xvec\,\in\,C_i\\\yvec\,\in\,C_j}} d(\xvec, \yvec),
           \end{equation}
           where $d(\xvec, \yvec)$ is the distance between two observations, such as the Euclidean distance.
 
           The algorithm can proceed in a bottom-up or top-down approach:
           \begin{itemize}
-              \item \emph{Agglomerative}: start with each observation in one cluster and then merge the two clusters that are closest to each other; continue until everything is in one cluster.
+              \item \emph{Agglomerative}: start with each observation in one cluster and then merge the two clusters that are closest to each other; continue until a stopping criterion is met.
               \item \emph{Divisive}: start with everything in one cluster and perform recursive splitting of clusters according to the optimality criterion.
           \end{itemize}
 \end{description}
@@ -194,10 +195,10 @@ We have three main approaches to this problem:
     \item Stochastic block models (mixture models).
 \end{itemize}
 
-\paragraph{Optimality criterion} To define an optimality criterion we need to understand what groups have in common. Let $\ell = \tuple{C_1, \dots, C_K}$ be a partition of the nodes and $f_\mathit{ij}(\ell)$ the fraction of edges in the network that connect a node in $C_i$ to a node in $C_j$ with respect to the total number of edges. In particular, $f_\mathit{ii}(\ell)$ is the fraction of edges in cluster $C_i$. We can define the following optimality criterion (\emph{modularity}) as:
+\paragraph{Optimality criterion} To define an optimality criterion we need to understand what groups have in common. Let $\bm{\ell} = \tuple{C_1, \dots, C_K}$ be a partition of the nodes and $f_{\mathit{ij}}(\bm{\ell})$ the fraction of edges in the network that connect a node in $C_i$ to a node in $C_j$ with respect to the total number of edges. In particular, $f_{\mathit{ii}}(\bm{\ell})$ is the fraction of edges in cluster $C_i$. We can define the following optimality criterion (\emph{modularity}) as:
 \begin{equation}
-    M(\ell) = \sum_{i=1}^K (f_\mathit{ii}(\ell) - f_\mathit{ii}^*)^2\negthinspace,
+    M(\bm{\ell}) = \sum_{i=1}^K (f_{\mathit{ii}}(\bm{\ell}) - f_{\mathit{ii}}^*)^2\negthinspace,
 \end{equation}
-where $f_\mathit{ii}^*$ is the expected value of $f_\mathit{ii}(\ell)$ under a random assignment of edges to nodes. Large values of modularity suggest \emph{non-trivial} (\ie, not random) group structures.
+where $f_{\mathit{ii}}^*$ is the expected value of $f_{\mathit{ii}}(\bm{\ell})$ under a random assignment of edges to nodes. Large values of modularity suggest \emph{non-trivial} (\ie, not random) group structures.
 
 \paragraph{Hierarchical clustering} We can apply the hierarchical clustering method, so we merge (split) nodes (clusters) that maximize the modularity.

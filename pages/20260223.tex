@@ -34,7 +34,7 @@ In this course we will talk about \emph{statistical learning}, which includes bo
 
 The estimation of $f$ is important for two reasons:
 \begin{description}
-    \item[Prediction] We want to predict $Y$ when we only have observations of $\Xvec$. Given $\hat{f}$ estimate of $f$, the prediction of $Y$ when $\Xvec = \xvec$ is $\hat{Y} = \hat{f}(\xvec)$. If this is the only goal, then $\hat{f}$ can also be a black-box, \ie, we are not interested in the relationship between $Y$ and $\Xvec$, but only in the accuracy of the prediction.
+    \item[Prediction] We want to predict $Y$ when we only have observations of $\Xvec$. Given $\hat{f}$ estimate of $f\negthinspace$, the prediction of $Y$ when $\Xvec = \xvec$ is $\hat{Y} = \hat{f}(\xvec)$. If this is the only goal, then $\hat{f}$ can also be a black-box, \ie, we are not interested in the relationship between $Y$ and $\Xvec$, but only in the accuracy of the prediction.
 
           The accuracy of $\hat{f}$ as a prediction for $y$ can be described by:
           \begin{equation}
@@ -47,7 +47,7 @@ The estimation of $f$ is important for two reasons:
                                                                   & = (f(\xvec) - \hat{f}(\xvec))^2 + \Var(\epsilon).
               \end{aligned}
           \end{equation}
-          The variance of $\epsilon$ is called \emph{irreducible error}, since it cannot be reduced by any method, while the first term is called \emph{reducible error}, since it can be reduced by choosing a better $\hat{f}$.
+          The variance of $\epsilon$ is called \emph{irreducible error}, since it cannot be reduced by any method, while the first term is called \emph{reducible error}, since it can be reduced by choosing a better $\hat{f}\negthinspace$.
     \item[Inference] We want to answer to different questions:
           \begin{enumerate}
               \item Which predictors are associated with the response?
@@ -57,7 +57,7 @@ The estimation of $f$ is important for two reasons:
 
           Broadly speaking, there are two types of methods to estimate $f$:
           \begin{itemize}
-              \item \emph{Parametric approaches}: we make an assumption about the functional form of $f$, which depends on parameters, \eg:
+              \item \emph{Parametric approaches}: we make an assumption about the functional form of $f\negthinspace$, which depends on parameters, \eg:
                     \begin{equation}
                         f(\Xvec) = \beta_0 + \beta_1 X_1 + \dots + \beta_p X_p.
                     \end{equation}
@@ -106,7 +106,7 @@ We can check that all the terms except the first three are zero:
 \begin{itemize}
     \item $2\E[(f(\Xvec) - \E[\hat{f}(\Xvec)])\epsilon\given \Xvec = \xvec] (f(\Xvec) - \E[\hat{f}(\Xvec)])\E[\epsilon] = 0$ since $\E[\epsilon] = 0$,
     \item $2\E[(f(\Xvec) - \E[\hat{f}(\Xvec)])(\E[\hat{f}(\Xvec)] - \hat{f}(\Xvec))\given \Xvec = \xvec] = 0$ since $\E[\E[Z] - Z] = 0$ for any random variable $Z$,
-    \item $2\E[\varepsilon(E[\hat{f}(\Xvec)] - \hat{f}(\Xvec))\given \Xvec = \xvec] = 0$ since $\E[\varepsilon] = 0$ and $\E[E[\hat{f}(\Xvec)] - \hat{f}(\Xvec)] = 0$.
+    \item $2\E[\varepsilon(E[\hat{f}(\Xvec)] - \hat{f}(\Xvec))\given \Xvec = \xvec] = 0$ since $\E[\varepsilon] = 0$ and $\E[\E[\hat{f}(\Xvec)] - \hat{f}(\Xvec)] = 0$.
 \end{itemize}
 Therefore, we have:
 \begin{equation}

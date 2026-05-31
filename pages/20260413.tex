@@ -152,9 +152,9 @@ The two additional terms in Ridge and Lasso regression are different when interp
     Here we used the concept of \emph{subdifferential}, which is a generalization of the derivative for functions that are not differentiable.
 \end{example}
 
-\paragraph{$\bm{\hat{\beta}_{\textsc{Lasso}}}$ vs.\@ $\bm{\hat{\beta}_\text{LS}}$}
+\paragraph{$\bm{\hat{\beta}_{\textsc{Lasso}}}$ vs.\@ $\bm{\hat{\beta}_{\text{LS}}}$}
 
-Consider the least squares estimator $\hat{\beta}_\text{LS}$ for one predictor obtained from:
+Consider the least squares estimator $\hat{\beta}_{\text{LS}}$ for one predictor obtained from:
 \begin{equation}
     X^\t(\Yvec - X\beta) = 0.
 \end{equation}
@@ -173,7 +173,7 @@ We distinguish three cases:
     \item $\begin{aligned}[t]
                   \beta_{\textsc{Lasso}} = 0 & \iff X^\t(\Yvec - X\beta_{\textsc{Lasso}}) \in \left[-\frac{\lambda}{2}, \frac{\lambda}{2}\right]                                     \\
                                              & \iff X^\t \Yvec - \underbracket{(X^\t X) \beta_{\textsc{Lasso}}}_{0} \in \left[-\frac{\lambda}{2}, \frac{\lambda}{2}\right]           \\
-                                             & \iff \beta_\text{LS} = (X^\t X)^{-1} X^\t \Yvec \in \left[-\frac{\lambda}{2} (X^\t X)^{-1}\negthinspace, \frac{\lambda}{2} (X^\t X)^{-1}\right].
+                                             & \iff \beta_\text{LS} = (X^\t X)^{-1} X^\t \Yvec \in \left[-\frac{\lambda}{2} (X^\t X)^{-1}\negmedspace, \frac{\lambda}{2} (X^\t X)^{-1}\right].
               \end{aligned}$
 \end{itemize}
 
@@ -191,7 +191,7 @@ We distinguish three cases:
         \node at (-1.1,0) [above] {\scriptsize $-\frac{\lambda}{2} (X^\t X)^{-1}$};
         \node at (1.1,0) [below] {\scriptsize $\frac{\lambda}{2} (X^\t X)^{-1}$};
 
-        \draw[latex-latex] (1.5,.85) -- (1.5,1.45);
+        \draw[latex-latex] (1.5,.8) -- (1.5,1.45);
         \node[pin=130:{Bias}, font=\small] at (1.5,1.05) {};
 
         \node[pin=340:{Shrinkage}, font=\small] at (2,1.25) {};

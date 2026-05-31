@@ -10,7 +10,7 @@ No assumptions are made on $\xvec$, the vector of predictors. The objective is, 
 \begin{equation}
     \hat{y} = \hat{f}(\xvec).
 \end{equation}
-Here, $\hat{f}$ is an approximation of some true $f$. Statistical Decision Theory formalizes the type of relationship that we would like to learn.
+Here, $\hat{f}$ is an approximation of some true $f\negthinspace$. \emph{Statistical decision theory} formalizes the type of relationship that we would like to learn.
 
 \section{Regression methods}
 
@@ -140,7 +140,7 @@ Therefore, the optimal classifier under a $0$-$1$ loss assigns $\xvec$ to the cl
 \end{equation}
 In general, with more than two classes, the Bayes classifier assigns $\xvec$ to the class:
 \begin{equation}
-    j = \argmax_{i \in \text{Classes}}\P(i\given \xvec).
+    j = \argmax_{i\,\in\,\text{Classes}}\P(i\given \xvec).
 \end{equation}
 
 \paragraph{Bayes decision boundary}
@@ -161,7 +161,7 @@ A criterion to choose the loss function is to determine how the model performs o
           \begin{equation}
               \MSE = \frac{1}{m}\sum_{i=1}^m \left(y_i^{(t)} - \hat{f}(\xvec_i^{(t)})\right)^2\negthinspace,
           \end{equation}
-          where $\tuple{x_i^{(t)}, y_i^{(t)}}$, $i=1,\dots,m$ are testing data points.
+          where $\tuple{x_i^{(t)}\negmedspace, y_i^{(t)}}$, $i=1,\dots,m$ are testing data points.
 
     \item \emph{Classification setting:} given a $\hat{\P}(1\given \xvec)$ classifier, we can calculate the \emph{confusion matrix}:
           \begin{equation}

@@ -7,7 +7,7 @@ In a regression setting, under a squared error loss, we estimate $\E[Y \given \X
           \end{equation}
     \item \emph{Linear regression}:
           \begin{equation}
-              \widehat{\E[Y \given \Xvec = \xvec]} = \hat{\beta}_0 + \hat{\beta}_1 x_1 + \cdots + \hat{\beta}_p x_p = \xvec^\t \hat{\betavec}.
+              \widehat{\E[Y \given \Xvec = \xvec]} = \hat{\beta}_0 + \hat{\beta}_1 x_1 + \cdots + \hat{\beta}_p x_p = \beta_0 + \xvec^\t \hat{\betavec}.
           \end{equation}
 \end{enumerate}
 
@@ -29,19 +29,19 @@ Let $k$ be a positive integer and $\tuple{\xvec_i, y_i}, i = 1, \ldots, n$ be tr
     \item Identify the $k$ training data that are closest to $\xvec_0$. Denote these as $N_k(\xvec_0)$.
     \item Estimate the following quantity:
           \begin{equation}
-              \widehat{\P(Y = j \given \Xvec = \xvec_0)} = \frac{1}{k} \sum_{i \in N_k(\xvec_0)}\hspace{-8pt}\oone(y_i = j), \quad j = 1, \ldots, C,
+              \widehat{\P(Y = j \given \Xvec = \xvec_0)} = \frac{1}{k} \sum_{i\,\in\,N_k(\xvec_0)}\hspace{-7pt}\oone(y_i = j), \quad j = 1, \ldots, C,
           \end{equation}
           where $\oone(\blank)$ is the indicator function.
     \item Classify $\xvec_0$ to the class with the largest estimated probability ($0$-$1$ loss, threshold $0.5$ for binary classification).
 \end{enumerate}
+
+\paragraph{Choice of $\bm{k}$}
 
 The choice of $k$ is crucial for the performance of the method. This is connected to the bias-variance trade-off. We identify two cases:
 \begin{itemize}
     \item With \emph{large values of $k$} we have a simpler decision surface, thus less flexible, but it may generalize well to new data. However, we also have high bias and low variance.
     \item With \emph{small values of $k$} the surface is more local, more flexible/jiggly and may not generalize well to new data. The bias-variance relationship is reversed, with low bias and high variance.
 \end{itemize}
-
-\paragraph{Choice of $\bm{k}$}
 
 In order to find the optimal trade-off between bias and variance, the simplest approach is to calculate the error rate on unseen test data, \ie:
 \begin{enumerate}
@@ -89,9 +89,9 @@ This method is the equivalent of linear regression for classification problems. 
               \end{equation}
               This means that linear regression makes the assumption:
               \begin{equation}
-                  \E[Y \given \Xvec = \xvec] = \underbracket{\P(1 \given \xvec)}_{\in [0,1]} = \beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p = \underbracket{\xvec^\t \betavec}_{\mathclap{\in (-\infty, +\infty)}},
+                  \E[Y \given \Xvec = \xvec] = \underbracket{\P(1 \given \xvec)}_{\in\,[0,1]} = \beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p = \underbracket{\xvec^\t \betavec}_{\mathclap{\in\,(-\infty, +\infty)}},
               \end{equation}
-              which is not possible since the left-hand side is a probability and thus must be between $0$ and $1$.
+              which is not possible since the left-hand side is a probability and thus must be between $0$ and $1$.\qedhere
     \end{enumerate}
 \end{examples}
 
@@ -111,17 +111,18 @@ This function is called \emph{logistic function} or \emph{sigmoid}.
                 ylabel=$\P(1 \given \xvec)$,
                 xtick={0},
                 ytick={0, 0.5, 1},
-                width=.8\textwidth,
-                height=.4\textwidth,
+                width=.7\textwidth,
+                height=.375\textwidth,
                 legend style={
-                        at={(.29\textwidth, 5.5cm)},
+                        at={(.29\textwidth, 5.25cm)},
                         anchor=north
                     },
                 legend cell align=left,
+                ymax=1.25,
                 smooth
             ]
-            \addplot[domain=-10:10, samples=100, thick] {exp(x) / (1 + exp(x))};
-            \addplot[domain=-10:10, samples=100, thick, dashed] {exp(-x) / (1 + exp(-x))};
+            \addplot[domain=-7:7, samples=100, thick] {exp(x) / (1 + exp(x))};
+            \addplot[domain=-7:7, samples=100, thick, dashed] {exp(-x) / (1 + exp(-x))};
             
             \legend{\text{$\beta_0 = 0, \beta_1 = 1$}, \text{$\beta_0 = 0, \beta_1 = -1$}}
         \end{axis}
@@ -132,7 +133,7 @@ This function is called \emph{logistic function} or \emph{sigmoid}.
 \begin{example}
     For $\betavec = \tuple{\beta_0, \beta_1}$ the explicit function is:
     \begin{equation}
-        \P(1 \given \xvec) = \frac{e^{\beta_0 + \beta_1 x_1}}{1 + e^{\beta_0 + \beta_1 x_1}}.
+        \P(1 \given \xvec) = \frac{e^{\beta_0 + \beta_1 x_1}}{1 + e^{\beta_0 + \beta_1 x_1}}.\qedhere
     \end{equation}
 \end{example}
 

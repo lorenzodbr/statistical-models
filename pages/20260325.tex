@@ -2,11 +2,11 @@
 
 In this setting we are dealing with a categorical variable $Y$ and $K$ classes. Na\"ive Bayes belongs to the family of discriminant analysis methods. We recall how to estimate $\P(Y = j \given \Xvec = \xvec)$:
 \begin{equation}
-    \P(Y = j \given \Xvec = \xvec) = \frac{\pi_j f_j(\xvec)}{\sum_{i = 1}^K \pi_i f_i(\xvec)}, j = 1, \dots, K.
+    \P(Y = j \given \Xvec = \xvec) = \frac{\pi_j f_j(\xvec)}{\sum_{i = 1}^K \pi_i f_i(\xvec)},\quad j = 1, \dots, K.
 \end{equation}
 
 We also recall that discriminant analysis methods make assumptions on $f_j(\xvec)$:
-\begin{enumerate}
+\begin{enumerate}[beginpenalty=10000]
     \item \acs{lda}, $f_i(\xvec) = \normal_p(\muvec_j, \Sigma)$. Normality and homoscedasticity give rise to linear decision surfaces.
     \item \acs{qda}, $f_i(\xvec) = \normal_p(\muvec_j, \Sigma_j)$. Normality and heteroscedasticity give rise to quadratic decision surfaces.
 \end{enumerate}
@@ -80,15 +80,15 @@ Consider $X_1,\ldots, X_p$ categorical variables. We also consider $f_j(\xvec) =
 \begin{example}
     Analyze the situation with two classes, $j = 1,2$ and $p$ predictors $\set{x_i}$, each of which has $G_i$ categories, with $i = 1, \ldots, p$. We have:
     \begin{equation}
-        \P(Y = j \given \Xvec = \xvec) \propto \P(Y = j) \P(X_1 = x_1 \given Y = j) \cdots \P(X_p = x_p \given Y = j).
+        \P(Y = j \given \Xvec = \xvec) \propto \P(Y = j) \P(X_1 = x_1 \given Y = j)\,\cdots\,\P(X_p = x_p \given Y = j).
     \end{equation}
     For each term $\P(X_i = x_k \given Y = j)$, we need to estimate parameters in the form $\theta_{ijk}$. For example, for $i = 1$:
     \begin{equation}
         \begin{aligned}
-            \theta_{111}   & = \P(X_1 = 1 \given Y = 1)    \\
+            \theta_{111}   & = \P(X_1 = 1 \given Y = 1)    \\[-5pt]
                            & \quad\vdots                   \\
             \theta_{11G_1} & = \P(X_1 = G_1 \given Y = 1)  \\
-            \theta_{121}   & = \P(X_1 = 1 \given Y = 2)    \\
+            \theta_{121}   & = \P(X_1 = 1 \given Y = 2)    \\[-5pt]
                            & \quad\vdots                   \\
             \theta_{12G_1} & = \P(X_1 = G_1 \given Y = 2).
         \end{aligned}
@@ -147,7 +147,7 @@ There are simple cases where the shape of $g(\thetavec \given \text{data})$ is k
     \begin{equation}
         \begin{aligned}
             g(\theta \given \text{data}) & \propto \L(\theta)h(\theta)                                                                                         \\
-                                         & = \theta^{\sum_{i = 1}^n z_i}(1 - \theta)^{n - \sum_{i = 1}^n z_i}\cdot \theta^{\alpha - 1}(1 - \theta)^{\beta - 1} \\
+                                         & \propto \theta^{\sum_{i = 1}^n z_i}(1 - \theta)^{n - \sum_{i = 1}^n z_i}\cdot \theta^{\alpha - 1}(1 - \theta)^{\beta - 1} \\
                                          & = \theta^{\sum_{i = 1}^n z_i + \alpha - 1}(1 - \theta)^{n - \sum_{i = 1}^n z_i + \beta - 1}\negthinspace.
         \end{aligned}
     \end{equation}
