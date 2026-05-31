@@ -29,7 +29,11 @@ Let $T$ be:
 \end{equation}
 There are different ways to describe $T$ probabilistically:
 \begin{equation}
-    \underset{\textsc{pdf}}{f(t)} = \P(T = t),\quad\qquad\underset{\textsc{cdf}}{F(t)} = \P(T \leq t),\quad\qquad\underset{\mathclap{\substack{\\\textsc{survival}\\\textsc{curve}}}}{S(t)} = \P(T > t) = 1 - F(t).
+    \begin{aligned}
+        f(t) = \P(T = t),\qquad\expl{PDF}\\
+        F(t) = \P(T \leq t),\qquad\expl{CDF}\\
+        S(t) = \P(T > t) = 1 - F(t).\qquad\expl{Survival function}
+    \end{aligned}
 \end{equation}
 
 \paragraph{Hazard function}
@@ -199,7 +203,7 @@ Then:
 \end{equation}
 is estimated using:
 \begin{equation}
-    \hat{\P}(T > d_j \given T > d_{j-1}) = \frac{r_j - q_j}{r_j},
+    \hat{\P}(T > d_j \given T > d_{j-1}) = 1 - \frac{q_j}{r_j} = \frac{r_j - q_j}{r_j},
 \end{equation}
 so that:
 \begin{equation}

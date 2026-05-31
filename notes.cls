@@ -556,7 +556,7 @@
 % Acronyms
 
 \IfFileExists{acronyms.tex}{\input{acronyms.tex}}{}
-\RenewAcroTemplate{long}{\textup{\acrowrite{long}}}
+% \RenewAcroTemplate{long}{\textup{\acrowrite{long}}}
 \RenewAcroTemplate{short}{\textup{\bitsmall{\acrowrite{short}}}}
 \RenewAcroTemplate{long-short}{\acrowrite{long}~\textup{(\bitsmall{\acrowrite{short}})}}
 

@@ -40,7 +40,7 @@ or, equivalently:
 \end{equation}
 In both cases, obviously, we have $n$ constraints coming from the second line, $n$ constraints coming from the third line and one constraint coming from the fourth line, for a total of $2n + 1$ constraints. In the second formulation, the objective function is convex and the constraints are linear, so we are sure that there is one and only one global minimum.
 
-\paragraph{Optimization with equality and inequality constraints} Consider:
+\paragraph{Optimization with equality and inequality constraints} Consider the general problem:
 \begin{equation}
     \begin{aligned}
          & \min_{\alphavec} f(\alphavec)                                \\
@@ -68,7 +68,7 @@ Now we can link:
     Why this? Consider an $\alphavec$ that does not satisfy the constraints, \ie, an $\alphavec$ such that $h_i(\alphavec) \neq 0$ or $g_j(\alphavec) > 0$. Then, $\max_{\gammavec, \deltavec} \lagr(\alphavec, \gammavec, \deltavec) = +\infty$, since we can make $\gamma_i$ or $\delta_j$ arbitrarily large. We conclude that $\alphavec$ will not be the solution to the optimization problem.
 \end{note}
 
-The \textsc{p} in $\theta_\textsc{p}$ stands for \emph{primal}, since we are still considering the original optimization problem. We can also define the \emph{dual} version of the problem as:
+The \textsc{P} in $\theta_\textsc{p}$ stands for \emph{primal}, since we are still considering the original optimization problem. We can also define the \emph{dual} version of the problem as:
 \begin{equation}
     \max_{\substack{\gammavec, \deltavec\\\deltavec \geq 0}} \theta_\textsc{d}(\gammavec, \deltavec) = \max_{\substack{\gammavec, \deltavec\\\deltavec \geq 0}} \min_{\alphavec} \lagr(\alphavec, \gammavec, \deltavec).
 \end{equation}
@@ -96,7 +96,7 @@ The \textsc{p} in $\theta_\textsc{p}$ stands for \emph{primal}, since we are sti
     \end{equation}
     This implies:
     \begin{equation}
-        \sum_{i = 1}^m \underbracket{\delta_i^* g_i(\alphavec^*)}_{\leq 0} = 0 \implies \delta_i^* g_i(\alphavec^*) = 0, \quad i = 1, \dots, m.
+        \sum_{i = 1}^m \underbracket{\delta_i^* g_i(\alphavec^*)}_{\leq 0} = 0 \implies \delta_i^* g_i(\alphavec^*) = 0, \quad i = 1, \dots, m.\qedhere
     \end{equation}
 \end{proof}
 

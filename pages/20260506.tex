@@ -50,7 +50,7 @@ We notice that the optimization depends on the data only through the inner produ
 
 Suppose we have a function $\Phi\colon \rr^p \to \rr^N$ with $N > p$, that maps the original feature space to a higher-dimensional space. Therefore, we can rewrite $f(\xvec)$ in this space as:
 \begin{equation}
-    f(\xvec) = \beta_0 + {\underbracket{\betavec}_{\mathclap{\betavec\,\in\,\rr^N}}}^\t \underbracket{\Phi(\xvec)}_{\zvec} = \beta_0 + \sum_{i = 1}^n \underbracket{\gamma_i}_{\gamma\,\in\,\rr^n} \negthickspace y_i \Phi(\xvec_i) \cdot \Phi(\xvec).
+    f(\xvec) = \beta_0 + {\underbracket{\betavec}_{\mathclap{\betavec\,\in\,\rr^N}}}^\t \underbracket{\Phi(\xvec)}_{\zvec} = \beta_0 + \sum_{i = 1}^n \underbracket{\gamma_i}_{\gammavec\,\in\,\rr^n} \negthickspace y_i \Phi(\xvec_i) \cdot \Phi(\xvec).
 \end{equation}
 So, $\beta_0$ and $\gammavec$ get estimated by:
 \begin{equation}
@@ -99,7 +99,7 @@ If there are more than two classes (namely $K > 2$), we can proceed with mainly 
     \item \emph{One vs.\@ All}: train $K$ classifiers where the labels are ``class $c$'' vs.\@ ``not class $c$''\negthinspace, for $c = 1, \dots, K$. One can then combine these classifiers by assigning $\xvec$ to the class $c$ for which $\abs{f_c(\xvec)}$ is maximal.
 
           However, two problems arise with this approach:
-          \begin{itemize}
+          \begin{itemize}[beginpenalty=10000]
               \item \emph{Potential ambiguity}: if for a given $\xvec$ we have $f_c(\xvec) > 0$ for more than one class, we cannot assign $\xvec$ to a single class.
               \item \emph{Unbalanced data}: if one class is much more represented than the others, the classifier for that class will be more accurate than the others, and it will be more likely to assign $\xvec$ to that class.
           \end{itemize}
@@ -144,9 +144,9 @@ Computing the Lagrangian:
 \end{equation}
 with $\gamma \geq 0$ as a tuning parameter, and the equivalent unconstrained optimization problem is:
 \begin{equation}
-    \min_{\beta_0, \betavec} \sum_{i=1}^n [1 - y_i(\beta_0 + \betavec^\t\xvec_i)]_+ + \frac{\lambda}{2}\norm{\betavec}^2\negthinspace.
+    \min_{\beta_0, \betavec} \sum_{i=1}^n [1 - y_i(\beta_0 + \betavec^\t\xvec_i)]_+ + \frac{\lambda}{2}\norm{\betavec}^2\negthinspace,
 \end{equation}
-Compared with Ridge regression:
+with $\lambda = 1/\gamma$. Compared with Ridge regression:
 \begin{equation}
     \min_{\beta_0, \betavec} \sum_{i=1}^n (y_i - \beta_0 - \betavec^\t\xvec_i)^2 + \frac{\lambda}{2}\norm{\betavec}^2\negthinspace,
 \end{equation}
@@ -159,7 +159,28 @@ the only difference is the loss function. The loss function of \acsp{svc} is cal
 \end{equation}
 We observe that if the point is correctly classified, then the loss is zero. If the point is misclassified, then the loss is proportional to the distance from the decision surface.
 
-For the logistic regression, we don't have a Ridge penalty, but we can add it. The loss function is the negative log-likelihood:
+\begin{figure}[tb]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+                axis lines = middle,
+                xlabel = {$f(\xvec)$},
+                ylabel = {$\L(y, f(\xvec))$},
+                xtick = {-1, 0, 1},
+                xticklabels = {$-1$, $0$, $1$},
+                ytick = {0, 1},
+                yticklabels = {$0$, $1$},
+                ymax = 1.5,
+                width = 9cm,
+                height = 5cm,
+            ]
+            \addplot[domain=-1.75:1.75, samples=1000, thick] {x <= 1 ? 1 - x : 0};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Hinge loss function.}
+\end{figure}
+
+For the logistic regression, we don't have a Ridge penalty, but we can add it. The loss function is the \emph{negative log-likelihood}:
 \begin{equation}
     \L(y_i, f(\xvec_i)) = \begin{cases}
         -\log\P(1 \given \xvec_i)       & \text{if } y_i = 1,  \\
@@ -183,7 +204,7 @@ and therefore:
 \end{itemize}
 The writing can be simplified by noticing that $y_i \in \{-1, 1\}$:
 \begin{equation}
-    \L(y_i, f(\xvec_i)) = \log(1 + e^{-y_if(\xvec_i)}).
+    \L(y_i, f(\xvec_i)) = \log(1 + e^{-y_i(\beta_0 + \betavec^\t\xvec_i)}).
 \end{equation}
 
 Let's now compare the two optimization problems:
@@ -200,3 +221,24 @@ Support Vector techniques can be extended to regression problems using the so ca
     \end{cases}
 \end{equation}
 that is zero if the residuals are small enough (less than the parameter $\epsilon$) and proportional to the distance from the decision surface otherwise.
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+                axis lines = middle,
+                xlabel = {$y - f(\xvec)$},
+                ylabel = {$\L(y, f(\xvec))$},
+                xtick = {-2, -1, 0, 1, 2},
+                xticklabels = {$-2$, $-1$, $0$, $1$, $2$},
+                ytick = {0, 1},
+                yticklabels = {$0$, $1$},
+                ymax = 1.5,
+                width = 10cm,
+                height = 5cm,
+            ]
+            \addplot[domain=-2.75:2.75, samples=100, thick] {max(0, abs(x) - 1)};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{$\epsilon$-insensitive loss function with $\epsilon = 1$.}
+\end{figure}
