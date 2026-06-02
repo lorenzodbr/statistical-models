@@ -124,7 +124,7 @@ with $\text{sender} \in S$ and $\text{receiver} \in R$. We have two cases for $S
 
 The hazard function of interactions is modeled as:
 \begin{equation}
-    h(t \given \xvec_{s,r}) = h_0(t) \exp(\betavec^\t\xvec_{s,r}(t)),
+    h(t \given \xvec_{s\negthinspace,\,r}) = h_0(t) \exp(\betavec^\t\xvec_{s\negthinspace,\,r}(t)),
 \end{equation}
 where $\xvec_{s,r}$ is a vector of covariates associated to the pair $(s,r)$ at time $t$. The aim is to infer $\betavec$ from data.
 
@@ -148,6 +148,6 @@ where $\xvec_{s,r}$ is a vector of covariates associated to the pair $(s,r)$ at 
 
 Let's analyze the partial likelihood in this context. We end up with a similar expression as before:
 \begin{equation}
-    \PL(\betavec) = \prod_{k = 1}^K \frac{\exp(\betavec^\t\xvec_{s_k,r_k}(t_k))}{\sum_{(s_{k^*}, r_{k^*})\,\in\,R(t_k)} \exp(\betavec^\t\xvec_{s_{k^*}\negthinspace,\,r_{k^*}}(t_k))}.
+    \PL(\betavec) = \prod_{k = 1}^K \frac{\exp(\betavec^\t\xvec_{s_k,r_k}(t_k))}{\sum_{(s_{k^*}\negthinspace,\,r_{k^*})\,\in\,R(t_k)} \exp(\betavec^\t\xvec_{s_{k^*}\negthinspace,\,r_{k^*}}(t_k))}.
 \end{equation}
 The set $R(t_k)$ has about $p^2$ elements with $p$ as the number of units. Computationally more efficient methods are developed considering this new partial likelihood.

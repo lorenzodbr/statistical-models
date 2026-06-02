@@ -18,11 +18,11 @@ The two main types of unsupervised learning methods are:
 
 The goal of clustering is to describe the data structure via a partition into subgroups of observations. In contrast to classification, where we know the groups, here we need to deduce them from the data.
 
-Formally, we split data $D$ into $K$ clusters, $C_1, C_2, \dots, C_K$, that form a partition, \ie:
+Formally, we split data $D$ into meaningful (homogeneous) clusters, $C_1, C_2, \dots, C_K$, that form a partition, \ie:
 \begin{equation}
-    \bigcup_{k=1}^K C_k = D, \qquad C_i \cap C_j = \emptyset, \quad i \neq j,
+    \bigcup_{k=1}^K C_k = D, \qquad C_i \cap C_j = \emptyset, \quad i \neq j.
 \end{equation}
-into meaningful (homogeneous) clusters. We can characterize homogeneity in different ways, such as:
+We can characterize homogeneity in different ways, such as:
 \begin{itemize}
     \item Similarity within groups,
     \item Dissimilarity between groups.
@@ -49,7 +49,7 @@ This is also referred to as \emph{within-cluster variation}, since the $W$ is eq
 \begin{equation}
     W(\Gamma_i) = \sum_{\xvec\,\in\,\Gamma_i} \sum_{l = 1}^p (x_l - \bar{x}_{\mathit{il}})^2\negthinspace, \quad \text{with } \bar{x}_{\mathit{il}} = \frac{1}{\abs{\Gamma_i}} \sum_{\xvec\,\in\,\Gamma_i} x_l.
 \end{equation}
-The $\bar{\xvec}_{\mathit{il}}$ is the sample mean of predictor $l$ in cluster $\Gamma_i$.
+The $\bar{x}_{\mathit{il}}$ is the sample mean of predictor $l$ in cluster $\Gamma_i$.
 
 \begin{proof}
     Let's consider the case $p = 1$. Using \eqref{eq:within_cluster_variation} we have:
@@ -117,12 +117,12 @@ Another formulation for the optimality criterion is the so called \emph{between-
                     ]
             ]
         ]
-        \draw[latex-latex] (-0.6, -4.1) -- (-0.6, -2.5) node[pos=0.7, right] {\scriptsize $d_2$};
-        \draw[latex-latex] (-1.15, -4.1) -- (-1.15, -1.4) node[pos=0.75, right] {\scriptsize $d_1$};
-        \draw[dashed] (-3, -.75) -- (3, -.75) node[pos=0.85, above] {\scriptsize $K = 2$};
-        \draw[dashed] (-3, -1.75) -- (3, -1.75) node[pos=0.875, above] {\scriptsize $K = 4$};
+        \draw[latex-latex] (-0.6, -3.7) -- (-0.6, -2.3) node[pos=0.7, right] {\scriptsize $d_2$};
+        \draw[latex-latex] (-1.15, -3.7) -- (-1.15, -1.3) node[pos=0.75, right] {\scriptsize $d_1$};
+        \draw[dashed] (-3, -.65) -- (3, -.65) node[pos=0.85, above] {\scriptsize $K = 2$};
+        \draw[dashed] (-3, -1.65) -- (3, -1.65) node[pos=0.875, above] {\scriptsize $K = 4$};
     \end{forest}
-    \caption{Example of a dendogram. $a$, $b$ and $c$ are three observations.}
+    \caption{Example of a dendogram. The three leaves $a$, $b$ and $c$ are observations.}
     \label{fig:dendogram}
 \end{figure}
 
@@ -141,7 +141,7 @@ The optimal problem is actually NP-hard, since there are approximately $K^n$ way
           There is no guarantee of a global maximum, so a good practice is to perform the random initialization a certain number of times and keep the best result.
     \item[Hierarchical clustering] It is a family of clustering techniques with various distance measures that can be used. Differently to $K$\negthinspace-means, $K$ is not fixed a priori. The output is a hierarchy of nested clusters, with the hierarchy represented as a \emph{dendogram} (\Cref{fig:dendogram}). In the figure, similarity is pictured vertically and not horizontally, in the sense that the observations $b$ and $c$ are ``closer'' to each other than $a$ and $b$, because the split happened at a higher level of the hierarchy (\ie, $d_1 > d_2$).
 
-          In addition to the distance between the observations, the method needs a distance between clusters. This is called \emph{linkage criterion} and a common choice for it is the \emph{average linkage}:
+          In addition to the distance between the observations, the method needs a distance between clusters in order to merge/split them. This is called \emph{linkage criterion} and a common choice for it is the \emph{average linkage}:
           \begin{equation}
               d_{\textsc{al}}(C_i, C_j) = \frac{1}{\abs{C_i}\abs{C_j}} \sum_{\substack{\xvec\,\in\,C_i\\\yvec\,\in\,C_j}} d(\xvec, \yvec),
           \end{equation}

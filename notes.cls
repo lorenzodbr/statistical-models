@@ -122,12 +122,15 @@
 \renewcommand{\cftsecafterpnum}{\cftparfillskip}
 \renewcommand{\cftsubsecleader}{\quad}
 \renewcommand{\cftsubsecafterpnum}{\cftparfillskip}
-\renewcommand{\cftchappagefont}{\color{quartergray}}
-\renewcommand{\cftsecpagefont}{\color{quartergray}}
-\renewcommand{\cftsubsecpagefont}{\color{quartergray}}
-\renewcommand{\cftsubsubsecpagefont}{\color{quartergray}}
-\renewcommand{\cftparapagefont}{\color{quartergray}}
-\hypersetup{linktoc=none}
+\hypersetup{
+    linktoc=page, 
+    colorlinks,
+    linkcolor={blue!50!cyan!80!black},
+    citecolor={blue!50!cyan!80!black},
+    urlcolor={blue!50!cyan!80!black}
+}
+
+\setcounter{secnumdepth}{3}
 
 % ---------------------------------
 

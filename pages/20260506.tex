@@ -174,7 +174,7 @@ We observe that if the point is correctly classified, then the loss is zero. If 
                 width = 9cm,
                 height = 5cm,
             ]
-            \addplot[domain=-1.75:1.75, samples=1000, thick] {x <= 1 ? 1 - x : 0};
+            \addplot[domain=-1.75:1.75, samples=5000, thick] {x <= 1 ? 1 - x : 0};
         \end{axis}
     \end{tikzpicture}
     \caption{Hinge loss function.}
@@ -237,7 +237,7 @@ that is zero if the residuals are small enough (less than the parameter $\epsilo
                 width = 10cm,
                 height = 5cm,
             ]
-            \addplot[domain=-2.75:2.75, samples=100, thick] {max(0, abs(x) - 1)};
+            \addplot[domain=-2.75:2.75, samples=1000, thick] {max(0, abs(x) - 1)};
         \end{axis}
     \end{tikzpicture}
     \caption{$\epsilon$-insensitive loss function with $\epsilon = 1$.}

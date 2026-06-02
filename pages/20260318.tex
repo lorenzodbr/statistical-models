@@ -75,11 +75,11 @@ The deviance of an observation is defined as:
 \begin{equation}
     d_i = 2(\l_i(\underbracket{y_i}_{\mathclap{\hat{\mu}_i = y_i}}, y_i) - \l_i(\underbracket{\hat{\mu}_i}_{\mathclap{e^{\xvec_i^\t\hat{\betavec}}}}, y_i)) \geq 0, \quad i = 1, \ldots, n.
 \end{equation}
-Here we are basically computing $y_i - \hat{\mu}_i$ at the level of the log-likelihood. The general deviance is computed as a sum:
+Here we are basically computing $y_i - \hat{\mu}_i$ at the level of the log-likelihood. It represents the contribution of observation $i$ to the difference between the saturated model (the one that fits the data perfectly) and the fitted model. The deviance is a measure of how well the model fits the data, with smaller values indicating a better fit. The general deviance is then computed as a sum:
 \begin{equation}
     D = \sum_{i = 1}^n d_i
 \end{equation}
-and:
+and the residuals related to the deviance can be defined as:
 \begin{equation}
     r_i^D = \sqrt{d_i} \cdot \sgn(y_i - \hat{\mu}_i) = \begin{cases}
         \sqrt{d_i}  & \text{if } y_i \geq \hat{\mu}_i, \\
