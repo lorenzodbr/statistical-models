@@ -30,9 +30,9 @@ Let $T$ be:
 There are different ways to describe $T$ probabilistically:
 \begin{equation}
     \begin{aligned}
-        f(t) = \P(T = t),\qquad\expl{PDF}\\
-        F(t) = \P(T \leq t),\qquad\expl{CDF}\\
-        S(t) = \P(T > t) = 1 - F(t).\qquad\expl{Survival function}
+        \qquad f(t) &= \P(T = t),\qquad\qquad\qquad\expl{(PDF)}\\
+        \qquad F(t) &= \P(T \leq t),\qquad\qquad\qquad\expl{(CDF)}\\
+        \qquad S(t) &= \P(T > t) = 1 - F(t).\qquad\expl{(Survival function)}
     \end{aligned}
 \end{equation}
 
@@ -155,7 +155,7 @@ Obviously, we can also compute $\hat{S}(y_5)$:
 \begin{equation}
     \hat{S}(y_5) = \hat{\P}(T > y_5) = 0,
 \end{equation}
-since there is no data point greater than $y_5$. The survival curve is, therefore, given by the step function showed in~\Cref{fig:survival-curve}.
+since there is no data point greater than $y_5$. Therefore, the survival curve is given by the step function showed in~\Cref{fig:survival-curve}.
 \begin{figure}
     \centering
     \begin{tikzpicture}
@@ -265,7 +265,7 @@ and we have a survival curve for each realization $\xvec$ of the covariates:
 \begin{equation}
     \hat{S}(t \given \xvec) = \exp(-\hat{\lambda}(\xvec) t).
 \end{equation}
-The curve is, therefore, typically plotted by fixing all covariates to a level (for example, mean, mode, etc.) and changing one variable only ($x_j$) to see how the curve changes with respect to it.
+Therefore, the curve is typically plotted by fixing all covariates to a level (for example, mean, mode, etc.) and changing one variable only ($x_j$) to see how the curve changes with respect to it.
 
 \begin{note}
     The exponential may be too restrictive in many applications. Weibull distribution (with two parameters) is quite common in engineering (reliability modelling).

@@ -130,7 +130,7 @@
     urlcolor={blue!50!cyan!80!black}
 }
 
-\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{1}
 
 % ---------------------------------
 

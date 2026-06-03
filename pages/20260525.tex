@@ -39,7 +39,7 @@ It is typically defined based on a \emph{distance measure}, \ie, observations in
 
 In general we want:
 \begin{equation}
-    C_1, \ldots, C_K = \argmin_{\substack{\Gamma_1, \ldots, \Gamma_K \\ \text{partition of } D}} \sum_{i=1}^K W(\Gamma_i),
+    \tuple{C_1, \ldots, C_K} = \argmin_{\substack{\tuple{\Gamma_1, \ldots, \Gamma_K} \\ \text{partition of } D}} \sum_{i=1}^K W(\Gamma_i),
 \end{equation}
 with $W(\Gamma_i)$ the sum of distances of any two objects in $\Gamma_i$. In the case of the Euclidean distance, we have:
 \begin{equation}\label{eq:within_cluster_variation}
@@ -154,7 +154,7 @@ The optimal problem is actually NP-hard, since there are approximately $K^n$ way
           \end{itemize}
 \end{description}
 
-\paragraph{Selection of $\bm{K}$} To select $K$, we can use the \emph{elbow method}, which consists in plotting the optimality criterion as a function of $K$ and looking for an elbow in the plot (\Cref{fig:elbow_method}). The idea is that, as $K$ increases, the optimality criterion will decrease, but after a certain point the improvement will be negligible. Therefore, we look for the point where the improvement starts to be negligible, which is exactly the elbow of the plot.
+\paragraph{Selection of $\bm{K}$} To select $K$ for the $K$\negthinspace-means algorithm, we can use the \emph{elbow method}, which consists in plotting the optimality criterion as a function of $K$ and looking for an elbow in the plot (\Cref{fig:elbow_method}). The idea is that, as $K$ increases, the optimality criterion will decrease, but after a certain point the improvement will be negligible. Therefore, we look for the point where the improvement starts to be negligible, which is exactly the elbow of the plot.
 
 \begin{figure}[tb]
     \centering

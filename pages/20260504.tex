@@ -54,12 +54,12 @@ The solution to this problem comes from the \emph{generalized Lagrangian}, which
 \end{equation}
 where $\gammavec = (\gamma_1, \dots, \gamma_d)$ and $\deltavec = (\delta_1, \dots, \delta_m)$ are the Lagrange multipliers. To justify the use of this function, consider this quantity:
 \begin{equation}
-    \theta_\textsc{p}(\alphavec) = \max_{\substack{\gammavec, \deltavec\\\deltavec \geq 0}}\lagr(\alphavec, \gammavec, \deltavec) = \lagr(\alphavec, \gammavec^*\negthinspace, \deltavec^*).
+    \theta_{\textsc{p}}(\alphavec) = \max_{\substack{\gammavec, \deltavec\\\deltavec \geq 0}}\lagr(\alphavec, \gammavec, \deltavec) = \lagr(\alphavec, \gammavec^*\negthinspace, \deltavec^*).
 \end{equation}
 Now we can link:
 \begin{equation}
     \begin{aligned}
-        \min_{\alphavec} f(\alphavec) \text{ s.t.}\,\ldots\, & = \min_{\alphavec} \theta_\textsc{p}(\alphavec)         \\
+        \min_{\alphavec} f(\alphavec) \text{ s.t.}\,\ldots\, & = \min_{\alphavec} \theta_{\textsc{p}}(\alphavec)         \\
                                       & = \min_{\alphavec} \max_{\substack{\gammavec, \deltavec \\\deltavec \geq 0}} \lagr(\alphavec, \gammavec, \deltavec).
     \end{aligned}
 \end{equation}
@@ -68,9 +68,9 @@ Now we can link:
     Why this? Consider an $\alphavec$ that does not satisfy the constraints, \ie, an $\alphavec$ such that $h_i(\alphavec) \neq 0$ or $g_j(\alphavec) > 0$. Then, $\max_{\gammavec, \deltavec} \lagr(\alphavec, \gammavec, \deltavec) = +\infty$, since we can make $\gamma_i$ or $\delta_j$ arbitrarily large. We conclude that $\alphavec$ will not be the solution to the optimization problem.
 \end{note}
 
-The \textsc{P} in $\theta_\textsc{p}$ stands for \emph{primal}, since we are still considering the original optimization problem. We can also define the \emph{dual} version of the problem as:
+The \textsc{P} in $\theta_{\textsc{p}}$ stands for \emph{primal}, since we are still considering the original optimization problem. We can also define the \emph{dual} version of the problem as:
 \begin{equation}
-    \max_{\substack{\gammavec, \deltavec\\\deltavec \geq 0}} \theta_\textsc{d}(\gammavec, \deltavec) = \max_{\substack{\gammavec, \deltavec\\\deltavec \geq 0}} \min_{\alphavec} \lagr(\alphavec, \gammavec, \deltavec).
+    \max_{\substack{\gammavec, \deltavec\\\deltavec \geq 0}} \theta_{\textsc{d}}(\gammavec, \deltavec) = \max_{\substack{\gammavec, \deltavec\\\deltavec \geq 0}} \min_{\alphavec} \lagr(\alphavec, \gammavec, \deltavec).
 \end{equation}
 
 \begin{note}
@@ -81,7 +81,7 @@ The \textsc{P} in $\theta_\textsc{p}$ stands for \emph{primal}, since we are sti
     However, here, \ie, with a convex objective function $f\negthinspace$, convex constraints $g_i$ and linear functions $h_i$, they are equivalent.
 \end{note}
 
-\paragraph{Karush-Kuhn-Tucker conditions} Consider the optimal $\alphavec^*$\negthinspace, $\gammavec^*$ and $\deltavec^*$ and $\theta_\textsc{p}(\alphavec^*) = \theta_\textsc{d}(\gammavec^*\negthinspace, \deltavec^*)$. Then:
+\paragraph{Karush-Kuhn-Tucker conditions} Consider the optimal $\alphavec^*$\negthinspace, $\gammavec^*$ and $\deltavec^*$ and $\theta_{\textsc{p}}(\alphavec^*) = \theta_{\textsc{d}}(\gammavec^*\negthinspace, \deltavec^*)$. Then:
 \begin{equation}
     \delta_i^*g_i(\alphavec^*) = 0, \quad i = 1, \dots, m. \expl{(Complementary slackness conditions)}
 \end{equation}
@@ -134,7 +134,7 @@ To optimize the function we need to compute the derivatives with respect to $\be
 If we plug these values back into the dual formulation, we get:
 \begin{equation}
     \begin{aligned}
-        \theta_\textsc{d}(\gammavec, \deltavec, \mu) & = \frac{1}{2}\underbracket{\betavec^\t\betavec}_{\norm{\betavec}} - \sum_{i=1}^n (\underbracket{\gamma_i y_i}_{0}\beta_0 + \gamma_iy_i\betavec^\t\xvec_i - \gamma_i + \underbracket{\epsilon_i\gamma_i) - \sum_{i=1}^n \delta_i\epsilon_i + \mu\sum_{i=1}^n \epsilon_i}_{-\gamma_i - \delta_i + \mu = 0} - \mu C \\
+        \theta_{\textsc{d}}(\gammavec, \deltavec, \mu) & = \frac{1}{2}\underbracket{\betavec^\t\betavec}_{\norm{\betavec}} - \sum_{i=1}^n (\underbracket{\gamma_i y_i}_{0}\beta_0 + \gamma_iy_i\betavec^\t\xvec_i - \gamma_i + \underbracket{\epsilon_i\gamma_i) - \sum_{i=1}^n \delta_i\epsilon_i + \mu\sum_{i=1}^n \epsilon_i}_{-\gamma_i - \delta_i + \mu = 0} - \mu C \\
                                                      & = \frac{1}{2} \betavec^\t\betavec - \betavec^\t \underbracket{\sum_{i=1}^n \gamma_i y_i \xvec_i}_{\betavec} + \sum_{i = 1}^n \gamma_i - \mu C                                                                                                                                   \\
                                                      & = \sum_{i=1}^n \gamma_i - \frac{1}{2}\sum_{i,j} \gamma_i\gamma_j y_i y_j \xvec_i\cdot\xvec_j - \mu C.
     \end{aligned}

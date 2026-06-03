@@ -70,7 +70,7 @@ and the optimization becomes:
 \begin{equation}
     \max_{\gammavec} \sum_{i = 1}^n \gamma_i - \frac{1}{2}\sum_{i,j = 1}^{n} \gamma_i\gamma_j y_i y_j K(\xvec_i, \xvec_j).
 \end{equation}
-The decision surface is, therefore, defined by:
+Therefore, the decision surface is defined by:
 \begin{equation}
     \xvec\colon f(\xvec) = 0
 \end{equation}
@@ -84,7 +84,7 @@ The most common choices for the kernel are:
 
           If $\gamma = \frac{1}{2\sigma^2}$, then the radial kernel is also called \emph{Gaussian kernel}. For a $\zvec$ far from $\xvec$, the kernel gets small: for this, it is also called \emph{local kernel}.
 \end{description}
-The choice of $\gammavec, n, \mu$ is important as it relates to the bias-variance trade-off. Again, \acs{cv} is needed for the selection of these parameters.
+The choice of $\gammavec$, $n$ and $\mu$ is important as it relates to the bias-variance trade-off. Again, \acs{cv} is needed for the selection of these parameters.
 
 In conclusion, for an \acs{svm} we need:
 \begin{enumerate}

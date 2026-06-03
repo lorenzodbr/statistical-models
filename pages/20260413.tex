@@ -156,24 +156,24 @@ The two additional terms in Ridge and Lasso regression are different when interp
 
 Consider the least squares estimator $\hat{\beta}_{\text{LS}}$ for one predictor obtained from:
 \begin{equation}
-    X^\t(\Yvec - X\beta) = 0.
+    \Xvec^\t(\Yvec - \Xvec\beta) = 0.
 \end{equation}
 
 We distinguish three cases:
 \begin{itemize}
     \item $\begin{aligned}[t]
-                  \beta_{\textsc{Lasso}} > 0 & \iff X^\t(\Yvec - X\beta_\textsc{Lasso}) = \frac{\lambda}{2}                                    \\
-                                             & \iff X^\t \Yvec = X^\t X\beta_\textsc{Lasso} + \frac{\lambda}{2}                                \\
-                                             & \iff \beta_{\textsc{Lasso}} = (X^\t X)^{-1} X^\t \Yvec - \frac{\lambda}{2} (X^\t X)^{-1}        \\
-                                             & \iff \beta_{\textsc{Lasso}} = \beta_\text{LS} - \frac{\lambda}{2} (X^\t X)^{-1}\negthinspace.
+                  \beta_{\textsc{Lasso}} > 0 & \iff \Xvec^\t(\Yvec - \Xvec\beta_{\textsc{Lasso}}) = \frac{\lambda}{2}                                    \\
+                                             & \iff \Xvec^\t \Yvec = \Xvec^\t \Xvec\beta_{\textsc{Lasso}} + \frac{\lambda}{2}                                \\
+                                             & \iff \beta_{\textsc{Lasso}} = (\Xvec^\t \Xvec)^{-1} \Xvec^\t \Yvec - \frac{\lambda}{2} (\Xvec^\t \Xvec)^{-1}        \\
+                                             & \iff \beta_{\textsc{Lasso}} = \beta_{\text{LS}} - \frac{\lambda}{2} (\Xvec^\t \Xvec)^{-1}\negthinspace.
               \end{aligned}$
     \item $\begin{aligned}
-                  \beta_{\textsc{Lasso}} < 0 & \iff X^\t(\Yvec - X\beta_{\textsc{Lasso}}) = -\frac{\lambda}{2} \iff \beta_{\textsc{Lasso}} = \beta_\text{LS} + \frac{\lambda}{2} (X^\t X)^{-1}\negthinspace.
+                  \beta_{\textsc{Lasso}} < 0 & \iff \Xvec^\t(\Yvec - \Xvec\beta_{\textsc{Lasso}}) = -\frac{\lambda}{2} \iff \beta_{\textsc{Lasso}} = \beta_{\text{LS}} + \frac{\lambda}{2} (\Xvec^\t \Xvec)^{-1}\negthinspace.
               \end{aligned}$
     \item $\begin{aligned}[t]
-                  \beta_{\textsc{Lasso}} = 0 & \iff X^\t(\Yvec - X\beta_{\textsc{Lasso}}) \in \left[-\frac{\lambda}{2}, \frac{\lambda}{2}\right]                                     \\
-                                             & \iff X^\t \Yvec - \underbracket{(X^\t X) \beta_{\textsc{Lasso}}}_{0} \in \left[-\frac{\lambda}{2}, \frac{\lambda}{2}\right]           \\
-                                             & \iff \beta_\text{LS} = (X^\t X)^{-1} X^\t \Yvec \in \left[-\frac{\lambda}{2} (X^\t X)^{-1}\negmedspace, \frac{\lambda}{2} (X^\t X)^{-1}\right].
+                  \beta_{\textsc{Lasso}} = 0 & \iff \Xvec^\t(\Yvec - \Xvec\beta_{\textsc{Lasso}}) \in \left[-\frac{\lambda}{2}, \frac{\lambda}{2}\right]                                     \\
+                                             & \iff \Xvec^\t \Yvec - \underbracket{(\Xvec^\t \Xvec) \beta_{\textsc{Lasso}}}_{0} \in \left[-\frac{\lambda}{2}, \frac{\lambda}{2}\right]           \\
+                                             & \iff \beta_{\text{LS}} = (\Xvec^\t \Xvec)^{-1} \Xvec^\t \Yvec \in \left[-\frac{\lambda}{2} (\Xvec^\t \Xvec)^{-1}\negmedspace, \frac{\lambda}{2} (\Xvec^\t \Xvec)^{-1}\right].
               \end{aligned}$
 \end{itemize}
 
@@ -188,8 +188,8 @@ We distinguish three cases:
 
         \draw[dashed] (-2.5,-2.5) -- (2.5,2.5);
 
-        \node at (-1.1,0) [above] {\scriptsize $-\frac{\lambda}{2} (X^\t X)^{-1}$};
-        \node at (1.1,0) [below] {\scriptsize $\frac{\lambda}{2} (X^\t X)^{-1}$};
+        \node at (-1.1,0) [above] {\scriptsize $-\frac{\lambda}{2} (\Xvec^\t \Xvec)^{-1}$};
+        \node at (1.1,0) [below] {\scriptsize $\frac{\lambda}{2} (\Xvec^\t \Xvec)^{-1}$};
 
         \draw[latex-latex] (1.5,.8) -- (1.5,1.45);
         \node[pin=130:{Bias}, font=\small] at (1.5,1.05) {};
@@ -200,7 +200,7 @@ We distinguish three cases:
     \caption{Soft-thresholding operator.}\label{fig:soft-thresholding-operator}
 \end{figure}
 
-Having derived the relation between $\beta_{\textsc{Lasso}}$ and $\beta_\text{LS}$, we can compute $\beta_{\text{LS}}$ (using the closed-form solution) and then add the correction term $\pm \frac{\lambda}{2} (X^\t X)^{-1}$ to get $\beta_{\textsc{Lasso}}$. To do this, we can define the \emph{soft-thresholding operator}, that, for a given $\lambda$, takes $\beta_\text{LS}$ as input and gives $\beta_{\textsc{Lasso}}$ as output.
- In~\Cref{fig:soft-thresholding-operator}, we see that the larger the $\lambda$, the larger the bias; if $\lambda = 0$ there is no bias, and in fact we obtain $\beta_{\textsc{Lasso}} = \beta_\text{LS}$, which is unbiased. Another observation is that for each estimated $\beta_\text{LS}$, if it is smaller than $\frac{\lambda}{2} (X^\t X)^{-1}$ in absolute value, then $\beta_{\textsc{Lasso}}$ is zero, \ie, the Lasso estimator performs variable selection by shrinking some coefficients to zero.
+Having derived the relation between $\beta_{\textsc{Lasso}}$ and $\beta_{\text{LS}}$, we can compute $\beta_{\text{LS}}$ (using the closed-form solution) and then add the correction term $\pm \frac{\lambda}{2} (\Xvec^\t \Xvec)^{-1}$ to get $\beta_{\textsc{Lasso}}$. To do this, we can define the \emph{soft-thresholding operator}, that, for a given $\lambda$, takes $\beta_{\text{LS}}$ as input and gives $\beta_{\textsc{Lasso}}$ as output.
+ In~\Cref{fig:soft-thresholding-operator}, we see that the larger the $\lambda$, the larger the bias; if $\lambda = 0$ there is no bias, and in fact we obtain $\beta_{\textsc{Lasso}} = \beta_{\text{LS}}$, which is unbiased. Another observation is that for each estimated $\beta_{\text{LS}}$, if it is smaller than $\frac{\lambda}{2} (\Xvec^\t \Xvec)^{-1}$ in absolute value, then $\beta_{\textsc{Lasso}}$ is zero, \ie, the Lasso estimator performs variable selection by shrinking some coefficients to zero.
 
 In practice, with many predictors, the Lasso estimator can be computed using \emph{coordinate descent algorithms}, which iteratively update each coefficient while keeping the others fixed.

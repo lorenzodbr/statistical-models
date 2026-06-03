@@ -2,7 +2,7 @@
 
 As we saw, model selection can be performed by evaluating the fitted model on unseen data (\eg, with \acs{cv}). Alternatively, for parametric models, for which we can define a likelihood function, there are criteria that make adjustments to training error (likelihood) by accounting for model complexity. These criteria are:
 \begin{enumerate}
-    \item \acf{aic}:
+    \item \emph{\acf{aic}}:
           \begin{equation}
               \operatorname{AIC}(M) = -2\log\L + 2d,
           \end{equation}
@@ -14,7 +14,7 @@ As we saw, model selection can be performed by evaluating the fitted model on un
 
           Considering different models $M_i$, $i = 1, \dots, m$, we choose the model with the lowest \acs{aic} value.
 
-    \item \acf{bic}:
+    \item \emph{\acf{bic}}:
           \begin{equation}
               \operatorname{BIC}(M) = -2\log\L + \log(n)d,
           \end{equation}
@@ -121,7 +121,7 @@ In the case of linear models, we can write:
           In other words, a zero bias in $\betavech$ results in a zero-biased model.
     \item[Variance]
           \begin{equation}
-              \begin{aligned}[t]
+              \begin{aligned}
                   \Var(\xvec_0^\t\betavech) & = \xvec_0^\t\Var(\betavech)\xvec_0                                                                                                    \\
                                             & = \sigma^2\operatorname{Trace}(\xvec_0^\t(X^\t X)^{-1}\xvec_0)                                                                        \\
                                             & = \sigma^2\operatorname{Trace}((X^\t X)^{-1}\xvec_0\xvec_0^\t)  \qquad \expl{[$\operatorname{Trace}(ABC) = \operatorname{Trace}(BC\negthinspace{}A)$]} \\

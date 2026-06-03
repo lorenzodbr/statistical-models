@@ -38,7 +38,7 @@ Having built a model by bagging, we want to test its prediction accuracy on unse
     That is, each sample uses approximately $63\%$ of the data. We call the unseen observation \emph{out-of-bag observations} and we can evaluate the model on them.
 \end{note}
 
-For each observation $\xvec$, make a prediction based on the trees that have been fitted on samples that did not include $\xvec$. An average (or \emph{consensus class}) is taken among these predictions only. Errors, \acs{roc} curves, etc.\@ are built using these probabilities.
+For each observation $\xvec$, make a prediction based on the trees that have been fitted on samples that did not include $\xvec$. An average (or a consensus class) is taken among these predictions only. Errors, \acs{roc} curves, etc.\@ are built using these probabilities.
 
 \paragraph{Cost of Bagging}
 
@@ -51,7 +51,7 @@ Random forests provide a way to ``decorrelate'' trees.
 
 \section{Random forests}
 
-Question: why would the trees grown in bagging be correlated? Strong predictors will tend to appear at the first splits of the trees and the trees will then look quite similar. The idea is, before each split in each tree, draw $m$ features at random from the $p$ predictors and look for splits among these variables only.
+Question: \emph{why would the trees grown in bagging be correlated?} Strong predictors will tend to appear at the first splits of the trees and the trees will then look quite similar. The idea is, before each split in each tree, draw $m$ features at random from the $p$ predictors and look for splits among these variables only.
 
 If there is a strong predictor, it will now appear at first split only on $m/p$ trees out of the $B$ that are grown. Therefore, $m$ has now a role in the bias-variance trade-off: 
 \begin{itemize}
