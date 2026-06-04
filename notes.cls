@@ -581,8 +581,8 @@
 \fancypagestyle{notes}{%
     \fancyhf{}
     \fancyhead[LE,RO]{\thepage}
-    \fancyhead[RE]{\sffont\nouppercase{\leftmark}}
-    \fancyhead[LO]{\sffont\nouppercase{\rightmark}}
+    \fancyhead[LO]{\sffont\nouppercase{\leftmark}}
+    \fancyhead[RE]{\sffont\nouppercase{\rightmark}}
     \setlength{\headheight}{13.6pt}
 }
 \renewcommand{\headrulewidth}{0pt}

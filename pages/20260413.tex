@@ -21,7 +21,7 @@ Recall that for the least squares estimator we have:
 
 In Ridge regression:
 \begin{equation}
-    \betavech_{\textsc{Ridge}} = \argmin_{\betavec} (\Yvec - X\betavec)^\t (\Yvec - X\betavec)\quad \text{s.t. } \sum_{j=1}^p \beta_j^2 \leq c, \quad c \geq 0.
+    \betavech_{\textsc{Ridge}} = \argmin_{\betavec} (\Yvec - X\betavec)^\t (\Yvec - X\betavec)\quad \text{s.t.\@ } \sum_{j=1}^p \beta_j^2 \leq c, \quad c \geq 0.
 \end{equation}
 If $c \to \infty$ we get the least squares estimator. As $c$ decreases, more weight is put on the constraint, resulting in shrunk estimates.
 
@@ -104,7 +104,7 @@ The acronym means \emph{Least Absolute Shrinkage and Selection Operator}. The op
 \end{equation}
 with $\lambda \geq 0$ as tuning parameter. As before, this is equivalent to:
 \begin{equation}
-    \betavech_{\textsc{Lasso}} = \argmin_{\betavec} (\Yvec - X\betavec)^\t (\Yvec - X\betavec)\quad \text{s.t. } \sum_{j=1}^p |\beta_j| \leq c, \quad c \geq 0.
+    \betavech_{\textsc{Lasso}} = \argmin_{\betavec} (\Yvec - X\betavec)^\t (\Yvec - X\betavec)\quad \text{s.t.\@ } \sum_{j=1}^p |\beta_j| \leq c, \quad c \geq 0.
 \end{equation}
 
 \paragraph{Role of $\bm{\lambda}$}
@@ -135,11 +135,11 @@ The two additional terms in Ridge and Lasso regression are different when interp
 \begin{example}
     Let's assume that we have only one predictor ($p = 1$), then:
     \begin{equation}
-        \betavech_{\textsc{Lasso}} = \argmin_{\beta} (\Yvec - X\beta)^\t (\Yvec - X\beta) + \lambda |\beta|.
+        \betavech_{\textsc{Lasso}} = \argmin_{\beta} (\Yvec - \Xvec\beta)^\t (\Yvec - \Xvec\beta) + \lambda |\beta|.
     \end{equation}
     If we take the derivative with respect to $\beta$ and set it to zero, we get:
     \begin{equation}
-        -2 X^\t(\Yvec - X\beta) + \lambda\sgn(\beta) = 0,
+        -2 \Xvec^\t(\Yvec - \Xvec\beta) + \lambda\sgn(\beta) = 0,
     \end{equation}
     where $\sgn(\beta)$ is a variant of the sign function defined as:
     \begin{equation}
@@ -156,7 +156,7 @@ The two additional terms in Ridge and Lasso regression are different when interp
 
 Consider the least squares estimator $\hat{\beta}_{\text{LS}}$ for one predictor obtained from:
 \begin{equation}
-    \Xvec^\t(\Yvec - \Xvec\beta) = 0.
+    \Xvec^\t(\Yvec - \Xvec\beta_{\text{LS}}) = 0.
 \end{equation}
 
 We distinguish three cases:

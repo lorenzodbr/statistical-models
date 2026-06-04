@@ -17,7 +17,7 @@ A third possible model is the Na\"ive Bayes classifier. The main assumption on $
 \end{equation}
 with $f_{\mathit{jl}}(x_l)$ the distribution of $X_l$ conditional on $Y = j$. In other words, predictors $x_1, \ldots, x_p$ are independent conditional on $Y = j$. If $\Xvec$ are discrete variables, then:
 \begin{equation}
-    \P(X_1 = x_1, \ldots, X_p = x_p \given Y = j) = \underbracket{\P(X_1 = x_1 \given Y = j)}_{f_{j1}(x_1)} \cdots \underbracket{\P(X_p = x_p \given Y = j)}_{f_{\mathit{jp}}(x_p)}.
+    \P(X_1 = x_1, \ldots, X_p = x_p \given Y = j) = \underbracket{\P(X_1 = x_1 \given Y = j)}_{f_{j1}(x_1)}\,\cdots\,\underbracket{\P(X_p = x_p \given Y = j)}_{f_{\mathit{jp}}(x_p)}.
 \end{equation}
 
 \paragraph{Gaussian Na\"ive Bayes}
@@ -44,8 +44,8 @@ Therefore, \eqref{assumption:gaussian} and \eqref{assumption:naive} together mea
 \begin{equation}
     \Sigma_j = \begin{pmatrix}
         \sigma_{j1}^2 & 0             & \cdots & 0             \\
-        0             & \sigma_{j2}^2 & \cdots & 0             \\
-        \vdots        & \vdots        & \ddots & \vdots        \\
+        0             & \sigma_{j2}^2 & \cdots & 0             \\[-1pt]
+        \vdots        & \vdots        & \ddots & \vdots        \\[2pt]
         0             & 0             & \cdots & \sigma_{\mathit{jp}}^2
     \end{pmatrix}.
 \end{equation}

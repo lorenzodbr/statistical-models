@@ -43,7 +43,31 @@ For each observation $\xvec$, make a prediction based on the trees that have bee
 \paragraph{Cost of Bagging}
 
 \begin{enumerate}
-    \item \emph{Loss of interpretability}: an average of a tree is not a tree. However, one can calculate various measures of variable importance. For each predictor, add up the total amount that the \acs{rss}/Gini/Entropy is decreased by splits on that predictor across the $B$ trees.
+    \item \emph{Loss of interpretability}: an average of a tree is not a tree. However, one can calculate various measures of variable importance, such as the \emph{mean decrease in Gini impurity}:
+    \begin{enumerate}
+        \item At a node $t$, the Gini impurity is defined as:
+        \begin{equation}
+            G(t) = 1 - \sum_{k=1}^{K} p_{c}^{2}
+        \end{equation}
+        where $p_c$ is the proportion of class $c$ in node $t$.
+
+        \item For a split on variable $X_j$ at node $t$, the decrease in impurity is:
+        \begin{equation}
+            \Delta G(t, j) = G(t) - \left( \frac{n_L}{n_t} G(t_L) + \frac{n_R}{n_t} G(t_R) \right)
+        \end{equation}
+        where $t_L$ and $t_R$ are the left and right child nodes, and $n_t$, $n_L$, $n_R$ are the corresponding sample sizes.
+
+        \item The importance of variable $X_j$ in a single tree $T$ is:
+        \begin{equation}
+            \operatorname{VI}_T(X_j) = \sum_{\mathclap{\substack{t\,\in\,T\\\text{s.t.\@ } v(t)=j}}}\,\Delta G(t, j).
+        \end{equation}
+        where $v(t)$ is the variable used for splitting at node $t$.
+
+        \item Averaging over $B$ trees gives:
+        \begin{equation}
+            \operatorname{VI}(X_j) = \frac{1}{B} \sum_{b=1}^{B} \operatorname{VI}_{T_b}(X_j)
+        \end{equation}
+    \end{enumerate}
     \item \emph{Bootstrap samples are correlated and not independent}: the variance of the sum of correlated variables is higher than the variance of a sum of independent variables. 
 \end{enumerate}
 
@@ -85,7 +109,7 @@ An algorithm for boosting is called \emph{gradient boosting}:
         \item Fit a tree to the residuals, giving terminal regions $R_{\mathit{jm}}$, $j = 1, \dots, J_m$.
         \item For $j = 1, \dots, J_m$, compute:
         \begin{equation}
-            \gamma_{\mathit{jm}} = \argmin_\gamma \sum_{\xvec_i\,\in\,R_{\mathit{jm}}} \L(y_i - f_{m-1}(\xvec_i), \gamma),
+            \gamma_{\mathit{jm}} = \argmin_\gamma \sum_{\mathclap{\xvec_i\,\in\,R_{\mathit{jm}}}} \L(y_i - f_{m-1}(\xvec_i), \gamma),
         \end{equation}
         which can be interpreted as the average of the residuals in the $j$-th region of the $m$-th tree.
         \item Update:

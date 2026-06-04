@@ -25,7 +25,7 @@ We notice that, in this way, the hazard is not constant in time. The non-paramet
 A generic individual with covariates $\xvec_i$ has hazard that is a multiple of the baseline hazard, and the multiplicative factor is $\exp(\xvec_i^\t\betavec)$.
 
 \begin{note}
-    Why is it called proportional hazard? Consider one predictor:
+    Why is it called \emph{proportional hazard}? Consider one predictor:
     \begin{equation}
         x = \begin{cases}
             0 & \text{female}, \\
@@ -96,7 +96,7 @@ Since it holds:
 \end{equation}
 we could use
 \begin{equation}
-    C = \frac{\sum_{\tuple{i, i^*} \text{ s.t. } y_i > y_{i^*}} \oone(\hat{\eta}_{i^*} > \hat{\eta}_i)\delta_{i^*}}{\sum_{\tuple{i, i^*} \text{ s.t. } y_i > y_{i^*}} \delta_{i^*}}
+    C = \frac{\sum_{\tuple{i, i^*} \text{ s.t.\@ } y_i > y_{i^*}} \oone(\hat{\eta}_{i^*} > \hat{\eta}_i)\delta_{i^*}}{\sum_{\tuple{i, i^*} \text{ s.t.\@ } y_i > y_{i^*}} \delta_{i^*}}
 \end{equation}
 as a measure of the predictive performance of the model, with $\betavech$ estimated from training data. We multiply by $\delta_{i^*}$ to select only those $i^*$ that are not censored. Basically, with this ratio we are checking how many pairs of patients are correctly ordered by the model given the estimated relative risk. We compare the predicted order (through the relative risk $\hat{\eta}_i$) with the true order (through the observed survival times $y_i$).
 

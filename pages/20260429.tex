@@ -46,7 +46,7 @@ Such a hyperplane can be used for classification for a new $\xvec^*$:
 
 In this context, the \emph{optimal} separating hyperplane is the one that maximizes the margin, where the \emph{margin} is the minimum distance of the points to the hyperplane.
 
-A hyperplane is defined by its orthogonal direction given by $\betavec$. Let us consider only $\betavec$s such that $\Norm{\betavec} = \sqrt{\beta_1^2 + \dots + \beta_p^2} = 1$. The distance of a point $\xvec_i$ to the hyperplane is obtained considering a generic point $\zvec$ on the hyperplane, \ie, such that $\beta_0 + \betavec^\t\zvec = 0$, and projecting the vector $\xvec_i - \zvec$ on the direction $\betavec$:
+A hyperplane is defined by its orthogonal direction given by $\betavec$. Let us consider only $\betavec$s such that $\norm{\betavec} = \sqrt{\beta_1^2 + \dots + \beta_p^2} = 1$. The distance of a point $\xvec_i$ to the hyperplane is obtained considering a generic point $\zvec$ on the hyperplane, \ie, such that $\beta_0 + \betavec^\t\zvec = 0$, and projecting the vector $\xvec_i - \zvec$ on the direction $\betavec$:
 \begin{equation}
     \operatorname{dist}(\xvec, H) = \abs{\betavec^\t(\xvec - \zvec)} = \bigl|\betavec^\t\xvec - \underbracket{\betavec^\t\zvec}_{\mathclap{\beta_0 + \betavec^\t\zvec = 0}}\bigr| = \abs{\beta_0 + \betavec^\t\xvec}.
 \end{equation}

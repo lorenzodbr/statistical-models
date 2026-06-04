@@ -20,7 +20,7 @@ The goal of clustering is to describe the data structure via a partition into su
 
 Formally, we split data $D$ into meaningful (homogeneous) clusters, $C_1, C_2, \dots, C_K$, that form a partition, \ie:
 \begin{equation}
-    \bigcup_{k=1}^K C_k = D, \qquad C_i \cap C_j = \emptyset, \quad i \neq j.
+    \bigcup_{k=1}^K C_k = D\negthinspace, \qquad C_i \cap C_j = \emptyset, \quad i \neq j.
 \end{equation}
 We can characterize homogeneity in different ways, such as:
 \begin{itemize}
@@ -117,8 +117,8 @@ Another formulation for the optimality criterion is the so called \emph{between-
                     ]
             ]
         ]
-        \draw[latex-latex] (-0.6, -3.7) -- (-0.6, -2.3) node[pos=0.7, right] {\scriptsize $d_2$};
-        \draw[latex-latex] (-1.15, -3.7) -- (-1.15, -1.3) node[pos=0.75, right] {\scriptsize $d_1$};
+        \draw[latex-latex] (-0.6, -3.7) -- (-0.6, -2.3) node[pos=0.69, right] {\scriptsize $d_2$};
+        \draw[latex-latex] (-1.15, -3.7) -- (-1.15, -1.3) node[pos=0.735, right] {\scriptsize $d_1$};
         \draw[dashed] (-3, -.65) -- (3, -.65) node[pos=0.85, above] {\scriptsize $K = 2$};
         \draw[dashed] (-3, -1.65) -- (3, -1.65) node[pos=0.875, above] {\scriptsize $K = 4$};
     \end{forest}
@@ -143,7 +143,7 @@ The optimal problem is actually NP-hard, since there are approximately $K^n$ way
 
           In addition to the distance between the observations, the method needs a distance between clusters in order to merge/split them. This is called \emph{linkage criterion} and a common choice for it is the \emph{average linkage}:
           \begin{equation}
-              d_{\textsc{al}}(C_i, C_j) = \frac{1}{\abs{C_i}\abs{C_j}} \sum_{\substack{\xvec\,\in\,C_i\\\yvec\,\in\,C_j}} d(\xvec, \yvec),
+              d_{\textsc{al}}(C_i, C_j) = \frac{1}{\abs{C_i}\Abs{C_j}} \sum_{\substack{\xvec\,\in\,C_i\\\yvec\,\in\,C_j}} d(\xvec, \yvec),
           \end{equation}
           where $d(\xvec, \yvec)$ is the distance between two observations, such as the Euclidean distance.
 

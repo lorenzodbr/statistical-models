@@ -78,8 +78,8 @@ We see that this expression is linear in $x$.
 Parameters are estimated via maximum likelihood:
 \begin{equation}
     \begin{aligned}
-        \hat{\mu}_j    & = \frac{\sum_{i \text{ s.t. } y_i = j} x_i}{n_j},\quad j = 1, \ldots, K, \expl{(Sample mean of $x$ in class $j$)}                                                           \\
-        \hat{\sigma}^2 & = \frac{\sum_{i=1}^K (n_i - 1) s_i^2}{\sum_{i=1}^K (n_i - 1)} = \frac{\sum_{i = 1}^K \sum_{j\text{ s.t. } y_j = i} (x_j - \hat{\mu}_i)^2}{n - K}. \expl{(Pooled variance)}
+        \hat{\mu}_j    & = \frac{\sum_{i \text{ s.t.\@ } y_i = j} x_i}{n_j},\quad j = 1, \ldots, K, \expl{(Sample mean of $x$ in class $j$)}                                                           \\
+        \hat{\sigma}^2 & = \frac{\sum_{i=1}^K (n_i - 1) s_i^2}{\sum_{i=1}^K (n_i - 1)} = \frac{\sum_{i = 1}^K \sum_{j\text{ s.t.\@ } y_j = i} (x_j - \hat{\mu}_i)^2}{n - K}. \expl{(Pooled variance)}
     \end{aligned}
 \end{equation}
 Then assign $x$ to class $j$ that maximizes:
@@ -152,8 +152,8 @@ This leads to a quadratic decision surface.
 Recall:
 \begin{equation}
     \begin{aligned}
-        \muvech_j                                 & = \frac{1}{n_j} \sum_{i\text{ s.t. } y_i = j} \xvec_i, \quad j = 1, \ldots, K, \expl{(Vector of sample means)}                                      \\
-        \underbracket{\hat{\Sigma}_j}_{p\times p} & = \frac{1}{n_j - 1} \sum_{i\text{ s.t. } y_i = j} (\xvec_i - \muvech_j)(\xvec_i - \muvech_j)^\t\negthinspace, \quad j = 1, \ldots, K. \expl{(Sample covariance)}
+        \muvech_j                                 & = \frac{1}{n_j} \sum_{i\text{ s.t.\@ } y_i = j} \xvec_i, \quad j = 1, \ldots, K, \expl{(Vector of sample means)}                                      \\
+        \underbracket{\hat{\Sigma}_j}_{p\times p} & = \frac{1}{n_j - 1} \sum_{i\text{ s.t.\@ } y_i = j} (\xvec_i - \muvech_j)(\xvec_i - \muvech_j)^\t\negthinspace, \quad j = 1, \ldots, K. \expl{(Sample covariance)}
     \end{aligned}
 \end{equation}
 This leads to a quadratic decision surface:

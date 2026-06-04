@@ -30,8 +30,8 @@ Let $T$ be:
 There are different ways to describe $T$ probabilistically:
 \begin{equation}
     \begin{aligned}
-        \qquad f(t) &= \P(T = t),\qquad\qquad\qquad\expl{(PDF)}\\
-        \qquad F(t) &= \P(T \leq t),\qquad\qquad\qquad\expl{(CDF)}\\
+        \qquad f(t) &= \P(T = t),\qquad\qquad\qquad\,\,\expl{(PDF)}\\
+        \qquad F(t) &= \P(T \leq t),\qquad\qquad\qquad\,\,\expl{(CDF)}\\
         \qquad S(t) &= \P(T > t) = 1 - F(t).\qquad\expl{(Survival function)}
     \end{aligned}
 \end{equation}
@@ -222,7 +222,7 @@ We can assume that the distribution of $T$ has a certain parametric form. Then, 
 Given $n$ observations of the form $\tuple{y_i, \delta_i}$, we compute the likelihood as:
 \begin{equation}
     \begin{aligned}
-        \L(\thetavec) & = \prod_{i=1}^n f(y_i)^{\delta_i} S(y_i)^{1 - \delta_i}              \\
+        \L & = \prod_{i=1}^n f(y_i)^{\delta_i} S(y_i)^{1 - \delta_i}              \\
            & = \prod_{i=1}^n \left(\frac{f(y_i)}{S(y_i)}\right)^{\delta_i} S(y_i) \\
            & = \prod_{i=1}^n h(y_i)^{\delta_i} S(y_i).
     \end{aligned}
@@ -238,7 +238,7 @@ If we assume that $T$ is exponentially distributed, then:
 \end{equation}
 Then, $\lambda$ is estimated via maximum likelihood:
 \begin{equation}
-    \L(\lambda) = \prod_{i=1}^n \lambda^{\delta_i} e^{-\lambda y_i} \implies \hat{\lambda} = \argmax_{\lambda} \L
+    \L(\lambda) = \prod_{i=1}^n \lambda^{\delta_i} e^{-\lambda y_i} \implies \hat{\lambda} = \argmax_{\lambda} \L(\lambda)
 \end{equation}
 and the survival curve is estimated as:
 \begin{equation}

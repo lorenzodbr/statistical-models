@@ -30,12 +30,13 @@ In the original feature space $\rr^p$ we obtain a quadratic decision surface:
 \end{equation}
 The space can be extended considering interaction terms $x_i x_j$ or even higher degrees, but it becomes computationally expensive.
 
+\paragraph{Going higher dimensions}
 Recall that in an \acs{svc} the decision surface is linear and defined by:
 \begin{equation}
     \begin{aligned}
-        f(\xvec) & = \beta_0 + \betavec^\t\xvec                           \\
-                 & = \beta_0 + \sum_{j=1}^p\beta_jx_j                     \\
-                 & = \beta_0 + \betavec \cdot \xvec                       \\
+        f(\xvec) & = \beta_0 + \betavec^\t\xvec                                \\
+                 & = \beta_0 + \sum_{j=1}^p\beta_jx_j                          \\
+                 & = \beta_0 + \betavec \cdot \xvec                            \\
                  & = \beta_0 + \sum_{i = 1}^n \gamma_i y_i \xvec_i\cdot \xvec.
     \end{aligned}
 \end{equation}
@@ -43,14 +44,11 @@ In the optimization (estimation of $\gammavec$), we solve:
 \begin{equation}
     \max_{\gammavec} \sum_{i = 1}^n \gamma_i - \frac{1}{2}\sum_{i,j = 1}^{n} \gamma_i\gamma_j y_i y_j \xvec_i \cdot \xvec_j.
 \end{equation}
-
 We notice that the optimization depends on the data only through the inner products $\xvec_i \cdot \xvec_j$. Therefore, it would make sense to replace the inner product with a more general function $K(\xvec_i, \xvec_j)$, called \emph{kernel}.
-
-\paragraph{Going higher dimensions}
 
 Suppose we have a function $\Phi\colon \rr^p \to \rr^N$ with $N > p$, that maps the original feature space to a higher-dimensional space. Therefore, we can rewrite $f(\xvec)$ in this space as:
 \begin{equation}
-    f(\xvec) = \beta_0 + {\underbracket{\betavec}_{\mathclap{\betavec\,\in\,\rr^N}}}^\t \underbracket{\Phi(\xvec)}_{\zvec} = \beta_0 + \sum_{i = 1}^n \underbracket{\gamma_i}_{\gammavec\,\in\,\rr^n} \negthickspace y_i \Phi(\xvec_i) \cdot \Phi(\xvec).
+    f(\xvec) = \beta_0 + {\underbracket{\betavec}_{\mathclap{\betavec\,\in\,\rr^N}}}^\t \underbracket{\Phi(\xvec)}_{\zvec} = \beta_0 + \sum_{i = 1}^n\negthinspace\underbracket{\gamma_i}_{\gammavec\,\in\,\rr^n} \negthickspace\negthickspace y_i \Phi(\xvec_i) \cdot \Phi(\xvec).
 \end{equation}
 So, $\beta_0$ and $\gammavec$ get estimated by:
 \begin{equation}
@@ -59,7 +57,6 @@ So, $\beta_0$ and $\gammavec$ get estimated by:
 \begin{note}
     We notice that while the $\beta$s are $N$, the $\gamma$s stay in number $n$.
 \end{note}
-
 Since $\Phi$ is generally not known, we would not want to compute $\Phi(\xvec_i) \cdot \Phi(\xvec_j)$ directly. However, we can rely on the so called \emph{kernel trick}, which consists in finding a function $K\negthinspace\colon \rr^p \times \rr^p \to \rr$ such that it acts as a dot product in some higher dimensional space for some function $\Phi$. Mercer's theorem states the properties that such function needs to have.
 
 Using such kernel in $f(\xvec)$:
@@ -79,12 +76,28 @@ and it is non-linear, with the shape influenced by the choice of the kernel.
 The most common choices for the kernel are:
 \begin{description}[beginpenalty=10000]
     \item[Linear Kernel] $\hfill K(\xvec, \zvec) = \xvec \cdot \zvec. \inlineeqno$
-    \item[Polynomial Kernel] $\hfill K(\xvec, \zvec) = \bigl(1 + \sum_{j=1}^p \xvec_j \zvec_j\bigr)^n \text{ of degree } n. \hfill \inlineeqno$
-    \item[Radial Kernel] $\hfill K(\xvec, \zvec) = \exp\bigl(- \gamma \sum_{j=1}^p (\xvec_j - \zvec_j)^2\bigr) \text{ with } \gamma > 0. \hfill \inlineeqno$
+    \item[Polynomial Kernel] $\hfill K(\xvec, \zvec) = (1 + \xvec^\t\zvec)^m \text{ of degree } m. \hfill \inlineeqno$
+    \item[Radial Kernel] $\hfill K(\xvec, \zvec) = \exp\bigl(- \gamma (\xvec - \zvec)^\t(\xvec - \zvec)\bigr) \text{ with } \gamma > 0. \hfill \inlineeqno$
 
           If $\gamma = \frac{1}{2\sigma^2}$, then the radial kernel is also called \emph{Gaussian kernel}. For a $\zvec$ far from $\xvec$, the kernel gets small: for this, it is also called \emph{local kernel}.
 \end{description}
-The choice of $\gammavec$, $n$ and $\mu$ is important as it relates to the bias-variance trade-off. Again, \acs{cv} is needed for the selection of these parameters.
+
+\begin{example}
+    We want to prove that the polynomial kernel of degree $2$ is a valid kernel, \ie, it represents a dot product in some higher-dimensional space. We can write:
+    \begin{equation}
+        \begin{aligned}
+            K(\xvec, \zvec) & = (1 + \xvec^\t\zvec)^2                                                                  \\
+                            & = 1 + 2\sum_{j=1}^p x_j z_j + \sum_{j,j=1}^p x_jz_j\cdot x_k z_k                         \\
+                            & = 1 + \sum_{j=1}^p \sqrt{2}x_j \cdot \sqrt{2}z_j + \sum_{j,k=1}^p x_j x_k \cdot z_j z_k.
+        \end{aligned}
+    \end{equation}
+    We can define $\Phi\colon \rr^p \to \rr^N$ as:
+    \begin{equation}
+        \Phi(\xvec) = \tuple{1, \sqrt{2}x_1, \dots, \sqrt{2}x_p, x_1^2, \dots, x_p^2, \sqrt{2}x_1x_2, \dots, \sqrt{2}x_{p-1}x_p} \in \rr^{1+p+p^2}.\qedhere
+    \end{equation}
+\end{example}
+
+The choice of $\gamma$ and $m$ is important as it relates to the bias-variance trade-off. Again, \acs{cv} is needed for the selection of these parameters.
 
 In conclusion, for an \acs{svm} we need:
 \begin{enumerate}
@@ -150,7 +163,7 @@ with $\lambda = 1/\gamma$. Compared with Ridge regression:
 \begin{equation}
     \min_{\beta_0, \betavec} \sum_{i=1}^n (y_i - \beta_0 - \betavec^\t\xvec_i)^2 + \frac{\lambda}{2}\norm{\betavec}^2\negthinspace,
 \end{equation}
-the only difference is the loss function. The loss function of \acsp{svc} is called \emph{hinge loss}, while the one of logistic regression is just the \emph{squared error loss}. So, \acsp{svm} use a different loss function:
+the only difference is the loss function. The loss function of \acsp{svc} is called \emph{hinge loss}, while the one of Ridge regression is just the \emph{squared error loss}. So, \acsp{svm} use a different loss function:
 \begin{equation}
     \L(y, f(\xvec)) = \begin{cases}
         0              & \text{if } 1 - y f(\xvec) < 0 \iff yf(\xvec) \geq 1, \\
@@ -192,7 +205,7 @@ We recall that for logistic regression we have:
     \P(1 \given \xvec) = \frac{e^{\beta_0 + \betavec^\t\xvec}}{1 + e^{\beta_0 + \betavec^\t\xvec}}
 \end{equation}
 and therefore:
-\begin{itemize}
+\begin{itemize}[beginpenalty=10000]
     \item $y_i = 1$:
           \begin{equation}
               -\log\P(1 \given \xvec_i) = -\log\left(\frac{e^{\beta_0 + \betavec^\t\xvec_i}}{1 + e^{\beta_0 + \betavec^\t\xvec_i}}\right) = \log(1 + e^{-(\beta_0 + \betavec^\t\xvec_i)}).

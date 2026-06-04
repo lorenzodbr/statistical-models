@@ -54,7 +54,7 @@ The solution to this problem comes from the \emph{generalized Lagrangian}, which
 \end{equation}
 where $\gammavec = (\gamma_1, \dots, \gamma_d)$ and $\deltavec = (\delta_1, \dots, \delta_m)$ are the Lagrange multipliers. To justify the use of this function, consider this quantity:
 \begin{equation}
-    \theta_{\textsc{p}}(\alphavec) = \max_{\substack{\gammavec, \deltavec\\\deltavec \geq 0}}\lagr(\alphavec, \gammavec, \deltavec) = \lagr(\alphavec, \gammavec^*\negthinspace, \deltavec^*).
+    \theta_{\textsc{p}}(\alphavec) = \max_{\substack{\gammavec, \deltavec\\\deltavec \geq 0}}\lagr(\alphavec, \gammavec, \deltavec) = \lagr(\alphavec, \gammavec^*\negmedspace, \deltavec^*).
 \end{equation}
 Now we can link:
 \begin{equation}
@@ -68,7 +68,7 @@ Now we can link:
     Why this? Consider an $\alphavec$ that does not satisfy the constraints, \ie, an $\alphavec$ such that $h_i(\alphavec) \neq 0$ or $g_j(\alphavec) > 0$. Then, $\max_{\gammavec, \deltavec} \lagr(\alphavec, \gammavec, \deltavec) = +\infty$, since we can make $\gamma_i$ or $\delta_j$ arbitrarily large. We conclude that $\alphavec$ will not be the solution to the optimization problem.
 \end{note}
 
-The \textsc{P} in $\theta_{\textsc{p}}$ stands for \emph{primal}, since we are still considering the original optimization problem. We can also define the \emph{dual} version of the problem as:
+The \textsc{p} in $\theta_{\textsc{p}}$ stands for \emph{primal}, since we are still considering the original optimization problem. We can also define the \emph{dual} version of the problem as:
 \begin{equation}
     \max_{\substack{\gammavec, \deltavec\\\deltavec \geq 0}} \theta_{\textsc{d}}(\gammavec, \deltavec) = \max_{\substack{\gammavec, \deltavec\\\deltavec \geq 0}} \min_{\alphavec} \lagr(\alphavec, \gammavec, \deltavec).
 \end{equation}
@@ -121,7 +121,7 @@ Then:
 \begin{equation}
     \begin{aligned}[t]
          & \min_{\beta_0, \betavec, \epsilonvec} \frac{1}{2}\norm{\betavec}^2 \\
-         & \text{ s.t. } \ldots
+         & \text{ s.t.\@ } \ldots
     \end{aligned} = \underbracket{\min_{\beta_0,\betavec,\epsilonvec}\max_{\gammavec, \deltavec,\mu \geq 0} \lagr(\blank)}_{\text{Primal}} = \underbracket{\max_{\gammavec, \deltavec, \mu \geq 0}\min_{\beta_0, \betavec, \epsilonvec} \lagr(\blank)}_{\text{Dual}}.
 \end{equation}
 
@@ -143,7 +143,7 @@ Finally, the dual problem is:
 \begin{equation}
     \begin{aligned}
          & \max_{\gammavec, \mu} \sum_{i=1}^n \gamma_i - \frac{1}{2}\sum_{i,j} \gamma_i\gamma_j y_i y_j \xvec_i\cdot\xvec_j - \mu C, \\
-         & \text{s.t. } 0 \leq \gamma_i \leq \mu, \quad i = 1, \dots, n,                                                             \\
+         & \text{s.t.\@ } 0 \leq \gamma_i \leq \mu, \quad i = 1, \dots, n,                                                             \\
          & \phantom{s.t. }\sum_{i=1}^n \gamma_i y_i = 0.
     \end{aligned}
 \end{equation}
@@ -151,7 +151,7 @@ Equivalently, we can write:
 \begin{equation}
     \begin{aligned}
          & \max_{\gammavec} \sum_{i=1}^n \gamma_i - \frac{1}{2}\sum_{i,j} \gamma_i\gamma_j y_i y_j \xvec_i\cdot\xvec_j \\
-         & \text{s.t. } 0 \leq \gamma_i \leq \mu, \quad i = 1, \dots, n,                                               \\
+         & \text{s.t.\@ } 0 \leq \gamma_i \leq \mu, \quad i = 1, \dots, n,                                               \\
          & \phantom{s.t. } \sum_{i=1}^n \gamma_i y_i = 0,
     \end{aligned}
 \end{equation}

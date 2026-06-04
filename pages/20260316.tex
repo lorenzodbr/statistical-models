@@ -74,7 +74,7 @@ In~\eqref{eq:edf}:
         \item[Gaussian]
               \begin{equation}
                   \begin{aligned}
-                      f(y_i, \mu_i, \sigma^2) & = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{(y_i - \mu_i)^2}{2\sigma^2}\right)                                          \\
+                      f(y_i; \mu_i, \sigma^2) & = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{(y_i - \mu_i)^2}{2\sigma^2}\right)                                          \\
                                               & = \exp\left(-\frac{1}{2}\frac{(y_i - \mu_i)^2}{\sigma^2} - \frac{1}{2}\log(2\pi\sigma^2)\right)                              \\
                                               & = \exp\left(-\frac{1}{2}\frac{y_i^2 - 2\mu_i y_i + \mu_i^2}{\sigma^2} - \frac{1}{2}\log(2\pi\sigma^2)\right)                 \\
                                               & = \exp\left(\frac{y_i\mu_i - \mu_i^2/2}{\sigma^2} - \frac{1}{2}\frac{y_i^2}{\sigma^2} - \frac{1}{2}\log(2\pi\sigma^2)\right)
@@ -173,13 +173,13 @@ Then $\mu_i = \pi_i \in (0,1)$ and $\eta_i = \xvec_i^\t\betavec \in (-\infty, \i
           which is called \emph{logit link}.
 \end{enumerate}
 
-The second option is named \emph{canonical link function} and is the default option in the \texttt{glm} function in \texttt{R}. In particular, for this function:
+The second option is also named \emph{canonical link function} and is the default option in the \texttt{glm} function in \texttt{R}. In particular, for this function:
 \begin{equation}
     \eta_i = \log\left(\frac{\mu_i}{1 - \mu_i}\right) = \theta_i,
 \end{equation}
 so $\eta_i = \theta_i$. In general, for a canonical link function:
 \begin{equation}
-    \eta_i = g(\mu_i) = \theta_i.
+    \xvec^\t\beta = \eta_i = g(\mu_i) = \theta_i.
 \end{equation}
 Since $\mu_i = b'(\theta_i)$, we can also write:
 \begin{equation}
@@ -199,10 +199,6 @@ In the case of a \acs{glm} with a canonical link function, we can write:
         \l(\betavec, \phi) & = \sum_{i = 1}^n \log f(y_i; \theta_i, \phi)                                              \\
                            & = \sum_{i = 1}^n \left(\frac{y_i\theta_i - b(\theta_i)}{a_i(\phi)} + c(y_i, \phi)\right).
     \end{aligned}
-\end{equation}
-We also remember that $\theta_i$ and $\mu_i$ are connected as $\mu_i = b'(\theta_i)$, and that $\mu_i$ is connected to $\betavec$ as:
-\begin{equation}
-    g(\mu_i) = \eta_i = \xvec_i^\t\betavec.
 \end{equation}
 The \texttt{glm} function in \texttt{R} tries to optimize the log-likelihood function with respect to $\betavec$ using:
 \begin{itemize}
