@@ -87,13 +87,13 @@ The most common choices for the kernel are:
     \begin{equation}
         \begin{aligned}
             K(\xvec, \zvec) & = (1 + \xvec^\t\zvec)^2                                                                  \\
-                            & = 1 + 2\sum_{j=1}^p x_j z_j + \sum_{j,j=1}^p x_jz_j\cdot x_k z_k                         \\
-                            & = 1 + \sum_{j=1}^p \sqrt{2}x_j \cdot \sqrt{2}z_j + \sum_{j,k=1}^p x_j x_k \cdot z_j z_k.
+                            & = 1 + 2\sum_{j=1}^p x_j z_j + \sum_{j\negthinspace,\,k=1}^p x_jz_j\cdot x_k z_k                         \\
+                            & = 1 + \sum_{j=1}^p \sqrt{2}x_j \cdot \sqrt{2}z_j + \sum_{j\negthinspace,\,k=1}^p x_j x_k \cdot z_j z_k.
         \end{aligned}
     \end{equation}
-    We can define $\Phi\colon \rr^p \to \rr^N$ as:
+    We can define $\Phi\colon \rr^p \to \rr^{1+p+p^2}$ as:
     \begin{equation}
-        \Phi(\xvec) = \tuple{1, \sqrt{2}x_1, \dots, \sqrt{2}x_p, x_1^2, \dots, x_p^2, \sqrt{2}x_1x_2, \dots, \sqrt{2}x_{p-1}x_p} \in \rr^{1+p+p^2}.\qedhere
+        \Phi(\xvec) = \tuple{1, \sqrt{2}x_1, \dots, \sqrt{2}x_p, x_1^2, x_1x_2,\ldots, x_p^2} \in \rr^{1+p+p^2}\negmedspace.\qedhere
     \end{equation}
 \end{example}
 

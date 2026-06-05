@@ -112,7 +112,7 @@ as a measure of the predictive performance of the model, with $\betavech$ estima
 
 The generative process of a relational event produces a sequence of events:
 \begin{equation}
-    \text{event} = \tuple{t, \text{sender}, \text{receiver}},
+    \text{event} = \tuple{t\negthinspace, \text{sender}, \text{receiver}},
 \end{equation}
 with $\text{sender} \in S$ and $\text{receiver} \in R$. We have two cases for $S$ and $R$ sets:
 \begin{itemize}
@@ -148,6 +148,6 @@ where $\xvec_{s\negthinspace,\,r}$ is a vector of covariates associated to the p
 
 Let's analyze the partial likelihood in this context. We end up with a similar expression as before:
 \begin{equation}
-    \PL(\betavec) = \prod_{k = 1}^K \frac{\exp(\betavec^\t\xvec_{s_k\negthinspace,\,r_k}(t_k))}{\sum_{\tuple{s_{k^*}\negthinspace,\,r_{k^*}}\,\in\,R(t_k)} \exp(\betavec^\t\xvec_{s_{k^*}\negthinspace,\,r_{k^*}}(t_k))}.
+    \PL(\betavec) = \prod_{k = 1}^K \frac{\exp(\betavec^\t\xvec_{s_k,\,r_k}(t_k))}{\sum_{\tuple{s_{k^*}\negthinspace,\,r_{k^*}}\,\in\,R(t_k)} \exp(\betavec^\t\xvec_{s_{k^*}\negthinspace,\,r_{k^*}}(t_k))}.
 \end{equation}
 The set $R(t_k)$ has about $p^2$ elements with $p$ as the number of units. Computationally more efficient methods are developed considering this new partial likelihood.

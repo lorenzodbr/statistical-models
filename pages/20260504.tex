@@ -142,7 +142,7 @@ If we plug these values back into the dual formulation, we get:
 Finally, the dual problem is:
 \begin{equation}
     \begin{aligned}
-         & \max_{\gammavec, \mu} \sum_{i=1}^n \gamma_i - \frac{1}{2}\sum_{i,j} \gamma_i\gamma_j y_i y_j \xvec_i\cdot\xvec_j - \mu C, \\
+         & \max_{\gammavec\negthinspace,\,\mu} \sum_{i=1}^n \gamma_i - \frac{1}{2}\sum_{i,j} \gamma_i\gamma_j y_i y_j \xvec_i\cdot\xvec_j - \mu C, \\
          & \text{s.t.\@ } 0 \leq \gamma_i \leq \mu, \quad i = 1, \dots, n,                                                             \\
          & \phantom{s.t. }\sum_{i=1}^n \gamma_i y_i = 0.
     \end{aligned}

@@ -42,7 +42,7 @@ Formally we can write:
     Y = \beta_1x_1 + \dots + \beta_px_p + \epsilon = \xvec^\t\betavec + \epsilon,
 \end{equation}
 
-We also have a dataset $\tuple{\xvec_i, y_i},\;i = 1, \dots, n$. Our aim is to estimate $\betavec = \tuple{\beta_1 \cdots \beta_p}^\t$ from data. We proceed with a least squares approach. In matrix form we can write:
+We also have a dataset $\tuple{\xvec_i, y_i},\;i = 1, \dots, n$. Our aim is to estimate $\betavec = \tuple{\beta_1, \dots, \beta_p}^\t$ from data. We proceed with a least squares approach. In matrix form we can write:
 \begin{equation}
     \begin{aligned}
         \yvec           & = X\betavec + \epsilonvec, \\
@@ -140,7 +140,7 @@ So, for a linear model:
 \end{equation}
 but we can only act on the second term. In fact, the prediction accuracy depends on the ratio $\frac{p}{n}$. In particular, we can distinguish three cases:
 \begin{enumerate}
-    \item $n \gg p$: the bias is about zero and the variance is low, so the \acs{lr} model will do very well in these cases (if the model is well-specified).
+    \item $n \gg p$: the bias is zero and the variance is low, so the \acs{lr} model will do very well in these cases (if the model is well-specified).
     \item $n \approx p$: we have variability in $\betavech$ and, therefore, in the predictions. This leads to overfitting and poor generalization.
     \item $n < p$: $X^\t X$ is not invertible, so there will be infinitely many $\betavec$ that minimize the least squares error, so infinitely many models that fit the data equally well.
 \end{enumerate}

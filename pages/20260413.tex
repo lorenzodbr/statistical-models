@@ -16,12 +16,12 @@ Two popular approaches are:
 
 Recall that for the least squares estimator we have:
 \begin{equation}
-    \betavech_{\text{LS}} = \argmin_{\betavec} (\Yvec - X\betavec)^\t (\Yvec - X\betavec)\;\longrightarrow\;\betavech_{\text{LS}} = (X^\t X)^{-1} X^\t \Yvec.
+    \betavech_{\text{LS}} = \argmin_{\betavec} {(\Yvec - X\betavec)^\t (\Yvec - X\betavec)}\;\longrightarrow\;\betavech_{\text{LS}} = (X^\t X)^{-1} X^\t \Yvec.
 \end{equation}
 
 In Ridge regression:
 \begin{equation}
-    \betavech_{\textsc{Ridge}} = \argmin_{\betavec} (\Yvec - X\betavec)^\t (\Yvec - X\betavec)\quad \text{s.t.\@ } \sum_{j=1}^p \beta_j^2 \leq c, \quad c \geq 0.
+    \betavech_{\textsc{Ridge}} = \argmin_{\betavec} {(\Yvec - X\betavec)^\t (\Yvec - X\betavec)}\quad \text{s.t.\@ } \sum_{j=1}^p \beta_j^2 \leq c, \quad c \geq 0.
 \end{equation}
 If $c \to \infty$ we get the least squares estimator. As $c$ decreases, more weight is put on the constraint, resulting in shrunk estimates.
 
@@ -100,11 +100,11 @@ We conclude that increasing $\lambda$ increases the bias of $\betavech_{\textsc{
 
 The acronym means \emph{Least Absolute Shrinkage and Selection Operator}. The optimization problem is:
 \begin{equation}
-    \betavech_{\textsc{Lasso}} = \argmin_{\betavec} (\Yvec - X\betavec)^\t (\Yvec - X\betavec) + \lambda \sum_{j=1}^p |\beta_j|,
+    \betavech_{\textsc{Lasso}} = \argmin_{\betavec} {(\Yvec - X\betavec)^\t (\Yvec - X\betavec) + \lambda \sum_{j=1}^p |\beta_j|},
 \end{equation}
 with $\lambda \geq 0$ as tuning parameter. As before, this is equivalent to:
 \begin{equation}
-    \betavech_{\textsc{Lasso}} = \argmin_{\betavec} (\Yvec - X\betavec)^\t (\Yvec - X\betavec)\quad \text{s.t.\@ } \sum_{j=1}^p |\beta_j| \leq c, \quad c \geq 0.
+    \betavech_{\textsc{Lasso}} = \argmin_{\betavec} {(\Yvec - X\betavec)^\t (\Yvec - X\betavec)}\quad \text{s.t.\@ } \sum_{j=1}^p |\beta_j| \leq c, \quad c \geq 0.
 \end{equation}
 
 \paragraph{Role of $\bm{\lambda}$}
@@ -135,7 +135,7 @@ The two additional terms in Ridge and Lasso regression are different when interp
 \begin{example}
     Let's assume that we have only one predictor ($p = 1$), then:
     \begin{equation}
-        \betavech_{\textsc{Lasso}} = \argmin_{\beta} (\Yvec - \Xvec\beta)^\t (\Yvec - \Xvec\beta) + \lambda |\beta|.
+        \betavech_{\textsc{Lasso}} = \argmin_{\beta} {(\Yvec - \Xvec\beta)^\t (\Yvec - \Xvec\beta) + \lambda |\beta|}.
     \end{equation}
     If we take the derivative with respect to $\beta$ and set it to zero, we get:
     \begin{equation}
