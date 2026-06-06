@@ -163,7 +163,7 @@ with $\lambda = 1/\gamma$. Compared with Ridge regression:
 \begin{equation}
     \min_{\beta_0, \betavec} \sum_{i=1}^n (y_i - \beta_0 - \betavec^\t\xvec_i)^2 + \frac{\lambda}{2}\norm{\betavec}^2\negthinspace,
 \end{equation}
-the only difference is the loss function. The loss function of \acsp{svc} is called \emph{hinge loss}, while the one of Ridge regression is just the \emph{squared error loss}. So, \acsp{svm} use a different loss function:
+the only difference is the loss function. The loss function of \acsp{svc} is called \emph{hinge loss} and is defined as:
 \begin{equation}
     \L(y, f(\xvec)) = \begin{cases}
         0              & \text{if } 1 - y f(\xvec) < 0 \iff yf(\xvec) \geq 1, \\

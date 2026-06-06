@@ -89,14 +89,14 @@ Then assign $x$ to class $j$ that maximizes:
 
 \subsection{\texorpdfstring{\acs{lda} with $p > 1$}{LDA with p > 1}}
 
-Here we consider a multivariate extension of \acs{lda}. Therefore, the variables are now $\Xvec = \tuple{x_1, \ldots, x_p}$. In this case, \acs{lda} assumes:
+In this case we consider a multivariate extension of \acs{lda}. Therefore, the variables are now ${\Xvec = \tuple{x_1, \ldots, x_p}}$. Here, \acs{lda} assumes:
 \begin{enumerate}
     \item $\Xvec$ has a multivariate Gaussian distribution conditional on $Y = j$:
           \begin{equation}
               f_j(\xvec) = \frac{1}{(2\pi)^{p/2} \abs{\Sigma_j}^{1/2}}\exp\left(-\frac{1}{2}(\xvec - \muvec_j)^\t \Sigma_j^{-1} (\xvec - \muvec_j)\right), \quad j = 1, \ldots, K,
           \end{equation}
           with $\muvec_j = \tuple{\mu_{j1}, \ldots, \mu_{\mathit{jp}}}^\t$ vector of means and $\Sigma_j$ $p\times p$ covariance matrix.
-    \item $\Sigma_1 = \Sigma_2 = \ldots = \Sigma_K = \Sigma = \begin{pmatrix}
+    \item $\Sigma_1 = \Sigma_2 = \cdots = \Sigma_K = \Sigma = \begin{pmatrix}
                   \sigma^2_{1} & \sigma_{12}  & \cdots & \sigma_{1p}  \\
                   \sigma_{21}  & \sigma^2_{2} & \cdots & \sigma_{2p}  \\
                   \vdots       & \vdots       & \ddots & \vdots       \\

@@ -137,6 +137,7 @@
 % Font stylings
 
 \makeatletter
+\newcommand\HHUGE{\@setfontsize\HHUGE{34.28}{41.14}}
 \newcommand\semiHUGE{\@setfontsize\semiHUGE{25.74}{30.88}}
 \newcommand\semiHuge{\@setfontsize\semiHuge{22.72}{27.38}}
 \newcommand\semihuge{\@setfontsize\semihuge{18.93}{23.45}}

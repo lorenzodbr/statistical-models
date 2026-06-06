@@ -69,7 +69,7 @@ We know from the previous section that:
 \end{equation}
 Therefore, the decision surface is built from:
 \begin{equation}
-    \delta_j(\xvec) = \log(\pi_jf_j(\xvec)) = \log(\pi_j) - \frac{1}{2}\sum_{l = 1}^p \log(\sigma_{\mathit{lj}}^2) - \frac{1}{2}\sum_{l = 1}^p \left(\frac{x_l - \mu_{\mathit{jl}}}{\sigma_{\mathit{jl}}}\right)^2\negthinspace.
+    \delta_j(\xvec) = \log(\pi_jf_j(\xvec)) = \log(\pi_j) - \frac{1}{2}\sum_{l = 1}^p \log(\sigma_{\mathit{jl}}^2) - \frac{1}{2}\sum_{l = 1}^p \left(\frac{x_l - \mu_{\mathit{jl}}}{\sigma_{\mathit{jl}}}\right)^2\negthinspace.
 \end{equation}
 We can see that we have a simpler quadratic form compared to \acs{qda} ($\xvec^\t\Sigma_j^{-1}\xvec$), since it does not require the inversion of $\Sigma_j$.
 

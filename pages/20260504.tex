@@ -90,7 +90,7 @@ The \textsc{p} in $\theta_{\textsc{p}}$ stands for \emph{primal}, since we are s
     \begin{equation}
         \begin{aligned}
             f(\alphavec^*) = \min_{\alphavec} \lagr(\alphavec, \gammavec^*\negmedspace, \deltavec^*) & = \min_{\alphavec} \left(f(\alphavec) + \sum_{i=1}^d \gamma_i^* h_i(\alphavec) + \sum_{j=1}^m \delta_j^* g_j(\alphavec)\right)                         \\
-                                                                                                    & \leq f(\alphavec^*) + \underbracket{\sum_{i=1}^d \gamma_i^* h_i(\alphavec^*)}_{0} + \underbracket{\sum_{j=1}^m \delta_j^* g_j(\alphavec^*)}_{\leq 0} \\
+                                                                                                    & = f(\alphavec^*) + \underbracket{\sum_{i=1}^d \gamma_i^* h_i(\alphavec^*)}_{0} + \underbracket{\sum_{j=1}^m \delta_j^* g_j(\alphavec^*)}_{\leq 0} \\
                                                                                                     & \leq f(\alphavec^*).
         \end{aligned}
     \end{equation}
