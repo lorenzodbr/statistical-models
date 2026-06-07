@@ -106,7 +106,7 @@ The algorithm consists of the following steps:
           \end{itemize}
     \item Calculate the optimality criterion for each $\tuple{k, s}$ partitioning and choose optimal partition. This gives us two initial regions $R_1$ and $R_2$.
     \item Repeat the procedure in each region and choose the best partitioning according to the optimality criterion.
-    \item Continue until a stopping criterion is satisfied, \eg, a maximal number of observations per region is reached, or the optimality criterion is not sufficiently reduced.
+    \item Continue until a stopping criterion is satisfied, \eg, a certain number of observations per region is reached, or the optimality criterion is not sufficiently reduced.
 \end{enumerate}
 
 \paragraph{Big issue with this method} The models fitted in this way have a too high variance (overfitting). Some solution to this problem are:

@@ -93,7 +93,7 @@ In this case we consider a multivariate extension of \acs{lda}. Therefore, the v
 \begin{enumerate}
     \item $\Xvec$ has a multivariate Gaussian distribution conditional on $Y = j$:
           \begin{equation}
-              f_j(\xvec) = \frac{1}{(2\pi)^{p/2} \abs{\Sigma_j}^{1/2}}\exp\left(-\frac{1}{2}(\xvec - \muvec_j)^\t \Sigma_j^{-1} (\xvec - \muvec_j)\right), \quad j = 1, \ldots, K,
+              f_j(\xvec) = \frac{1}{(2\pi)^{p/2} \Abs{\Sigma_j}^{1/2}}\exp\left(-\frac{1}{2}(\xvec - \muvec_j)^\t \Sigma_j^{-1} (\xvec - \muvec_j)\right), \quad j = 1, \ldots, K,
           \end{equation}
           with $\muvec_j = \tuple{\mu_{j1}, \ldots, \mu_{\mathit{jp}}}^\t$ vector of means and $\Sigma_j$ $p\times p$ covariance matrix.
     \item $\Sigma_1 = \Sigma_2 = \cdots = \Sigma_K = \Sigma = \begin{pmatrix}
@@ -121,7 +121,7 @@ So assigning $\xvec$ to class $j$ that maximizes the numerator is equivalent to 
 \begin{equation}
     \begin{aligned}
         \delta_j(\xvec) & = -\frac{1}{2}(\xvec - \muvec_j)^\t \Sigma^{-1} (\xvec - \muvec_j) + \log(\pi_j)                                                                                 \\
-                        & = \underbracket{-\frac{1}{2}\xvec^\t \Sigma^{-1} \xvec}_{\mathclap{\text{Constant w.r.t. } j}} - \frac{1}{2}\muvec_j^\t \Sigma^{-1} \muvec_j + \xvec^\t \Sigma^{-1} \muvec_j + \log(\pi_j)                             \\
+                        & = \underbracket{-\frac{1}{2}\xvec^\t \Sigma^{-1} \xvec}_{\mathclap{\text{Constant w.r.t.\@ } j}} - \frac{1}{2}\muvec_j^\t \Sigma^{-1} \muvec_j + \xvec^\t \Sigma^{-1} \muvec_j + \log(\pi_j)                             \\
                         & \propto -\underbracket{\frac{1}{2}\muvec_j^\t \Sigma^{-1} \muvec_j + \log(\pi_j)}_{(\beta_0)_j} + \xvec^\t \underbracket{\Sigma^{-1} \muvec_j}_{(\betavec)_j},
     \end{aligned}
 \end{equation}

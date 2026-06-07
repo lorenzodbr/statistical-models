@@ -124,7 +124,7 @@ Some remarks:
 \begin{enumerate}[beginpenalty=10000]
     \item $J_m$ is typically small ($2$, $3$).
     \item $M$ is related to the bias-variance trade-off, so it needs to be tuned by cross-validation or similar.
-    \item A common version of boosting has an additional parameter, called \emph{learning rate}, $0 < \nu \leq 1$, that is inserted in the update step:
+    \item A common version of boosting has an additional parameter, called \emph{learning rate} or \emph{shrinkage}, $0 < \nu \leq 1$, that is inserted in the update step:
     \begin{equation}
         f_m(\xvec_i) = f_{m-1}(\xvec_i) + \nu \sum_{j=1}^{J_m} \gamma_{\mathit{jm}} \oone(\xvec_i \in R_{\mathit{jm}}).
     \end{equation}
