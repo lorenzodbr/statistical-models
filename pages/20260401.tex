@@ -108,7 +108,7 @@ However, performing this is computationally more expensive than a single train-v
     Let's compare $k$-NN and logistic regression in a setting with $X_1, \ldots, X_p$ predictors. If we perform \acs{cv} on full data and vary the parameter $k$ we obtain two curves, one for $k$-NN and one for logistic regression (the latter will be constant as it doesn't depend on $k$, as shown in~\Cref{fig:cv_comparison}). Since we chose the optimal $k$ for $k$-NN, and at $\hat{k}$ the error for $k$-NN is lower than the error for logistic regression, we might chose the former. This comparison, however, is a bit unfair towards logistic regression since the \acs{cv} procedure to select $k$ has seen the full data.
 \end{example}
 
-To formalize: even if both are called ``\acs{cv} error''\negthinspace, two models may not be comparable because:
+To formalize, even if both are called ``\acs{cv} error''\negthinspace, two models may not be comparable because:
 \begin{itemize}
     \item They may use different \acs{cv} splits or folds.
     \item The random seed may differ, which leads to different partitions.
