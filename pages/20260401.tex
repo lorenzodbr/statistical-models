@@ -1,9 +1,8 @@
 \chapter{Optimizing models}
 
-\section{Resampling methods}
-
 We have seen a number of classifiers, such as \acs{lr}, \acs{lda}, \acs{qda}, Na\"ive Bayes, $k$-NN. In this chapter, we will see how to choose the optimal model among a set of candidate models. We will also see how to estimate the test error rate of a model.
 
+\section{Resampling methods}
 Different models are associated to a different level of complexity (\eg, number of parameters, $k$, etc.) and, therefore, a different trade-off between bias and variance. We recall that we can have different degrees of complexity of decision surfaces in the classification setting:
 \begin{itemize}
     \item \emph{Simple decision surfaces} are given by $k$-NN with large $k$, \acs{lda}, parametric models with small number of parameters. These models have high bias and low variance.

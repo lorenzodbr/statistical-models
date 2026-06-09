@@ -47,13 +47,13 @@ For each observation $\xvec$, make a prediction based on the trees that have bee
     \begin{enumerate}
         \item At a node $t$, the Gini impurity is defined as:
         \begin{equation}
-            G(t) = 1 - \sum_{c=1}^{K} p_{c}^{2}
+            G(t) = 1 - \sum_{c=1}^{K} p_{c}^{2},
         \end{equation}
         where $p_c$ is the proportion of class $c$ in node $t$.
 
         \item For a split on variable $X_j$ at node $t$, the decrease in impurity is:
         \begin{equation}
-            \Delta G(t, j) = G(t) - \left( \frac{n_L}{n_t} G(t_L) + \frac{n_R}{n_t} G(t_R) \right)
+            \Delta G(t, j) = G(t) - \left( \frac{n_L}{n_t} G(t_L) + \frac{n_R}{n_t} G(t_R) \right),
         \end{equation}
         where $t_L$ and $t_R$ are the left and right child nodes, and $n_t$, $n_L$, $n_R$ are the corresponding sample sizes.
 
@@ -65,7 +65,7 @@ For each observation $\xvec$, make a prediction based on the trees that have bee
 
         \item Averaging over $B$ trees gives:
         \begin{equation}
-            \operatorname{VI}(X_j) = \frac{1}{B} \sum_{b=1}^{B} \operatorname{VI}_{T_b}(X_j)
+            \operatorname{VI}(X_j) = \frac{1}{B} \sum_{b=1}^{B} \operatorname{VI}_{T_b}(X_j).
         \end{equation}
     \end{enumerate}
     \item \emph{Bootstrap samples are correlated and not independent}: the variance of the sum of correlated variables is higher than the variance of a sum of independent variables. 

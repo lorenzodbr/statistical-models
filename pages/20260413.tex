@@ -76,9 +76,7 @@ The larger the $\lambda$, the smaller the $c$ and the more shrunk the estimates.
                                    & = {\underbracket{(\oone + \lambda(X^\t X)^{-1})}_{A}}^{\!-1\,} \betavech_{\text{LS}}.
     \end{aligned}
 \end{equation}
-Therefore, $\betavech_{\textsc{Ridge}} = A \betavech_{\text{LS}}$ where $A$ is a matrix that depends on $\lambda$ and $X\negthinspace$.
-
-We compute the expectation value of $\betavech_{\textsc{Ridge}}$:
+Therefore, $\betavech_{\textsc{Ridge}} = A \betavech_{\text{LS}}$ where $A$ is a matrix that depends on $\lambda$ and $X\negthinspace$. We compute the expectation value of $\betavech_{\textsc{Ridge}}$ as:
 \begin{equation}
     \E[\betavech_{\textsc{Ridge}}] = A \E[\betavech_{\text{LS}}] = (\oone + \lambda(X^\t X)^{-1})^{-1} \betavec.
 \end{equation}
@@ -90,7 +88,6 @@ and the bias is:
                                                   & = \left[ (\oone + \lambda(X^\t X)^{-1})^{-1} - \oone \right] \betavec.
     \end{aligned}
 \end{equation}
-
 We conclude that increasing $\lambda$ increases the bias of $\betavech_{\textsc{Ridge}}$, but it can reduce the variance.
 
 \subsection{Lasso regression}
