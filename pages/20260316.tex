@@ -156,13 +156,13 @@ Then $\mu_i = \pi_i \in (0,1)$ and $\eta_i = \xvec_i^\t\betavec \in (-\infty, \i
     \item $g^{-1} = \Phi$, where $\Phi$ is the \acs{cdf} of a $\normal(0,1)$ distribution. Therefore, $g = \Phi^{-1}$ (quantile function). If we choose $f = \bernoulli$ and $g = \Phi^{-1}\negthinspace$, we get the \emph{probit regression}.
     \item Consider a logistic distribution, which has the following density function:
           \begin{equation}
-              f(z; \mu, s) = \frac{\exp((z - \mu) / s)}{s(1 + \exp((z - \mu) / s)^2)},
+              f(z; \mu, s) = \frac{\exp((z - \mu) / s)}{s(1 + \exp((z - \mu) / s))^2},
           \end{equation}
           with $z \in (-\infty, \infty)$. Setting $\mu = 0$ and $s = 1$, we get:
           \begin{equation}
               F(z) = \frac{\exp(z)}{1 + \exp(z)}.
           \end{equation}
-          We conclude that choosing $f = \bernoulli$ and $g = F^{-1}(z)$, we obtain the logistic regression. To write explicitly the link function, we have:
+          We conclude that choosing $f = \bernoulli$ and $g = F^{-1}(z)$, we obtain the logistic regression. If we write explicitly the link function, we have:
           \begin{equation}
               \mu_i = F(\eta_i) = \frac{e^{\eta_i}}{1 + e^{\eta_i}}
           \end{equation}

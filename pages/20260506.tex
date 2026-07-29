@@ -179,15 +179,17 @@ We observe that if the point is correctly classified, then the loss is zero. If 
                 axis lines = middle,
                 xlabel = {$f(\xvec)$},
                 ylabel = {$\L(y, f(\xvec))$},
-                xtick = {-1, 0, 1},
-                xticklabels = {$-1$, $0$, $1$},
-                ytick = {0, 1},
-                yticklabels = {$0$, $1$},
+                xtick = {1},
+                xticklabels = {$1$},
+                ytick = {1},
+                yticklabels = {$1$},
                 ymax = 1.5,
+                xmin = -0.5,
+                xmax = 1.75,
                 width = 9cm,
                 height = 5cm,
             ]
-            \addplot[domain=-1.75:1.75, samples=5000, thick] {x <= 1 ? 1 - x : 0};
+            \addplot[domain=-.35:1.5, samples=5000, thick] {x <= 1 ? 1 - x : 0};
         \end{axis}
     \end{tikzpicture}
     \caption{Hinge loss function.}
